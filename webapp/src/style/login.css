@@ -1,0 +1,64 @@
+/*Start Global Style*/
+
+.container {
+  width: 80%;
+  margin: auto;
+  /* height: 600px; */
+  background-color: red;
+  display: flex;
+}
+
+.login,
+.register {
+  width: 50%;
+}
+
+/*Start Login Style*/
+.login {
+  /* float: left; */
+  background-color: #fafafa;
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+  text-align: center;
+  padding-top: 100px;
+  height: 100%;
+}
+
+.login button {
+  width: 100%;
+  margin: 30px 0;
+  padding: 10px;
+  border: none;
+  background-color: #9526a9;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+}
+
+/*Start Register Style*/
+.register {
+  /* float: right; */
+  background-image: linear-gradient(135deg, #23212f 5%, #9526a9 95%);
+  height: 100%;
+  color: #fff;
+  border-radius: 0 10px 10px 0;
+  text-align: center;
+  padding: 100px 0;
+}
+
+.register button {
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 20px;
+  text-transform: uppercase;
+  transition: 0.2s all ease-in-out;
+}
+.register button:hover {
+  color: #9526a9;
+  background-color: #fff;
+  cursor: pointer;
+}

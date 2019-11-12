@@ -1,0 +1,28 @@
+{
+  "name": "slack-clone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "start:watch": "nodemon .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "db-migrate up --config db-migrate-config.js --env pg",
+    "build-webapp": "cd webapp && npm install && npm run build",
+    "build": "npm run migrate & npm run build-webapp"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "db-migrate": "^0.11.6",
+    "db-migrate-pg": "^1.0.0",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.3",
+    "prettier": "^1.18.2",
+    "prettierrc": "0.0.0-5"
+  }
+}
