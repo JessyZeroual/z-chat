@@ -31,8 +31,8 @@ export const FooterSideBar = styled.div`
 
 export const ButtonSideBar = styled.li`
   list-style-type: none;
+  color: white;
   cursor: pointer;
-  outline: none;
   transition: background-color 0.4s;
   &:hover {
     background-color: #621564;
@@ -64,7 +64,7 @@ export const MessageListEmpty = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size:25px;
+  font-size: 25px;
 `;
 
 // #endregion

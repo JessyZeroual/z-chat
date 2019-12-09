@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   Container,
   HeaderMessageList,
@@ -10,19 +11,16 @@ import CreateMessage from './CreateMessage';
 import MessageItem from './MessageItem';
 import Spinner from './Spinner';
 
-const MessageList = props => {
-  const [data, setData] = useState([]);
+const MessageList = ({ channelId, currentChannel }) => {
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [shouldRefetchMessages, setShouldRefetchMessages] = useState(true);
-  const channelId = props.channelId;
 
   useEffect(() => {
     fetch(`/api/channels/${channelId}/messages`)
-      .then(res => {
-        return res.json();
-      })
+      .then(res => res.json())
       .then(data => {
-        setData(data);
+        setMessages(data.messages);
         setLoading(false);
         setShouldRefetchMessages(false);
       });
@@ -31,7 +29,7 @@ const MessageList = props => {
   return (
     <Container>
       <HeaderMessageList className="d-flex justify-content-between">
-        <p className="font-weight-bold p-3"># {props.currentChannel.name}</p>
+        <p className="font-weight-bold p-3">{`#${currentChannel.name}`}</p>
       </HeaderMessageList>
 
       <MainMessageList>
@@ -39,10 +37,10 @@ const MessageList = props => {
           <Spinner />
         ) : (
           <>
-            {data.messages.length ? (
-              data.messages.map(message => {
-                return <MessageItem key={message.id} message={message} />;
-              })
+            {messages.length ? (
+              messages.map(message => (
+                <MessageItem key={message.id} message={message} />
+              ))
             ) : (
               <MessageListEmpty>
                 Start a discussion
@@ -63,6 +61,13 @@ const MessageList = props => {
       </FooterMessageList>
     </Container>
   );
+};
+
+MessageList.propTypes = {
+  channelId: PropTypes.string.isRequired,
+  currentChannel: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
 };
 
 export default MessageList;

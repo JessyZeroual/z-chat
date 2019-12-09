@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
   let input;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     fetch('/api/messages', {
       method: 'POST',
@@ -22,9 +22,9 @@ const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
   };
 
   return (
-    <form className="input-group mb-3 p-3" onSubmit={(e) => handleSubmit(e)}>
+    <form className="input-group mb-3 p-3" onSubmit={e => handleSubmit(e)}>
       <input
-        ref={(node) => {
+        ref={node => {
           input = node;
         }}
         type="text"

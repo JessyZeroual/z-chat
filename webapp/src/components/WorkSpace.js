@@ -1,8 +1,6 @@
 import React from 'react';
-import SideBarNav from '../components/SideBarNav';
+import SideBarNav from './SideBarNav';
 
-const WorkSpace = () => {
-  return <SideBarNav />;
-};
+const WorkSpace = () => <SideBarNav />;
 
 export default WorkSpace;

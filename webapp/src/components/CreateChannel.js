@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { ButtonSideBar } from '../style/styled';
 
-const CreateChannel = props => {
+const CreateChannel = ({ setShouldRefetchChannel }) => {
   const [formOpen, setFormOpen] = useState(false);
   let input;
 
@@ -18,36 +19,45 @@ const CreateChannel = props => {
       }),
     })
       .then(setFormOpen(false))
-      .then(props.setShouldRefetchChannel(true));
+      .then(setShouldRefetchChannel(true));
   };
 
   return (
     <div>
       {!formOpen ? (
-        <div onClick={() => setFormOpen(!formOpen)} className="text-white">
-          <ButtonSideBar>
-            <i className="p-3 fas fa-plus-circle"></i>Add channel
-          </ButtonSideBar>
-        </div>
+        <ButtonSideBar
+          onKeyDown={() => setFormOpen(!formOpen)}
+          onClick={() => setFormOpen(!formOpen)}
+        >
+          <i className="p-3 fas fa-plus-circle" />
+          Add channel
+        </ButtonSideBar>
       ) : (
         <form className="d-flex" onSubmit={e => handleSubmit(e)}>
           <input
             ref={node => {
               input = node;
             }}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             className="form-control"
           />
-          <span
+          <button
+            type="button"
             className="btn btn-danger"
+            onKeyDown={() => setFormOpen(!formOpen)}
             onClick={() => setFormOpen(!formOpen)}
           >
             X
-          </span>
+          </button>
         </form>
       )}
     </div>
   );
+};
+
+CreateChannel.propTypes = {
+  setShouldRefetchChannel: PropTypes.func.isRequired,
 };
 
 export default CreateChannel;
