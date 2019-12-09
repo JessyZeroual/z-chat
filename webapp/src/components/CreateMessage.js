@@ -1,10 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const CreateMessage = props => {
+const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
   let input;
-  
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     fetch('/api/messages', {
       method: 'POST',
@@ -14,18 +14,17 @@ const CreateMessage = props => {
       },
       body: JSON.stringify({
         message: input.value,
-        channelId: props.channelId,
+        channelId,
       }),
     })
       .then((input.value = ''))
-      .then(props.setShouldRefetchMessages(true));
+      .then(setShouldRefetchMessages(true));
   };
 
-
   return (
-    <form className="input-group mb-3 p-3" onSubmit={e => handleSubmit(e)}>
+    <form className="input-group mb-3 p-3" onSubmit={(e) => handleSubmit(e)}>
       <input
-        ref={node => {
+        ref={(node) => {
           input = node;
         }}
         type="text"
@@ -33,10 +32,17 @@ const CreateMessage = props => {
         placeholder="Write a message"
       />
       <div className="input-group-append">
-        <button className="btn btn-success">Send</button>
+        <button type="submit" className="btn btn-success">
+          Send
+        </button>
       </div>
     </form>
   );
+};
+
+CreateMessage.propTypes = {
+  channelId: PropTypes.string.isRequired,
+  setShouldRefetchMessages: PropTypes.func.isRequired,
 };
 
 export default CreateMessage;

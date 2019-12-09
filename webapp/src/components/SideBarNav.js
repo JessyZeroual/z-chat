@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
-import SlackIcon from '../img/slack.png';
 import SplitPane from 'react-split-pane';
+import SlackIcon from '../img/slack.png';
 import Home from './Home';
 import MessageList from './MessageList';
 import CreateChannel from './CreateChannel';
@@ -81,9 +81,9 @@ const SideBarNav = () => {
         </FooterSideBar>
       </SideBar>
 
-      {/* TODO: voir si on peut mettre le switch dans un fichier à part*/}
+      {/* TODO: voir si on peut mettre le switch dans un fichier à part */}
       <Switch>
-      <Route exact path="/" component={Home} />
+        <Route exact path="/" component={Home} />
 
         <Route
           path="/channels/:channelId/messages"
