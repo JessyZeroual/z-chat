@@ -1,6 +1,9 @@
 import React from 'react';
+// import { useUser } from './context/auth';
+import Authentification from './components/authentification/Authentification';
 import WorkSpace from './components/WorkSpace';
 
+const user = false;
 export default function App() {
-  return <WorkSpace/>;
+  return user ? <WorkSpace /> : <Authentification />;
 }

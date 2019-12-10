@@ -78,25 +78,20 @@ const SideBarNav = () => {
         </FooterSideBar>
       </SideBar>
 
-      {/* TODO: voir si on peut mettre le switch dans un fichier à part */}
-      <Switch>
-        <Route exact path="/" component={Home} />
-
-        <Route
-          path="/channels/:channelId/messages"
-          render={props => {
-            const currentChannel = channels.find(
-              ({ id }) => id.toString() === props.match.params.channelId
-            );
-            return (
-              <MessageList
-                channelId={props.match.params.channelId}
-                currentChannel={currentChannel}
-              />
-            );
-          }}
-        />
-      </Switch>
+      <Route
+        path="/channels/:channelId/messages"
+        render={props => {
+          const currentChannel = channels.find(
+            ({ id }) => id.toString() === props.match.params.channelId
+          );
+          return (
+            <MessageList
+              channelId={props.match.params.channelId}
+              currentChannel={currentChannel}
+            />
+          );
+        }}
+      />
     </SplitPane>
   );
 };
