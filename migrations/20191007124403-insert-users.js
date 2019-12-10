@@ -1,8 +1,6 @@
-'use strict';
-
-var dbm;
-var type;
-var seed;
+let dbm;
+let type;
+let seed;
 
 /**
  * We receive the dbmigrate dependency from dbmigrate initially.
@@ -15,10 +13,11 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.runSql(`INSERT INTO app_user (name) VALUES
-    ('élé'),
-    ('Jessy'),
-    ('Etienne')
+  return db.runSql(`
+  INSERT INTO app_user (name, email) VALUES
+  ('élé','ele@gmail.com'),
+  ('jessy','jessy@gmail.com'),
+  ('etienne','etienne@gmail.com')
   `);
 };
 
