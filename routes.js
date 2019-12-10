@@ -10,10 +10,12 @@ router.get('/', (req, res) => {
   res.json({ info: 'Node.js, Express, and Postgres API' });
 });
 
-// La routes du server appel une fonction du controller
 router.get('/channels', controller.getAllChannels);
 router.post('/channels', controller.createChannel);
 
 router.get('/channels/:channelId/messages', controller.getMessagesByChannelId);
 router.post('/messages', controller.createMessage);
+
+// router.post('/signup', controller.signup);
+// router.post('/login', controller.login);
 module.exports = router;

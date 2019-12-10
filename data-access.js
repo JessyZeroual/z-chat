@@ -1,17 +1,12 @@
 const pg = require('pg');
 require('dotenv').config();
-const databaseUrl = process.env.DATABASE_URL;
 
-// Pool qui provient de postGres permet de requeter sur la base
-// et prend en parametre une connectionString qu'on defini dans le .env
+const databaseUrl = process.env.DATABASE_URL;
 const pool = new pg.Pool({
   connectionString: databaseUrl,
 });
 
-// Requête sur la base de donnée
-
 const getAllChannels = async () => {
-  // different exemple d'utilisation https://node-postgres.com/api/pool
   const channels = await pool.query('SELECT * FROM channel ');
   return channels.rows;
 };
