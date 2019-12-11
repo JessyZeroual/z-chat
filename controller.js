@@ -42,6 +42,12 @@ const createUser = async (req, res) => {
   return res.status(201).json(`${user.name} added`);
 };
 
+const signin = async (req, res) => {
+  const user = await services.signin(req);
+  console.log(req.session);
+  return user;
+};
+
 module.exports = {
   getAllChannels,
   createChannel,
@@ -49,4 +55,5 @@ module.exports = {
   getMessagesByChannelId,
   getAllUsers,
   createUser,
+  signin,
 };
