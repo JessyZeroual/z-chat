@@ -14,10 +14,10 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db) {
   return db.runSql(`
-  INSERT INTO app_user (name, email) VALUES
-  ('élé','ele@gmail.com'),
-  ('jessy','jessy@gmail.com'),
-  ('etienne','etienne@gmail.com')
+  INSERT INTO app_user (name, email, password) VALUES
+  ('élé','ele@gmail.com','secret'),
+  ('jessy','jessy@gmail.com','secret'),
+  ('etienne','etienne@gmail.com','secret')
   `);
 };
 

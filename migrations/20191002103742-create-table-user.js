@@ -1,8 +1,8 @@
-'use strict';
 
-var dbm;
-var type;
-var seed;
+
+let dbm;
+let type;
+let seed;
 
 /**
  * We receive the dbmigrate dependency from dbmigrate initially.
@@ -19,6 +19,7 @@ exports.up = function(db) {
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE NOT NULL,
     email TEXT UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`);
 };
