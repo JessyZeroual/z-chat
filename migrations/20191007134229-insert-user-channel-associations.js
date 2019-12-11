@@ -17,10 +17,10 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db) {
   return db.runSql(`
   INSERT INTO user_channel (user_id, channel_id) VALUES
-  (1, 3),
-  (1, 4),
-  (2, 3),
-  (2, 5)
+  (1, 1),
+  (1, 1),
+  (2, 2),
+  (2, 2)
   `);
 };
 
