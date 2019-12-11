@@ -37,10 +37,24 @@ const getMessagesList = async channelId => {
   return messages.rows;
 };
 
+const getAllUsers = async () => {
+  const users = await pool.query('SELECT * FROM app_user');
+  return users.rows;
+};
+
+const createUser = user => {
+  pool.query(
+    'INSERT INTO app_user (name, email, password) VALUES($1, $2, $3)',
+    [user.name, user.email, user.password]
+  );
+};
+
 module.exports = {
   getAllChannels,
   getChannelByName,
   createChannel,
   createMessage,
   getMessagesList,
+  getAllUsers,
+  createUser,
 };

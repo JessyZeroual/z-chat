@@ -27,9 +27,26 @@ const getMessagesByChannelId = async (req, res) => {
   return res.status(200).json({ messages });
 };
 
+const getAllUsers = async (req, res) => {
+  const users = await dataAccess.getAllUsers();
+  return res.status(200).json({ users });
+};
+
+const createUser = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const user = await services.validateUser(name, email, password);
+
+  await dataAccess.createUser(user);
+
+  return res.status(201).json(`${user.name} added`);
+};
+
 module.exports = {
   getAllChannels,
   createChannel,
   createMessage,
   getMessagesByChannelId,
+  getAllUsers,
+  createUser,
 };
