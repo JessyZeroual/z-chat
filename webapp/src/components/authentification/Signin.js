@@ -1,39 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import { Form, Input, Button } from './Authentification.styled';
 
-const Signup = () => {
-  let username;
+const Signin = () => {
   let email;
   let password;
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch('/api/signup', {
+    fetch('/api/signin', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: username.value,
         email: email.value,
         password: password.value,
       }),
-    }).then(((username.value = ''), (email.value = ''), (password.value = '')));
+    }).then(((email.value = ''), (password.value = '')));
   };
 
   return (
     <>
-      {/* TODO: validation */}
       <Form onSubmit={e => handleSubmit(e)}>
-        <Input
-          ref={node => {
-            username = node;
-          }}
-          type="text"
-          placeholder="username"
-        />
         <Input
           ref={node => {
             email = node;
@@ -48,14 +39,14 @@ const Signup = () => {
           type="password"
           placeholder="password"
         />
-        <Button>sign up</Button>
+        <Button>sign in</Button>
       </Form>
       <p>
-        you are a member? &nbsp;
-        <Link to="/">Connect</Link>
+        not a member? &nbsp;
+        <Link to="/signup">Sign up now</Link>
       </p>
     </>
   );
 };
 
-export default Signup;
+export default Signin;
