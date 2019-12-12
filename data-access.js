@@ -42,11 +42,20 @@ const getAllUsers = async () => {
   return users.rows;
 };
 
-const createUser = user => {
-  pool.query(
-    'INSERT INTO app_user (name, email, password) VALUES($1, $2, $3)',
-    [user.name, user.email, user.password]
-  );
+const createUser = async (username, email, password) => {
+  try {
+    await pool.query(
+      `INSERT INTO app_user (name, email, password) VALUES ($1, crypt($2, gen_salt('bf')), $3)`,
+      [username, email, password]
+    );
+  } catch (error) {
+    // Postgres UNIQUE VIOLATION
+    if (error.code === '23505') {
+      throw new Error('Username is already taken.');
+    }
+    console.log(error);
+    throw new Error(error.message);
+  }
 };
 
 module.exports = {

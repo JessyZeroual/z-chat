@@ -32,14 +32,22 @@ const getAllUsers = async (req, res) => {
   return res.status(200).json({ users });
 };
 
+const getCleanPassword = password => {
+  if (password.length >= 8) {
+    return password;
+  }
+  throw new Error('Password must contain at least 8 characters.');
+};
+
 const createUser = async (req, res) => {
-  const { name, email, password } = req.body;
-
-  const user = await services.validateUser(name, email, password);
-
-  await dataAccess.createUser(user);
-
-  return res.status(201).json(`${user.name} added`);
+  try {
+    const { username, email } = req.body;
+    const password = getCleanPassword(req.body.password);
+    await dataAccess.createUser(username, email, password);
+  } catch (error) {
+    return res.status(400).send({ errorMessage: error.message });
+  }
+  return res.sendStatus(201);
 };
 
 const signin = async (req, res) => {

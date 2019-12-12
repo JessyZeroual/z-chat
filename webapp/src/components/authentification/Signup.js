@@ -7,20 +7,28 @@ const Signup = () => {
   let email;
   let password;
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    fetch('/api/signup', {
+    const response = await fetch('/api/signup', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: username.value,
+        username: username.value,
         email: email.value,
         password: password.value,
       }),
-    }).then(((username.value = ''), (email.value = ''), (password.value = '')));
+    });
+
+    await ((username.value = ''), (email.value = ''), (password.value = ''));
+
+    if (response.ok) {
+      console.log('res ok');
+    } else {
+      console.log('res error');
+    }
   };
 
   return (
@@ -48,7 +56,7 @@ const Signup = () => {
           type="password"
           placeholder="password"
         />
-        <Button>sign up</Button>
+        <Button type="submit">sign up</Button>
       </Form>
       <p>
         you are a member? &nbsp;
