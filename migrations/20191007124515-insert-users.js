@@ -16,11 +16,10 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db) {
   return db.runSql(`
-  INSERT INTO user_channel (user_id, channel_id) VALUES
-  (1, 3),
-  (1, 4),
-  (2, 3),
-  (2, 5)
+  INSERT INTO users (username, email) VALUES
+  ('élé','ele@gmail.com'),
+  ('jessy','jessy@gmail.com'),
+  ('etienne','etienne@gmail.com')
   `);
 };
 

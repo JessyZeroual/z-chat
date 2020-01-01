@@ -1,42 +1,69 @@
 const dataAccess = require('./data-access');
 const services = require('./service');
 
-// req => request ( arguments venant du client )
-// res => response ( reponse venant de la base de donnée )
-
-// Récupere les channels
 const getAllChannels = async (req, res) => {
-  // On retourne dans le await le dataAccess qui lui fera la requête sur la base
   const channels = await dataAccess.getAllChannels();
   return res.status(200).json({ channels });
 };
 
-// Crée un channel
 const createChannel = async (req, res) => {
-  // Récuperation du name provenant du client ( webapp ) avec req.body depuis un POST
   const { name } = req.body;
 
-  // la function permet de crée un chanel et de recupérer son id
   const channelId = await services.createChannelAndGetId(name);
 
   return res.status(201).send(`Channel added with ID: ${channelId}`);
 };
 
-// Ajouter un message
 const createMessage = async (req, res) => {
-  // Récuperation du message et channelId provenant du client ( webapp ) avec req.body
   const { message, channelId } = req.body;
   await dataAccess.createMessage(message, channelId);
 
   return res.status(201).send(`message ajouté :)`);
 };
 
-// Récupere les messages d'un channel
 const getMessagesByChannelId = async (req, res) => {
-  // la function permet de crée un chanel et de recupérer son id
   const messages = await dataAccess.getMessagesList(req.params.channelId);
 
   return res.status(200).json({ messages });
+};
+
+const getAllUsers = async (req, res) => {
+  const users = await dataAccess.getAllUsers();
+  return res.status(200).json({ users });
+};
+
+const getCleanPassword = password => {
+  if (password.length >= 8) {
+    return password;
+  }
+  throw new Error('Password must contain at least 8 characters.');
+};
+
+const createUser = async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const password = getCleanPassword(req.body.password);
+    await dataAccess.createUser(username, email, password);
+  } catch (error) {
+    return res.status(400).send({ errorMessage: error.message });
+  }
+  return res.sendStatus(201);
+};
+
+const signin = async (req, res) => {
+  const { email, password } = req.body;
+  const userId = await dataAccess.findUserId(email, password);
+  const sessionId = await dataAccess.createSession(userId);
+  res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true });
+  return res.sendStatus(201);
+};
+
+const getCurrentUser = async (req, res) => {
+  const { user } = req;
+  if (user) {
+    return res.status(200).send(user);
+  }
+  return res.sendStatus(401);
 };
 
 module.exports = {
@@ -44,4 +71,8 @@ module.exports = {
   createChannel,
   createMessage,
   getMessagesByChannelId,
+  getAllUsers,
+  createUser,
+  signin,
+  getCurrentUser,
 };

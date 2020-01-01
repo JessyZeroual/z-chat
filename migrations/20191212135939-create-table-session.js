@@ -14,12 +14,14 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-exports.up = function(db) {
-  return db.runSql(`INSERT INTO app_user (name) VALUES
-    ('élé'),
-    ('Jessy'),
-    ('Etienne')
-  `);
+exports.up = async function(db) {
+  await db.runSql(`CREATE TABLE session (
+    id SERIAL PRIMARY KEY,
+    user_id INT,
+    session_id uuid DEFAULT uuid_generate_v4()
+  )`);
+  return db.runSql(`ALTER TABLE session 
+  ADD FOREIGN KEY (user_id) REFERENCES users (id)`);
 };
 
 exports.down = function(db) {

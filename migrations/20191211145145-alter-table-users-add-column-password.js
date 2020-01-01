@@ -15,10 +15,8 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.runSql(`
-    ALTER TABLE message
-    ADD FOREIGN KEY (channel_id) REFERENCES channel (id),
-    ADD FOREIGN KEY (user_id) REFERENCES app_user (id)
+  return db.runSql(`ALTER TABLE users
+    ADD COLUMN password TEXT;
   `);
 };
 
