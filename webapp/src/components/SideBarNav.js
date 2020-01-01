@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Link, Switch } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
-import SlackIcon from '../img/slack.png';
 import Home from './Home';
 import MessageList from './MessageList';
 import CreateChannel from './CreateChannel';
@@ -23,7 +22,7 @@ const styles = {
   height: '100%',
 };
 
-const SideBarNav = () => {
+const SideBarNav = ({ currentUser }) => {
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [shouldRefetchChannel, setShouldRefetchChannel] = useState(false);
@@ -52,8 +51,7 @@ const SideBarNav = () => {
       <SideBar>
         <HeaderSideBar className="d-flex justify-content-center align-items-center">
           <Link className="text-white" to="/">
-            <img src={SlackIcon} alt="Slack logo" className="mr-2" />
-            Slack-Clone
+            {`projectName / ${currentUser.username}`}
           </Link>
         </HeaderSideBar>
 
@@ -78,20 +76,25 @@ const SideBarNav = () => {
         </FooterSideBar>
       </SideBar>
 
-      <Route
-        path="/channels/:channelId/messages"
-        render={props => {
-          const currentChannel = channels.find(
-            ({ id }) => id.toString() === props.match.params.channelId
-          );
-          return (
-            <MessageList
-              channelId={props.match.params.channelId}
-              currentChannel={currentChannel}
-            />
-          );
-        }}
-      />
+      {/* TODO: voir si on peut mettre le switch dans un fichier à part */}
+      <Switch>
+        <Route exact path="/" component={Home} />
+
+        <Route
+          path="/channels/:channelId/messages"
+          render={props => {
+            const currentChannel = channels.find(
+              ({ id }) => id.toString() === props.match.params.channelId
+            );
+            return (
+              <MessageList
+                channelId={props.match.params.channelId}
+                currentChannel={currentChannel}
+              />
+            );
+          }}
+        />
+      </Switch>
     </SplitPane>
   );
 };
@@ -102,7 +105,16 @@ SideBarNav.propTypes = {
       id: PropTypes.node,
       channelId: PropTypes.string.isRequired,
     }).isRequired,
+  }),
+
+  currentUser: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
   }).isRequired,
+};
+
+SideBarNav.defaultProps = {
+  match: null,
 };
 
 export default SideBarNav;
