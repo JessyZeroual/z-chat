@@ -38,14 +38,14 @@ const getMessagesList = async channelId => {
 };
 
 const getAllUsers = async () => {
-  const users = await pool.query('SELECT * FROM app_user');
+  const users = await pool.query('SELECT * FROM users');
   return users.rows;
 };
 
 const createUser = async (username, email, password) => {
   try {
     await pool.query(
-      `INSERT INTO app_user (name, email, password) VALUES ($1, crypt($2, gen_salt('bf')), $3)`,
+      `INSERT INTO users (username, email, password) VALUES ($1, $2, crypt($3, gen_salt('bf')))`,
       [username, email, password]
     );
   } catch (error) {
@@ -58,6 +58,39 @@ const createUser = async (username, email, password) => {
   }
 };
 
+const findUserId = async (email, password) => {
+  const result = await pool.query(
+    'SELECT id FROM users WHERE email = $1 AND password = crypt($2, password)',
+    [email, password]
+  );
+  return result.rows[0].id;
+};
+
+const createSession = async userId => {
+  const result = await pool.query(
+    'INSERT INTO session (user_id) VALUES ($1) RETURNING session_id',
+    [userId]
+  );
+  return result.rows[0].session_id;
+};
+
+const getUserFromSessionId = async sessionId => {
+  const result = await pool.query(
+    `
+    SELECT users.id AS id, username, email FROM users
+      JOIN session
+      ON session.user_id = users.id
+    WHERE session.session_id = $1
+    `,
+    [sessionId]
+  );
+  const user = result.rows[0];
+  if (!user) {
+    throw new Error('User is not authenticated.');
+  }
+  return user;
+};
+
 module.exports = {
   getAllChannels,
   getChannelByName,
@@ -66,4 +99,7 @@ module.exports = {
   getMessagesList,
   getAllUsers,
   createUser,
+  findUserId,
+  createSession,
+  getUserFromSessionId,
 };
