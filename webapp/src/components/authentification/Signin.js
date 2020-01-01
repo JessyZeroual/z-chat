@@ -1,15 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { Form, Input, Button } from './Authentification.styled';
 
-const Signin = () => {
+const Signin = ({ getCurrentUser }) => {
   let email;
   let password;
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    fetch('/api/signin', {
+    const response = await fetch('/api/signin', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -20,6 +21,9 @@ const Signin = () => {
         password: password.value,
       }),
     }).then(((email.value = ''), (password.value = '')));
+    if (response.ok) {
+      getCurrentUser();
+    }
   };
 
   return (
@@ -47,6 +51,10 @@ const Signin = () => {
       </p>
     </>
   );
+};
+
+Signin.propTypes = {
+  getCurrentUser: PropTypes.func.isRequired,
 };
 
 export default Signin;
