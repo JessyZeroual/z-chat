@@ -1,6 +1,8 @@
-let dbm;
-let type;
-let seed;
+'use strict';
+
+var dbm;
+var type;
+var seed;
 
 /**
  * We receive the dbmigrate dependency from dbmigrate initially.
@@ -12,13 +14,14 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-exports.up = function(db) {
-  return db.runSql(`
-  INSERT INTO app_user (name, email, password) VALUES
-  ('élé','ele@gmail.com','secret'),
-  ('jessy','jessy@gmail.com','secret'),
-  ('etienne','etienne@gmail.com','secret')
-  `);
+exports.up = async function(db) {
+  await db.runSql(`CREATE TABLE session (
+    id SERIAL PRIMARY KEY,
+    user_id INT,
+    session_id uuid DEFAULT uuid_generate_v4()
+  )`);
+  return db.runSql(`ALTER TABLE session 
+  ADD FOREIGN KEY (user_id) REFERENCES users (id)`);
 };
 
 exports.down = function(db) {

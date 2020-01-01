@@ -15,12 +15,8 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.runSql(`
-  INSERT INTO user_channel (user_id, channel_id) VALUES
-  (1, 1),
-  (1, 1),
-  (2, 2),
-  (2, 2)
+  return db.runSql(`ALTER TABLE users
+    ADD COLUMN password TEXT;
   `);
 };
 

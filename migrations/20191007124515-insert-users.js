@@ -1,8 +1,8 @@
+'use strict';
 
-
-let dbm;
-let type;
-let seed;
+var dbm;
+var type;
+var seed;
 
 /**
  * We receive the dbmigrate dependency from dbmigrate initially.
@@ -15,17 +15,16 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.runSql(`CREATE TABLE app_user(
-    id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  )`);
+  return db.runSql(`
+  INSERT INTO users (username, email) VALUES
+  ('élé','ele@gmail.com'),
+  ('jessy','jessy@gmail.com'),
+  ('etienne','etienne@gmail.com')
+  `);
 };
 
 exports.down = function(db) {
-  return db.runSql(`DROP TABLE IF EXISTS app_user`);
+  return null;
 };
 
 exports._meta = {

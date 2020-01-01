@@ -15,15 +15,16 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.runSql(`
-    ALTER TABLE message
-    ADD FOREIGN KEY (channel_id) REFERENCES channel (id),
-    ADD FOREIGN KEY (user_id) REFERENCES app_user (id)
-  `);
+  return db.runSql(`CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    username TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`);
 };
 
 exports.down = function(db) {
-  return null;
+  return db.runSql(`DROP TABLE IF EXISTS users`);
 };
 
 exports._meta = {

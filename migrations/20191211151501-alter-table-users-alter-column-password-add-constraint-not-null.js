@@ -15,14 +15,15 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.runSql(`CREATE TABLE user_channel(
-    user_id INTEGER,
-    channel_id INTEGER
-  )`);
+  return db.runSql(`ALTER TABLE users
+    ALTER COLUMN password SET NOT NULL;
+  `);
 };
 
 exports.down = function(db) {
-  return db.runSql(`DROP TABLE IF EXISTS user_channel`);
+  return db.runSql(`ALTER TABLE users
+    ALTER COLUMN password DROP NOT NULL;
+  `);
 };
 
 exports._meta = {
