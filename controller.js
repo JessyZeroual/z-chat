@@ -51,9 +51,19 @@ const createUser = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-  const user = await services.signin(req);
-  console.log(req.session);
-  return user;
+  const { email, password } = req.body;
+  const userId = await dataAccess.findUserId(email, password);
+  const sessionId = await dataAccess.createSession(userId);
+  res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true });
+  return res.sendStatus(201);
+};
+
+const getCurrentUser = async (req, res) => {
+  const { user } = req;
+  if (user) {
+    return res.status(200).send(user);
+  }
+  return res.sendStatus(401);
 };
 
 module.exports = {
@@ -64,4 +74,5 @@ module.exports = {
   getAllUsers,
   createUser,
   signin,
+  getCurrentUser,
 };
