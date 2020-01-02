@@ -8,15 +8,15 @@ export const SideBar = styled.div`
 
 export const HeaderSideBar = styled.div`
   font-size: 1.2em;
-  height: 60px;
+  padding: 10px 20px;
   width: 100%;
   color: white;
-  background-color: #390e3a;
 `;
 
 export const MainSideBar = styled.div`
   /* overflow-y: scroll; */
   height: 100%;
+  padding: 10px 0px;
 `;
 
 export const FooterSideBar = styled.div`
@@ -26,12 +26,12 @@ export const FooterSideBar = styled.div`
   height: 70px;
   width: 100%;
   color: white;
-  background-color: #390e3a;
 `;
 
 export const ButtonSideBar = styled.li`
+  padding: 0px 20px;
   list-style-type: none;
-  color: white;
+  color: ${props => (props.active ? 'white' : '#ccc0cc')};
   cursor: pointer;
   transition: background-color 0.4s;
   &:hover {
