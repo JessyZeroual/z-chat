@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Link, Switch } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
+import {
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 import Home from './Home';
 import MessageList from './MessageList';
 import CreateChannel from './CreateChannel';
@@ -26,6 +32,9 @@ const SideBarNav = ({ currentUser }) => {
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [shouldRefetchChannel, setShouldRefetchChannel] = useState(false);
+  const [dropdownOpen, setOpen] = useState(false);
+
+  const toggle = () => setOpen(!dropdownOpen);
 
   // TODO: voir si il est possible de stocker la requête
   // et passer en parametre l'url le chargment et la data pour ne pas dupliquer
@@ -50,11 +59,19 @@ const SideBarNav = ({ currentUser }) => {
     >
       <SideBar>
         <HeaderSideBar className="bg-success">
-          <div>
-            projectName
-            <p>{currentUser.username}</p>
-            <input />
-          </div>
+          projectName
+          <p>{currentUser.username}</p>
+          <input />
+          <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle caret>Button Dropdown</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Header</DropdownItem>
+              <DropdownItem disabled>Action</DropdownItem>
+              <DropdownItem>Another Action</DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem>Another Action</DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
         </HeaderSideBar>
 
         <MainSideBar>
