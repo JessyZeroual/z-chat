@@ -4,6 +4,7 @@ import { Route, Link, Switch } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
 import Home from './Home';
 import MessageList from './MessageList';
+import ListOptions from './ListOptions';
 import CreateChannel from './CreateChannel';
 import Spinner from './Spinner';
 
@@ -49,25 +50,23 @@ const SideBarNav = ({ currentUser }) => {
       resizerStyle={styles}
     >
       <SideBar>
-        <HeaderSideBar className="d-flex justify-content-center align-items-center">
-          <Link className="text-white" to="/">
-            {`projectName / ${currentUser.username}`}
-          </Link>
+        <HeaderSideBar>
+          <ListOptions currentUser={currentUser} />
+          {/* <input /> */}
         </HeaderSideBar>
 
-        <CreateChannel setShouldRefetchChannel={setShouldRefetchChannel} />
-
         <MainSideBar>
+          <CreateChannel setShouldRefetchChannel={setShouldRefetchChannel} />
           {channels.map(channel => (
-            <ButtonSideBar key={channel.id}>
-              <Link
-                className=" p-3 text-white d-block"
-                key={channel.id}
-                to={`/channels/${channel.id}/messages`}
-              >
+            <Link
+              style={{ textDecoration: 'none' }}
+              key={channel.id}
+              to={`/channels/${channel.id}/messages`}
+            >
+              <ButtonSideBar active className="py-2 d-block">
                 {`#${channel.name}`}
-              </Link>
-            </ButtonSideBar>
+              </ButtonSideBar>
+            </Link>
           ))}
         </MainSideBar>
 

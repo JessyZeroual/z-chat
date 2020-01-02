@@ -26,11 +26,12 @@ const CreateChannel = ({ setShouldRefetchChannel }) => {
     <div>
       {!formOpen ? (
         <ButtonSideBar
+          className="d-flex align-items-center py-2"
           onKeyDown={() => setFormOpen(!formOpen)}
           onClick={() => setFormOpen(!formOpen)}
         >
-          <i className="p-3 fas fa-plus-circle" />
-          Add channel
+          Chaînes
+          <i className="fas fa-plus-circle ml-auto p-2" />
         </ButtonSideBar>
       ) : (
         <form className="d-flex" onSubmit={e => handleSubmit(e)}>

@@ -7,16 +7,21 @@ export const SideBar = styled.div`
 `;
 
 export const HeaderSideBar = styled.div`
-  font-size: 1.2em;
-  height: 60px;
+  padding: 10px 20px;
   width: 100%;
-  color: white;
-  background-color: #390e3a;
+  color: #ccc0cc;
+  cursor: pointer;
+  transition: color 0.3s, background-color 0.3s;
+  &:hover {
+    color: white;
+    background-color: #350c37;
+  }
 `;
 
 export const MainSideBar = styled.div`
   /* overflow-y: scroll; */
   height: 100%;
+  padding: 10px 0px;
 `;
 
 export const FooterSideBar = styled.div`
@@ -26,16 +31,16 @@ export const FooterSideBar = styled.div`
   height: 70px;
   width: 100%;
   color: white;
-  background-color: #390e3a;
 `;
 
 export const ButtonSideBar = styled.li`
+  padding: 0px 20px;
   list-style-type: none;
-  color: white;
+  color: ${props => (props.active ? 'white' : '#ccc0cc')};
   cursor: pointer;
-  transition: background-color 0.4s;
+  transition: background-color 0.3s;
   &:hover {
-    background-color: #621564;
+    background-color: #350c37;
   }
 `;
 
@@ -45,7 +50,7 @@ export const ButtonSideBar = styled.li`
 export const HeaderMessageList = styled.div`
   height: 60px;
   width: 100%;
-  border-bottom: 2px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
 `;
 
 export const MainMessageList = styled.div`
