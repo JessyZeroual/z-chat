@@ -7,10 +7,15 @@ export const SideBar = styled.div`
 `;
 
 export const HeaderSideBar = styled.div`
-  font-size: 1.2em;
   padding: 10px 20px;
   width: 100%;
-  color: white;
+  color: #ccc0cc;
+  cursor: pointer;
+  transition: color 0.3s, background-color 0.3s;
+  &:hover {
+    color: white;
+    background-color: #350c37;
+  }
 `;
 
 export const MainSideBar = styled.div`
@@ -33,9 +38,9 @@ export const ButtonSideBar = styled.li`
   list-style-type: none;
   color: ${props => (props.active ? 'white' : '#ccc0cc')};
   cursor: pointer;
-  transition: background-color 0.4s;
+  transition: background-color 0.3s;
   &:hover {
-    background-color: #621564;
+    background-color: #350c37;
   }
 `;
 
@@ -45,7 +50,7 @@ export const ButtonSideBar = styled.li`
 export const HeaderMessageList = styled.div`
   height: 60px;
   width: 100%;
-  border-bottom: 2px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
 `;
 
 export const MainMessageList = styled.div`
