@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrentUserProvider } from './context/CurrentUserContext';
 import Authentification from './components/authentification/Authentification';
 import WorkSpace from './components/WorkSpace';
 
@@ -27,10 +28,14 @@ const App = () => {
     return 'Loading…';
   }
 
-  return currentUser ? (
-    <WorkSpace currentUser={currentUser} />
-  ) : (
-    <Authentification getCurrentUser={getCurrentUser} />
+  return (
+    <CurrentUserProvider value={currentUser}>
+      {currentUser ? (
+        <WorkSpace currentUser={currentUser} />
+      ) : (
+        <Authentification getCurrentUser={getCurrentUser} />
+      )}
+    </CurrentUserProvider>
   );
 };
 
