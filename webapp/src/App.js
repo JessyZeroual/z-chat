@@ -29,9 +29,9 @@ const App = () => {
   }
 
   return (
-    <CurrentUserProvider value={currentUser}>
+    <CurrentUserProvider value={setCurrentUser}>
       {currentUser ? (
-        <WorkSpace currentUser={currentUser} />
+        <WorkSpace currentUser={currentUser} setCurrentUser={setCurrentUser} />
       ) : (
         <Authentification getCurrentUser={getCurrentUser} />
       )}

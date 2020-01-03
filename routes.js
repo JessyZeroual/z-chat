@@ -14,6 +14,7 @@ router.post('/messages', controller.createMessage);
 
 router.post('/signup', controller.createUser);
 router.post('/signin', controller.signin);
+router.delete('/logout', controller.logout);
 
 router.get('/getcurrentuser', controller.getCurrentUser);
 
