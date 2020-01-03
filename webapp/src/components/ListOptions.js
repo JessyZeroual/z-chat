@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
 import userProfile from '../img/userProfile.svg';
+import CurrentUserContext from '../context/CurrentUserContext';
 
 const ListOptions = ({ currentUser }) => {
+  const setCurrentUser = useContext(CurrentUserContext);
+  const logout = async () => {
+    const response = await fetch('/api/logout', {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.ok) {
+      setCurrentUser(null);
+    }
+  };
+
   return (
     <>
       <div id="PopoverLegacy">
@@ -40,8 +55,8 @@ const ListOptions = ({ currentUser }) => {
           </div>
 
           <div
-            onClick={() => console.log('logout')}
-            onKeyPress={() => console.log('logout')}
+            onClick={() => logout()}
+            onKeyPress={() => logout()}
             role="button"
             tabIndex="0"
             className="text-danger"
@@ -56,6 +71,7 @@ const ListOptions = ({ currentUser }) => {
 
 ListOptions.propTypes = {
   currentUser: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     username: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
   }).isRequired,

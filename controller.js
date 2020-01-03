@@ -58,6 +58,12 @@ const signin = async (req, res) => {
   return res.sendStatus(201);
 };
 
+const logout = async (req, res) => {
+  const { sessionId } = await req.cookies;
+  await dataAccess.deleteSession(sessionId);
+  return res.sendStatus(200);
+};
+
 const getCurrentUser = async (req, res) => {
   const { user } = req;
   if (user) {
@@ -74,5 +80,6 @@ module.exports = {
   getAllUsers,
   createUser,
   signin,
+  logout,
   getCurrentUser,
 };
