@@ -15,7 +15,6 @@ const createChannel = async (req, res) => {
 };
 
 const createMessage = async (req, res) => {
-  console.log(req.body);
   const { message, userId, channelId } = req.body;
   await dataAccess.createMessage(message, userId, channelId);
 
