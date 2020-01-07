@@ -13,6 +13,7 @@ const Authentification = ({ getCurrentUser }) => {
       <img src={SlackLogo} alt="Slack logo" className="mr-2" />
       <Router>
         <Route
+          exact
           path="/"
           component={() => <Signin getCurrentUser={getCurrentUser} />}
         />

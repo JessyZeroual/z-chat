@@ -11,7 +11,7 @@ import CreateMessage from './CreateMessage';
 import MessageItem from './MessageItem';
 import Spinner from './Spinner';
 
-const MessageList = ({ channelId, currentChannel }) => {
+const MessageList = ({ currentChannel, currentUser, channelId }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [shouldRefetchMessages, setShouldRefetchMessages] = useState(true);
@@ -55,6 +55,7 @@ const MessageList = ({ channelId, currentChannel }) => {
 
       <FooterMessageList>
         <CreateMessage
+          currentUser={currentUser}
           channelId={channelId}
           setShouldRefetchMessages={setShouldRefetchMessages}
         />
@@ -67,6 +68,11 @@ MessageList.propTypes = {
   channelId: PropTypes.string.isRequired,
   currentChannel: PropTypes.shape({
     name: PropTypes.string,
+  }).isRequired,
+  currentUser: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
   }).isRequired,
 };
 

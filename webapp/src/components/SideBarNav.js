@@ -87,8 +87,9 @@ const SideBarNav = ({ currentUser }) => {
             );
             return (
               <MessageList
-                channelId={props.match.params.channelId}
+                currentUser={currentUser}
                 currentChannel={currentChannel}
+                channelId={props.match.params.channelId}
               />
             );
           }}

@@ -15,8 +15,9 @@ const createChannel = async (req, res) => {
 };
 
 const createMessage = async (req, res) => {
-  const { message, channelId } = req.body;
-  await dataAccess.createMessage(message, channelId);
+  console.log(req.body);
+  const { message, userId, channelId } = req.body;
+  await dataAccess.createMessage(message, userId, channelId);
 
   return res.status(201).send(`message ajouté :)`);
 };

@@ -23,10 +23,10 @@ const createChannel = name => {
   pool.query('INSERT INTO channel (name) VALUES ($1)', [name]);
 };
 
-const createMessage = (message, channelId) => {
+const createMessage = (message, userId, channelId) => {
   pool.query(
-    'INSERT INTO message (text, channel_id, user_id) VALUES($1, $2, $3)',
-    [message, channelId, 1]
+    'INSERT INTO message (text, user_id, channel_id) VALUES($1, $2, $3)',
+    [message, userId, channelId]
   );
 };
 

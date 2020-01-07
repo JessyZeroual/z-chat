@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
+const CreateMessage = ({
+  currentUser,
+  channelId,
+  setShouldRefetchMessages,
+}) => {
   let input;
 
   const handleSubmit = e => {
@@ -14,6 +18,7 @@ const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
       },
       body: JSON.stringify({
         message: input.value,
+        userId: currentUser.id,
         channelId,
       }),
     })
@@ -41,6 +46,11 @@ const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
 };
 
 CreateMessage.propTypes = {
+  currentUser: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+  }).isRequired,
   channelId: PropTypes.string.isRequired,
   setShouldRefetchMessages: PropTypes.func.isRequired,
 };
