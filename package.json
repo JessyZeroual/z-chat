@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "start:watch": "nodemon .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watch",
     "migrate": "db-migrate up --config db-migrate-config.js --env pg",
     "build-webapp": "cd webapp && npm install && npm run build",
     "build": "npm run migrate & npm run build-webapp"
@@ -24,6 +24,7 @@
     "pg": "^7.14.0"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.25",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "eslint-config-airbnb": "^18.0.1",
@@ -32,6 +33,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "jest": "^24.9.0",
     "nodemon": "^1.19.4",
     "prettier": "^1.19.1",
     "prettierrc": "0.0.0-5"
