@@ -34,8 +34,10 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
+    "jest-when": "^2.7.0",
     "nodemon": "^1.19.4",
     "prettier": "^1.19.1",
-    "prettierrc": "0.0.0-5"
+    "prettierrc": "0.0.0-5",
+    "supertest": "^4.0.2"
   }
 }
