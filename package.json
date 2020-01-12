@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "start:watch": "nodemon .",
-    "test": "jest --watch",
+    "test": "DATABASE_URL=postgres://slack_clone_test_user:123456@localhost:5432/slack_clone_test jest",
     "migrate": "db-migrate up --config db-migrate-config.js --env pg",
     "build-webapp": "cd webapp && npm install && npm run build",
     "build": "npm run migrate & npm run build-webapp"
