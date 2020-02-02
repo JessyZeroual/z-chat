@@ -1,4 +1,4 @@
-const dataAccess = require('./data-access');
+const dataAccess = require('../dataAccess/data-access');
 
 const setUser = async (req, res, next) => {
   const { sessionId } = req.cookies;

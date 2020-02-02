@@ -1,8 +1,8 @@
 const { when } = require('jest-when');
 const superTest = require('supertest');
 
-jest.mock('./data-access.js');
-const dataAccess = require('./data-access');
+jest.mock('./dataAccess/data-access');
+const dataAccess = require('./dataAccess/data-access');
 const app = require('./app');
 
 const agent = superTest.agent(app);

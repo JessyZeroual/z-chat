@@ -1,5 +1,5 @@
-const dataAccess = require('./data-access');
-const services = require('./service');
+const dataAccess = require('../dataAccess/data-access');
+const services = require('../service/service');
 
 const getAllChannels = async (req, res) => {
   const channels = await dataAccess.getAllChannels();

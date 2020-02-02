@@ -1,4 +1,4 @@
-const dataAccess = require('./data-access');
+const dataAccess = require('../dataAccess/data-access');
 
 const createChannelAndGetId = async name => {
   await dataAccess.createChannel(name);

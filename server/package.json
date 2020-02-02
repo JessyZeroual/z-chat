@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "start:watch": "nodemon .",
+    "migrate": "npx db-migrate up --config db-migrate-config.js --env pg",
+    "test": "DATABASE_URL=postgres://slack_clone_test_user:123456@localhost:5432/slack_clone_test jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "db-migrate": "^0.11.6",
+    "db-migrate-pg": "^1.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^7.14.0",
+    "@types/jest": "^24.0.25",
+    "jest": "^24.9.0",
+    "jest-when": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4",
+    "supertest": "^4.0.2"
+  }
+}

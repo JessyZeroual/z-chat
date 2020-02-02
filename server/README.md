@@ -9,3 +9,5 @@ How to execute migrations :
 ```
 npx db-migrate up
 ```
+
+

@@ -4,40 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
-    "start:watch": "nodemon .",
-    "test": "DATABASE_URL=postgres://slack_clone_test_user:123456@localhost:5432/slack_clone_test jest",
-    "migrate": "db-migrate up --config db-migrate-config.js --env pg",
+    "start": "cd server && node .",
+    "start:watch": "cd server && nodemon .",
+    "migrate": "cd server && npx db-migrate up --config db-migrate-config.js --env pg",
     "build-webapp": "cd webapp && npm install && npm run build",
     "build": "npm run migrate & npm run build-webapp"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.4",
-    "db-migrate": "^0.11.6",
-    "db-migrate-pg": "^1.0.0",
-    "dotenv": "^8.2.0",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "express": "^4.17.1",
-    "pg": "^7.14.0"
-  },
   "devDependencies": {
-    "@types/jest": "^24.0.25",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "jest": "^24.9.0",
-    "jest-when": "^2.7.0",
-    "nodemon": "^1.19.4",
     "prettier": "^1.19.1",
-    "prettierrc": "0.0.0-5",
-    "supertest": "^4.0.2"
+    "prettierrc": "0.0.0-5"
   }
 }
