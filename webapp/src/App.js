@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CurrentUserProvider } from './context/CurrentUserContext';
-import Authentification from './components/authentification/Authentification';
-import WorkSpace from './components/WorkSpace';
+import UnauthenticatedApp from './components/UnauthenticatedApp/UnauthenticatedApp';
+import WorkSpace from './components/AuthenticatedApp/WorkSpace';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -28,13 +28,15 @@ const App = () => {
     return 'Loading…';
   }
 
+  const contextValue = {
+    setCurrentUser,
+    currentUser,
+    getCurrentUser,
+  };
+
   return (
-    <CurrentUserProvider value={setCurrentUser}>
-      {currentUser ? (
-        <WorkSpace currentUser={currentUser} setCurrentUser={setCurrentUser} />
-      ) : (
-        <Authentification getCurrentUser={getCurrentUser} />
-      )}
+    <CurrentUserProvider value={contextValue}>
+      {currentUser ? <WorkSpace /> : <UnauthenticatedApp />}
     </CurrentUserProvider>
   );
 };

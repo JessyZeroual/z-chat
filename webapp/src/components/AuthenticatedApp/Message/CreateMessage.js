@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import CurrentUserContext from '../../../context/CurrentUserContext';
 
-const CreateMessage = ({
-  currentUser,
-  channelId,
-  setShouldRefetchMessages,
-}) => {
+const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
+  const { currentUser } = useContext(CurrentUserContext);
   let input;
 
   const handleSubmit = e => {
@@ -46,11 +44,6 @@ const CreateMessage = ({
 };
 
 CreateMessage.propTypes = {
-  currentUser: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    username: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-  }).isRequired,
   channelId: PropTypes.string.isRequired,
   setShouldRefetchMessages: PropTypes.func.isRequired,
 };

@@ -1,47 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Input, Button } from './Authentification.styled';
+import CurrentUserContext from '../../context/CurrentUserContext';
 
-const Signup = () => {
-  let username;
+import { Form, Input, Button } from './UnauthenticatedApp.styled';
+
+const Signin = () => {
+  const { getCurrentUser } = useContext(CurrentUserContext);
   let email;
   let password;
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const response = await fetch('/api/signup', {
+    const response = await fetch('/api/signin', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: username.value,
         email: email.value,
         password: password.value,
       }),
-    });
-
-    await ((username.value = ''), (email.value = ''), (password.value = ''));
-
+    }).then(((email.value = ''), (password.value = '')));
     if (response.ok) {
-      console.log('res ok');
-    } else {
-      console.log('res error');
+      getCurrentUser();
     }
   };
 
   return (
     <>
-      {/* TODO: validation */}
       <Form onSubmit={e => handleSubmit(e)}>
-        <Input
-          ref={node => {
-            username = node;
-          }}
-          type="text"
-          placeholder="username"
-        />
         <Input
           ref={node => {
             email = node;
@@ -56,14 +44,14 @@ const Signup = () => {
           type="password"
           placeholder="password"
         />
-        <Button type="submit">sign up</Button>
+        <Button type="submit">sign in</Button>
       </Form>
       <p>
-        you are a member? &nbsp;
-        <Link to="/">Connect</Link>
+        not a member? &nbsp;
+        <Link to="/signup">Sign up now</Link>
       </p>
     </>
   );
 };
 
-export default Signup;
+export default Signin;

@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
 import userProfile from '../img/userProfile.svg';
-import CurrentUserContext from '../context/CurrentUserContext';
+import CurrentUserContext from '../../../context/CurrentUserContext';
 
-const ListOptions = ({ currentUser }) => {
-  const setCurrentUser = useContext(CurrentUserContext);
+const ListOptions = () => {
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+
   const logout = async () => {
     const response = await fetch('/api/logout', {
       method: 'DELETE',
@@ -67,14 +67,6 @@ const ListOptions = ({ currentUser }) => {
       </UncontrolledPopover>
     </>
   );
-};
-
-ListOptions.propTypes = {
-  currentUser: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    username: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default ListOptions;

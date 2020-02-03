@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ButtonSideBar } from '../style/styled';
+import { ButtonSideBar } from '../NavigationBar/NavigationBar.styled';
 
 const CreateChannel = ({ setShouldRefetchChannel }) => {
   const [formOpen, setFormOpen] = useState(false);

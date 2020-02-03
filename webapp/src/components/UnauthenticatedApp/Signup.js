@@ -1,34 +1,47 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Form, Input, Button } from './UnauthenticatedApp.styled';
 
-import { Form, Input, Button } from './Authentification.styled';
-
-const Signin = ({ getCurrentUser }) => {
+const Signup = () => {
+  let username;
   let email;
   let password;
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const response = await fetch('/api/signin', {
+    const response = await fetch('/api/signup', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        username: username.value,
         email: email.value,
         password: password.value,
       }),
-    }).then(((email.value = ''), (password.value = '')));
+    });
+
+    await ((username.value = ''), (email.value = ''), (password.value = ''));
+
     if (response.ok) {
-      getCurrentUser();
+      console.log('res ok');
+    } else {
+      console.log('res error');
     }
   };
 
   return (
     <>
+      {/* TODO: validation */}
       <Form onSubmit={e => handleSubmit(e)}>
+        <Input
+          ref={node => {
+            username = node;
+          }}
+          type="text"
+          placeholder="username"
+        />
         <Input
           ref={node => {
             email = node;
@@ -43,18 +56,14 @@ const Signin = ({ getCurrentUser }) => {
           type="password"
           placeholder="password"
         />
-        <Button type="submit">sign in</Button>
+        <Button type="submit">sign up</Button>
       </Form>
       <p>
-        not a member? &nbsp;
-        <Link to="/signup">Sign up now</Link>
+        you are a member? &nbsp;
+        <Link to="/">Connect</Link>
       </p>
     </>
   );
 };
 
-Signin.propTypes = {
-  getCurrentUser: PropTypes.func.isRequired,
-};
-
-export default Signin;
+export default Signup;
