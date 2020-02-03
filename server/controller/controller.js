@@ -6,6 +6,12 @@ const getAllChannels = async (req, res) => {
   return res.status(200).json({ channels });
 };
 
+const getChannelById = async (req, res) => {
+  const { channelId } = req.params;
+  const channel = await dataAccess.getChannelById(channelId);
+  return res.status(200).json({ channel });
+};
+
 const createChannel = async (req, res) => {
   const { name } = req.body;
 
@@ -74,6 +80,7 @@ const getCurrentUser = async (req, res) => {
 
 module.exports = {
   getAllChannels,
+  getChannelById,
   createChannel,
   createMessage,
   getMessagesByChannelId,

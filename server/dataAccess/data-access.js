@@ -12,6 +12,14 @@ const getAllChannels = async () => {
   return channels.rows;
 };
 
+const getChannelById = async channelId => {
+  const channel = await pool.query('SELECT * FROM channel WHERE id = $1', [
+    channelId,
+  ]);
+
+  return channel.rows[0];
+};
+
 const getChannelByName = async name => {
   const channel = await pool.query('SELECT * FROM channel WHERE name = $1', [
     name,
@@ -98,6 +106,7 @@ const getUserFromSessionId = async sessionId => {
 
 module.exports = {
   getAllChannels,
+  getChannelById,
   getChannelByName,
   createChannel,
   createMessage,
