@@ -1,22 +1,19 @@
 import React, { useContext } from 'react';
+
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
-import userProfile from '../img/userProfile.svg';
+import { logout } from '../../../controllers/authentification';
 import CurrentUserContext from '../../../context/CurrentUserContext';
+import userProfile from '../img/userProfile.svg';
 
 const ListOptions = () => {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
-  const logout = async () => {
-    const response = await fetch('/api/logout', {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+  const handleLogout = async () => {
+    await logout().then(response => {
+      if (response.ok) {
+        setCurrentUser(null);
+      }
     });
-    if (response.ok) {
-      setCurrentUser(null);
-    }
   };
 
   return (
@@ -55,8 +52,8 @@ const ListOptions = () => {
           </div>
 
           <div
-            onClick={() => logout()}
-            onKeyPress={() => logout()}
+            onClick={() => handleLogout()}
+            onKeyPress={() => handleLogout()}
             role="button"
             tabIndex="0"
             className="text-danger"

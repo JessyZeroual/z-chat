@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { getChannels } from '../../../controllers/channel';
+
 import ListOptions from './ListOptions';
 import CreateChannel from '../Channel/CreateChannel';
 import Spinner from '../../../utils/Spinner';
@@ -19,13 +21,9 @@ const NavigationBar = () => {
   const [shouldRefetchChannel, setShouldRefetchChannel] = useState(false);
 
   useEffect(() => {
-    fetch('/api/channels/')
-      .then(res => res.json())
-      .then(data => {
-        setChannels(data.channels);
-        setLoading(false);
-        setShouldRefetchChannel(false);
-      });
+    getChannels().then(data => setChannels(data.channels));
+    setLoading(false);
+    setShouldRefetchChannel(false);
   }, [shouldRefetchChannel]);
 
   return loading ? (

@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+import { getMessages } from '../../../controllers/message';
+import { getChannel } from '../../../controllers/channel';
+
+import CreateMessage from './CreateMessage';
+import MessageItem from './MessageItem';
+import Spinner from '../../../utils/Spinner';
+
 import {
   MessageListWrapper,
   HeaderMessageList,
@@ -7,9 +15,6 @@ import {
   MainMessageList,
   MessageListEmpty,
 } from './Message.styled';
-import CreateMessage from './CreateMessage';
-import MessageItem from './MessageItem';
-import Spinner from '../../../utils/Spinner';
 
 const MessageList = ({ match }) => {
   const { channelId } = match.params;
@@ -20,21 +25,13 @@ const MessageList = ({ match }) => {
 
   useEffect(() => {
     const fetchCurrentChannelAndMessages = async () => {
-      await fetch(`/api/channels/${channelId}`)
-        .then(res => res.json())
-        .then(data => {
-          setCurrentChannel(data.channel);
-        });
-
-      await fetch(`/api/channels/${channelId}/messages`)
-        .then(res => res.json())
-        .then(data => {
-          setMessages(data.messages);
-          setShouldRefetchMessages(false);
-        });
+      await getChannel(channelId).then(data => setCurrentChannel(data.channel));
+      await getMessages(channelId).then(data => setMessages(data.messages));
 
       await setLoading(false);
+      await setShouldRefetchMessages(false);
     };
+
     fetchCurrentChannelAndMessages();
   }, [channelId, shouldRefetchMessages]);
 

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import { postChannel } from '../../../controllers/channel';
+
 import { ButtonSideBar } from '../NavigationBar/NavigationBar.styled';
 
 const CreateChannel = ({ setShouldRefetchChannel }) => {
@@ -8,16 +11,8 @@ const CreateChannel = ({ setShouldRefetchChannel }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch('/api/channels', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: input.value,
-      }),
-    })
+
+    postChannel(input.value)
       .then(setFormOpen(false))
       .then(setShouldRefetchChannel(true));
   };

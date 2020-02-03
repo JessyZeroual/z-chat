@@ -1,25 +1,15 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import CurrentUserContext from '../../../context/CurrentUserContext';
+import { postMessage } from '../../../controllers/message';
 
 const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
   const { currentUser } = useContext(CurrentUserContext);
   let input;
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    fetch('/api/messages', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: input.value,
-        userId: currentUser.id,
-        channelId,
-      }),
-    })
+    postMessage(input, currentUser, channelId)
       .then((input.value = ''))
       .then(setShouldRefetchMessages(true));
   };

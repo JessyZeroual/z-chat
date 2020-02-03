@@ -1,5 +1,8 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+import { signin } from '../../controllers/authentification';
+
 import CurrentUserContext from '../../context/CurrentUserContext';
 
 import { Form, Input, Button } from './UnauthenticatedApp.styled';
@@ -11,20 +14,12 @@ const Signin = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const response = await fetch('/api/signin', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email.value,
-        password: password.value,
-      }),
-    }).then(((email.value = ''), (password.value = '')));
-    if (response.ok) {
-      getCurrentUser();
-    }
+    await signin(email.value, password.value).then(response => {
+      if (response.ok) {
+        getCurrentUser();
+      }
+    });
+    await ((email.value = ''), (password.value = ''));
   };
 
   return (

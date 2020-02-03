@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import { signup } from '../../controllers/authentification';
+
 import { Form, Input, Button } from './UnauthenticatedApp.styled';
 
 const Signup = () => {
@@ -9,26 +12,15 @@ const Signup = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const response = await fetch('/api/signup', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username.value,
-        email: email.value,
-        password: password.value,
-      }),
+    await signup(username.value, email.value, password.value).then(response => {
+      if (response.ok) {
+        console.log('res ok');
+      } else {
+        console.log('res error');
+      }
     });
 
     await ((username.value = ''), (email.value = ''), (password.value = ''));
-
-    if (response.ok) {
-      console.log('res ok');
-    } else {
-      console.log('res error');
-    }
   };
 
   return (
