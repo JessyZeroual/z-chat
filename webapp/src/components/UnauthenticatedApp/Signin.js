@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { signin } from '../../controllers/authentification';
+import { signin } from '../../controllers/authentication';
 
 import CurrentUserContext from '../../context/CurrentUserContext';
 

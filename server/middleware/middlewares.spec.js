@@ -1,4 +1,4 @@
-const { allowAuthenticatedUserOnly } = require('./middlewares');
+const { allowAuthenticatedUserOnly } = require('.');
 
 describe('allowAuthenticatedUserOnly', () => {
   let res;

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
-import { logout } from '../../../controllers/authentification';
+import { logout } from '../../../controllers/authentication';
 import CurrentUserContext from '../../../context/CurrentUserContext';
 import userProfile from '../img/userProfile.svg';
 

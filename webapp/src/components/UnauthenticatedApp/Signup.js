@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { signup } from '../../controllers/authentification';
+import { signup } from '../../controllers/authentication';
 
 import { Form, Input, Button } from './UnauthenticatedApp.styled';
 

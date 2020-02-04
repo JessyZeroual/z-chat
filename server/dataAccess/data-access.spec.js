@@ -3,7 +3,7 @@ const util = require('util');
 // Use exec as a promise to be able to await it
 const exec = util.promisify(require('child_process').exec);
 
-const dataAccess = require('./data-access');
+const dataAccess = require('.');
 
 const resetDatabase = async () => {
   console.log('resetDatabase');

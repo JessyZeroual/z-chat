@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 const routes = require('./routes/index');
-const { setUser } = require('./middleware/middlewares');
+const { setUser } = require('./middleware');
 
 const app = express();
 app.use(cookieParser());
