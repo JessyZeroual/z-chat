@@ -5,21 +5,22 @@ const pool = new pg.Pool({
   connectionString: databaseUrl,
 });
 
-const createMessage = (message, userId, channelId) => {
-  pool.query(
+const createMessage = async (message, userId, channelId) => {
+  await pool.query(
     'INSERT INTO message (text, user_id, channel_id) VALUES($1, $2, $3)',
     [message, userId, channelId]
   );
 };
 
-const getMessagesList = async channelId => {
+const getMessagesByChannelId = async (channelId, limit, offset) => {
   const messages = await pool.query(
-    `SELECT * FROM message WHERE channel_id=${channelId} `
+    `SELECT * FROM message WHERE channel_id=($1) ORDER BY message.created_At DESC LIMIT ($2) OFFSET ($3) `,
+    [channelId, limit, offset]
   );
   return messages.rows;
 };
 
 module.exports = {
   createMessage,
-  getMessagesList,
+  getMessagesByChannelId,
 };

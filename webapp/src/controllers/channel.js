@@ -13,7 +13,7 @@ export const postChannel = name => {
 };
 
 export const getChannel = channelId => {
-  return fetch(`/api/channels/${channelId}`)
+  return fetch(`/api/${channelId}/channels`)
     .then(res => res.json())
     .then(data => {
       return data;

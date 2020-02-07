@@ -8,7 +8,12 @@ const createMessage = async (req, res) => {
 };
 
 const getMessagesByChannelId = async (req, res) => {
-  const messages = await dataAccess.getMessagesList(req.params.channelId);
+  const { channelId, limit, offset } = req.params;
+  const messages = await dataAccess.getMessagesByChannelId(
+    channelId,
+    limit,
+    offset
+  );
 
   return res.status(200).json({ messages });
 };

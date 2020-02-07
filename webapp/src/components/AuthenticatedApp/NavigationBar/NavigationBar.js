@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { getChannels } from '../../../controllers/channel';
 
@@ -16,6 +16,7 @@ import {
 } from './NavigationBar.styled';
 
 const NavigationBar = () => {
+  const history = useHistory();
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [shouldRefetchChannel, setShouldRefetchChannel] = useState(false);
@@ -25,6 +26,12 @@ const NavigationBar = () => {
     setLoading(false);
     setShouldRefetchChannel(false);
   }, [shouldRefetchChannel]);
+
+  const handleClick = async channel => {
+    history.push(`/channels/${channel.id}/messages`, {
+      channelName: channel.name,
+    });
+  };
 
   return loading ? (
     <Spinner />
@@ -38,15 +45,14 @@ const NavigationBar = () => {
       <MainSideBar>
         <CreateChannel setShouldRefetchChannel={setShouldRefetchChannel} />
         {channels.map(channel => (
-          <Link
-            style={{ textDecoration: 'none' }}
+          <ButtonSideBar
             key={channel.id}
-            to={`/channels/${channel.id}/messages`}
+            onClick={() => handleClick(channel)}
+            active
+            className="py-2 d-block"
           >
-            <ButtonSideBar active className="py-2 d-block">
-              {`#${channel.name}`}
-            </ButtonSideBar>
-          </Link>
+            {`#${channel.name}`}
+          </ButtonSideBar>
         ))}
       </MainSideBar>
 

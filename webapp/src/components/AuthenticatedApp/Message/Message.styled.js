@@ -16,6 +16,8 @@ export const HeaderMessageList = styled.div`
 export const MainMessageList = styled.div`
   height: 100%;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
 `;
 
 export const FooterMessageList = styled.div`

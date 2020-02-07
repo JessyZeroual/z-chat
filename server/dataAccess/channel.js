@@ -26,8 +26,8 @@ const getChannelByName = async name => {
   return channel.rows[0];
 };
 
-const createChannel = name => {
-  pool.query('INSERT INTO channel (name) VALUES ($1)', [name]);
+const createChannel = async name => {
+  await pool.query('INSERT INTO channel (name) VALUES ($1)', [name]);
 };
 
 module.exports = {

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { getMessages } from '../../../controllers/message';
-import { getChannel } from '../../../controllers/channel';
 
 import CreateMessage from './CreateMessage';
 import MessageItem from './MessageItem';
@@ -16,24 +15,44 @@ import {
   MessageListEmpty,
 } from './Message.styled';
 
-const MessageList = ({ match }) => {
+const MessageList = ({ match, location }) => {
   const { channelId } = match.params;
-  const [currentChannel, setCurrentChannel] = useState({});
+  const { channelName } = location.state;
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [shouldRefetchMessages, setShouldRefetchMessages] = useState(true);
+  const [offset, setOffset] = useState(0);
+  const limit = 3;
+
+  const node = useRef();
+
+  // if (node.current) {
+  //   console.log('top', node.current.scrollTop);
+  //   console.log('bottom', node.current.scrollTop + node.current.offsetHeight);
+  //   console.log('node', node);
+  // }
 
   useEffect(() => {
-    const fetchCurrentChannelAndMessages = async () => {
-      await getChannel(channelId).then(data => setCurrentChannel(data.channel));
-      await getMessages(channelId).then(data => setMessages(data.messages));
+    setOffset(0);
+  }, [channelId]);
 
-      await setLoading(false);
-      await setShouldRefetchMessages(false);
+  useEffect(() => {
+    const fetchMessages = async () => {
+      await getMessages(channelId, limit, offset).then(data => {
+        if (offset === 0) {
+          setMessages(data.messages);
+        } else {
+          const newMessageList = messages.concat(data.messages);
+          setMessages(newMessageList);
+        }
+      });
+
+      setLoading(false);
+      setShouldRefetchMessages(false);
     };
 
-    fetchCurrentChannelAndMessages();
-  }, [channelId, shouldRefetchMessages]);
+    fetchMessages();
+  }, [channelId, shouldRefetchMessages, offset]);
 
   return (
     <>
@@ -42,14 +61,18 @@ const MessageList = ({ match }) => {
       ) : (
         <MessageListWrapper>
           <HeaderMessageList className="d-flex justify-content-between">
-            <p className="font-weight-bold p-3">{`#${currentChannel.name}`}</p>
+            <p className="font-weight-bold p-3">{`#${channelName}`}</p>
           </HeaderMessageList>
 
-          <MainMessageList>
+          <MainMessageList ref={node}>
             {messages.length ? (
-              messages.map(message => (
-                <MessageItem key={message.id} message={message} />
-              ))
+              <>
+                {/* eslint-disable-next-line react/button-has-type */}
+                <button onClick={() => setOffset(offset + 3)}>load more</button>
+                {messages.map(message => (
+                  <MessageItem key={message.id} message={message} />
+                ))}
+              </>
             ) : (
               <MessageListEmpty>
                 Start a discussion
@@ -74,17 +97,26 @@ const MessageList = ({ match }) => {
 
 MessageList.propTypes = {
   channelId: PropTypes.string,
+  channelName: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.node,
       channelId: PropTypes.string.isRequired,
     }),
   }),
+
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      channelName: PropTypes.string.isRequired,
+    }),
+  }),
 };
 
 MessageList.defaultProps = {
   match: null,
+  location: null,
   channelId: null,
+  channelName: null,
 };
 
 export default MessageList;

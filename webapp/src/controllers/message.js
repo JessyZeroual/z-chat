@@ -14,8 +14,8 @@ export const postMessage = (input, currentUser, channelId) => {
   });
 };
 
-export const getMessages = channelId => {
-  return fetch(`/api/channels/${channelId}/messages`)
+export const getMessages = (channelId, limit, offset) => {
+  return fetch(`/api/channels/${channelId}/${limit}/${offset}/messages`)
     .then(res => res.json())
     .then(data => {
       return data;
