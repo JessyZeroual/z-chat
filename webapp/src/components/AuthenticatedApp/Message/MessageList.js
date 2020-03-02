@@ -19,40 +19,61 @@ const MessageList = ({ match, location }) => {
   const { channelId } = match.params;
   const { channelName } = location.state;
   const [messages, setMessages] = useState([]);
+  const [nextMessages, setNextMessages] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [shouldRefetchMessages, setShouldRefetchMessages] = useState(true);
+  const [loadMoreMessage, setLoadMoreMessage] = useState(false);
+  const [shouldRefetchMessages, setShouldRefetchMessages] = useState(false);
   const [offset, setOffset] = useState(0);
-  const limit = 3;
+  const limit = 10;
 
-  const node = useRef();
+  const mainMessageList = useRef();
 
-  // if (node.current) {
-  //   console.log('top', node.current.scrollTop);
-  //   console.log('bottom', node.current.scrollTop + node.current.offsetHeight);
-  //   console.log('node', node);
-  // }
+  const fetchMessages = async () => {
+    await getMessages(channelId, limit, offset).then(data => {
+      if (data.nextMessages.length === 0) {
+        setNextMessages(false);
+      }
+
+      if (offset === 0) {
+        setMessages(data.messages);
+      } else {
+        const newMessageList = messages.concat(data.messages);
+        setMessages(newMessageList);
+      }
+    });
+
+    setLoading(false);
+    setShouldRefetchMessages(false);
+    setLoadMoreMessage(false);
+  };
+
+  const handleScroll = e => {
+    if (e.target.scrollTop === 0 && !loadMoreMessage) {
+      setLoadMoreMessage(true);
+    }
+  };
+
+  useEffect(() => {
+    if (mainMessageList.current) {
+      mainMessageList.current.addEventListener('scroll', handleScroll);
+    }
+  });
+
+  useEffect(() => {
+    fetchMessages();
+    // eslint-disable-next-line
+  }, [channelId, shouldRefetchMessages, offset]);
+
+  useEffect(() => {
+    if (loadMoreMessage && nextMessages) {
+      setOffset(offset + limit);
+    }
+    // eslint-disable-next-line
+  }, [loadMoreMessage]);
 
   useEffect(() => {
     setOffset(0);
   }, [channelId]);
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      await getMessages(channelId, limit, offset).then(data => {
-        if (offset === 0) {
-          setMessages(data.messages);
-        } else {
-          const newMessageList = messages.concat(data.messages);
-          setMessages(newMessageList);
-        }
-      });
-
-      setLoading(false);
-      setShouldRefetchMessages(false);
-    };
-
-    fetchMessages();
-  }, [channelId, shouldRefetchMessages, offset]);
 
   return (
     <>
@@ -64,14 +85,19 @@ const MessageList = ({ match, location }) => {
             <p className="font-weight-bold p-3">{`#${channelName}`}</p>
           </HeaderMessageList>
 
-          <MainMessageList ref={node}>
+          <MainMessageList ref={mainMessageList}>
             {messages.length ? (
               <>
-                {/* eslint-disable-next-line react/button-has-type */}
-                <button onClick={() => setOffset(offset + 3)}>load more</button>
                 {messages.map(message => (
                   <MessageItem key={message.id} message={message} />
                 ))}
+                {loadMoreMessage && nextMessages && (
+                  <div className="text-center">
+                    <div className="spinner-border" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                )}
               </>
             ) : (
               <MessageListEmpty>
@@ -87,6 +113,9 @@ const MessageList = ({ match, location }) => {
             <CreateMessage
               channelId={channelId}
               setShouldRefetchMessages={setShouldRefetchMessages}
+              mainMessageList={
+                mainMessageList.current && mainMessageList.current
+              }
             />
           </FooterMessageList>
         </MessageListWrapper>
