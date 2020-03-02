@@ -15,7 +15,13 @@ const getMessagesByChannelId = async (req, res) => {
     offset
   );
 
-  return res.status(200).json({ messages });
+  const nextMessages = await dataAccess.getMessagesByChannelId(
+    channelId,
+    limit,
+    Number(offset) + Number(limit)
+  );
+
+  return res.status(200).json({ messages, nextMessages });
 };
 
 module.exports = {
