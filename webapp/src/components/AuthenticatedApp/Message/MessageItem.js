@@ -7,10 +7,9 @@ const MessageItem = ({ message }) => (
     <div className="d-flex ">
       <img src={userProfile} alt="profil utilisateur" width="80" />
       <div className="ml-3">
-        <p>
-          userName
-          {message.createdAt}
-        </p>
+        <div className="d-flex">
+          <b className="mr-2">{message.username}</b>
+        </div>
         <p>{message.text}</p>
       </div>
     </div>
@@ -19,8 +18,9 @@ const MessageItem = ({ message }) => (
 
 MessageItem.propTypes = {
   message: PropTypes.shape({
-    createdAt: PropTypes.string,
+    created_at: PropTypes.string,
     text: PropTypes.string,
+    username: PropTypes.string,
   }).isRequired,
 };
 
