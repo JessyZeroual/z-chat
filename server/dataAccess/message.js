@@ -14,9 +14,18 @@ const createMessage = async (message, userId, channelId) => {
 
 const getMessagesByChannelId = async (channelId, limit, offset) => {
   const messages = await pool.query(
-    `SELECT * FROM message WHERE channel_id=($1) ORDER BY message.created_At DESC LIMIT ($2) OFFSET ($3) `,
+    `SELECT message.id, message.text, message.created_at, message.channel_id, users.username 
+              FROM message
+              JOIN users
+              ON message.user_id = users.id
+              WHERE channel_id=($1) 
+              ORDER BY message.created_At DESC 
+              LIMIT ($2) 
+              OFFSET ($3) `,
     [channelId, limit, offset]
   );
+
+  console.log(messages);
   return messages.rows;
 };
 
