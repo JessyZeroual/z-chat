@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react';
 import { getMessages } from '../controllers/message';
 
-const useMessages = (channelId, mainMessageList) => {
-  const limit = 10;
+const useMessages = channelId => {
+  const LIMIT = 10;
 
   const [messages, setMessages] = useState([]);
-  const [nextMessages, setNextMessages] = useState(true);
+  const [hasNextMessages, setNextMessages] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [loadMoreMessage, setLoadMoreMessage] = useState(false);
   const [offset, setOffset] = useState(0);
 
   const fetchMessages = async resetOffset => {
-    const newOffset = resetOffset ? 0 : offset + limit;
+    const currentOffset = resetOffset ? 0 : offset + LIMIT;
 
-    await getMessages(channelId, limit, newOffset).then(data => {
-      if (data.nextMessages.length === 0) {
+    await getMessages(channelId, LIMIT, currentOffset).then(data => {
+      if (!data.nextMessages.length) {
         setNextMessages(false);
       }
 
       if (resetOffset) {
         setMessages(data.messages);
+        setNextMessages(true);
       } else {
         const newMessageList = messages.concat(data.messages);
         setMessages(newMessageList);
@@ -27,33 +27,33 @@ const useMessages = (channelId, mainMessageList) => {
     });
 
     setLoading(false);
-    setLoadMoreMessage(false);
-    setOffset(newOffset);
+    setOffset(currentOffset);
   };
 
   const handleScroll = e => {
-    if (e.target.scrollTop === 0 && !loadMoreMessage && nextMessages) {
-      setLoadMoreMessage(true);
+    if (e.target.scrollTop === 0 && !loading && hasNextMessages) {
       fetchMessages();
     }
   };
 
   useEffect(() => {
-    if (mainMessageList.current) {
-      mainMessageList.current.addEventListener('scroll', handleScroll);
+    const mainMessageList = document.getElementById('mainMessageList');
+    if (mainMessageList) {
+      mainMessageList.addEventListener('scroll', handleScroll);
     }
     return () => {
-      if (mainMessageList.current) {
-        mainMessageList.current.removeEventListener('scroll', handleScroll);
+      if (mainMessageList) {
+        mainMessageList.removeEventListener('scroll', handleScroll);
       }
     };
   });
 
   useEffect(() => {
     fetchMessages({ resetOffset: true });
+    // eslint-disable-next-line
   }, [channelId]);
 
-  return [loading, messages, loadMoreMessage, nextMessages];
+  return [loading, messages, hasNextMessages];
 };
 
 export default useMessages;
