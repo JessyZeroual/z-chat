@@ -21,6 +21,7 @@ const MessageItem = ({ message }) => {
           </div>
           <p>{message.text}</p>
         </div>
+
       </div>
     </div>
   );
