@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import useMessages from '../../../utils/useMessages';
@@ -18,12 +18,7 @@ import {
 const MessageList = ({ match, location }) => {
   const { channelId } = match.params;
   const { channelName } = location.state;
-  const mainMessageList = useRef();
-
-  const [loading, messages, loadMoreMessage, nextMessages] = useMessages(
-    channelId,
-    mainMessageList
-  );
+  const [loading, messages, hasNextMessages] = useMessages(channelId);
 
   return (
     <>
@@ -35,13 +30,14 @@ const MessageList = ({ match, location }) => {
             <p className="font-weight-bold p-3">{`#${channelName}`}</p>
           </HeaderMessageList>
 
-          <MainMessageList ref={mainMessageList}>
+          <MainMessageList id="mainMessageList">
             {messages.length ? (
               <>
                 {messages.map(message => (
                   <MessageItem key={message.id} message={message} />
                 ))}
-                {loadMoreMessage && nextMessages && (
+
+                {loading && hasNextMessages && (
                   <div className="text-center">
                     <div className="spinner-border" role="status">
                       <span className="sr-only">Loading...</span>
