@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import CurrentUserContext from '../../../context/CurrentUserContext';
 import { postMessage } from '../../../controllers/message';
 
-const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
+const CreateMessage = ({ channelId }) => {
   const { currentUser } = useContext(CurrentUserContext);
   let input;
 
   const handleSubmit = async e => {
     e.preventDefault();
-    postMessage(input, currentUser, channelId)
-      .then((input.value = ''))
-      .then(setShouldRefetchMessages(true));
+    postMessage(input, currentUser, channelId).then((input.value = ''));
   };
 
   return (
@@ -35,7 +33,6 @@ const CreateMessage = ({ channelId, setShouldRefetchMessages }) => {
 
 CreateMessage.propTypes = {
   channelId: PropTypes.string.isRequired,
-  setShouldRefetchMessages: PropTypes.func.isRequired,
 };
 
 export default CreateMessage;

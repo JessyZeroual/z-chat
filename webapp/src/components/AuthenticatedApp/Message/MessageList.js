@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { getMessages } from '../../../controllers/message';
+import useMessages from '../../../utils/useMessages';
 
 import CreateMessage from './CreateMessage';
 import MessageItem from './MessageItem';
@@ -18,62 +18,12 @@ import {
 const MessageList = ({ match, location }) => {
   const { channelId } = match.params;
   const { channelName } = location.state;
-  const [messages, setMessages] = useState([]);
-  const [nextMessages, setNextMessages] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [loadMoreMessage, setLoadMoreMessage] = useState(false);
-  const [shouldRefetchMessages, setShouldRefetchMessages] = useState(false);
-  const [offset, setOffset] = useState(0);
-  const limit = 10;
-
   const mainMessageList = useRef();
 
-  const fetchMessages = async () => {
-    await getMessages(channelId, limit, offset).then(data => {
-      if (data.nextMessages.length === 0) {
-        setNextMessages(false);
-      }
-
-      if (offset === 0) {
-        setMessages(data.messages);
-      } else {
-        const newMessageList = messages.concat(data.messages);
-        setMessages(newMessageList);
-      }
-    });
-
-    setLoading(false);
-    setShouldRefetchMessages(false);
-    setLoadMoreMessage(false);
-  };
-
-  const handleScroll = e => {
-    if (e.target.scrollTop === 0 && !loadMoreMessage) {
-      setLoadMoreMessage(true);
-    }
-  };
-
-  useEffect(() => {
-    if (mainMessageList.current) {
-      mainMessageList.current.addEventListener('scroll', handleScroll);
-    }
-  });
-
-  useEffect(() => {
-    fetchMessages();
-    // eslint-disable-next-line
-  }, [channelId, shouldRefetchMessages, offset]);
-
-  useEffect(() => {
-    if (loadMoreMessage && nextMessages) {
-      setOffset(offset + limit);
-    }
-    // eslint-disable-next-line
-  }, [loadMoreMessage]);
-
-  useEffect(() => {
-    setOffset(0);
-  }, [channelId]);
+  const [loading, messages, loadMoreMessage, nextMessages] = useMessages(
+    channelId,
+    mainMessageList
+  );
 
   return (
     <>
@@ -110,13 +60,7 @@ const MessageList = ({ match, location }) => {
           </MainMessageList>
 
           <FooterMessageList>
-            <CreateMessage
-              channelId={channelId}
-              setShouldRefetchMessages={setShouldRefetchMessages}
-              mainMessageList={
-                mainMessageList.current && mainMessageList.current
-              }
-            />
+            <CreateMessage channelId={channelId} />
           </FooterMessageList>
         </MessageListWrapper>
       )}
