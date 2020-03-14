@@ -1,5 +1,5 @@
 const dataAccess = require('../dataAccess');
-const services = require('../service');
+const service = require('../service');
 
 const getAllChannels = async (req, res) => {
   const channels = await dataAccess.getAllChannels();
@@ -15,7 +15,7 @@ const getChannelById = async (req, res) => {
 const createChannel = async (req, res) => {
   const { name } = req.body;
 
-  const channelId = await services.createChannelAndGetId(name);
+  const channelId = await service.createChannelAndGetId(name);
 
   return res.status(201).send(`Channel added with ID: ${channelId}`);
 };
