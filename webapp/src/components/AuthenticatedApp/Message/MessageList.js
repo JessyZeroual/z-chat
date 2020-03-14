@@ -9,9 +9,11 @@ import Spinner from '../../../utils/Spinner';
 
 import {
   MessageListWrapper,
+  MessageListDivider,
   HeaderMessageList,
-  FooterMessageList,
   MainMessageList,
+  FooterMessageList,
+  BadgeDate,
   MessageListEmpty,
 } from './Message.styled';
 
@@ -31,11 +33,26 @@ const MessageList = ({ match, location }) => {
           </HeaderMessageList>
 
           <MainMessageList id="mainMessageList">
-            {messages.length ? (
+            {Object.keys(messages).length ? (
               <>
-                {messages.map(message => (
-                  <MessageItem key={message.id} message={message} />
-                ))}
+                {Object.keys(messages).map(key => {
+                  return (
+                    <div key={key}>
+                      <MessageListDivider>
+                        <BadgeDate>{key}</BadgeDate>
+                      </MessageListDivider>
+                      {messages[key]
+                        .map(message => {
+                          return (
+                            <MessageItem key={message.id} message={message} />
+                          );
+                        })
+                        .reverse()}
+                    </div>
+                  );
+                })}
+
+                {!hasNextMessages && <div>plus de messages</div>}
 
                 {loading && hasNextMessages && (
                   <div className="text-center">

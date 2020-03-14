@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getMessages } from '../controllers/message';
+import groupMessagesByDate from './groupMessagesByDate';
 
 const useMessages = channelId => {
   const LIMIT = 10;
@@ -53,7 +54,7 @@ const useMessages = channelId => {
     // eslint-disable-next-line
   }, [channelId]);
 
-  return [loading, messages, hasNextMessages];
+  return [loading, groupMessagesByDate(messages), hasNextMessages];
 };
 
 export default useMessages;
