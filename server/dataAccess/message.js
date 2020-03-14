@@ -25,7 +25,6 @@ const getMessagesByChannelId = async (channelId, limit, offset) => {
     [channelId, limit, offset]
   );
 
-  console.log(messages);
   return messages.rows;
 };
 
