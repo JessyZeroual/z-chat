@@ -6,10 +6,25 @@ const pool = new pg.Pool({
 });
 
 const createMessage = async (message, userId, channelId) => {
-  await pool.query(
-    'INSERT INTO message (text, user_id, channel_id) VALUES($1, $2, $3)',
+  const result = await pool.query(
+    'INSERT INTO message (text, user_id, channel_id) VALUES($1, $2, $3)  RETURNING *',
     [message, userId, channelId]
   );
+  return result.rows[0];
+};
+
+const getMessage = async messageId => {
+  const result = await pool.query(
+    `
+    SELECT message.id, message.text, message.created_at, message.channel_id, users.username 
+    FROM message
+    JOIN users
+    ON message.user_id = users.id
+    WHERE message.id = $1
+  `,
+    [messageId]
+  );
+  return result.rows[0];
 };
 
 const getMessagesByChannelId = async (channelId, limit, offset) => {
@@ -31,4 +46,5 @@ const getMessagesByChannelId = async (channelId, limit, offset) => {
 module.exports = {
   createMessage,
   getMessagesByChannelId,
+  getMessage,
 };
