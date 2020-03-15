@@ -63,6 +63,21 @@ const useMessages = channelId => {
     // eslint-disable-next-line
   }, [channelId]);
 
+  useEffect(() => {
+    const socket = new WebSocket('ws://127.0.0.1:8000/');
+
+    socket.onmessage = msg => {
+      const event = JSON.parse(msg.data);
+
+      if (
+        event.type === 'MESSAGE_CREATED' &&
+        Number(channelId) === event.payload.channel_id
+      ) {
+        setMessages([event.payload, ...messages]);
+      }
+    };
+  });
+
   return [loading, loadingMoreMessages, groupMessagesByDate(messages)];
 };
 

@@ -1,10 +1,13 @@
 const dataAccess = require('../dataAccess');
+const { EVENTS, eventEmitter } = require('../events');
 
 const createMessage = async (req, res) => {
   const { message, userId, channelId } = req.body;
-  await dataAccess.createMessage(message, userId, channelId);
+  const { id } = await dataAccess.createMessage(message, userId, channelId);
+  const result = await dataAccess.getMessage(id);
 
-  return res.status(201).send(`message ajouté :)`);
+  eventEmitter.emit(EVENTS.MESSAGE_CREATED, result);
+  return res.status(201).send(result);
 };
 
 const getMessagesByChannelId = async (req, res) => {
