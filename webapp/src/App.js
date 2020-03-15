@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CurrentUserProvider } from './context/CurrentUserContext';
 import UnauthenticatedApp from './components/UnauthenticatedApp/UnauthenticatedApp';
 import WorkSpace from './components/AuthenticatedApp/WorkSpace';
+import Spinner from './utils/Spinner';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -25,7 +26,7 @@ const App = () => {
   }, []);
 
   if (isLoading) {
-    return 'Loading…';
+    return <Spinner />;
   }
 
   const contextValue = {
