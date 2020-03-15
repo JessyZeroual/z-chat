@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Spinner from '../../../utils/Spinner';
 import useMessages from '../../../utils/useMessages';
 
 import CreateMessage from './CreateMessage';
 import MessageItem from './MessageItem';
-import Spinner from '../../../utils/Spinner';
 
 import {
   MessageListWrapper,
@@ -20,14 +20,14 @@ import {
 const MessageList = ({ match, location }) => {
   const { channelId } = match.params;
   const { channelName } = location.state;
-  const [loading, messages, hasNextMessages] = useMessages(channelId);
+  const [loading, loadingMoreMessages, messages] = useMessages(channelId);
 
   return (
-    <>
+    <MessageListWrapper>
       {loading ? (
         <Spinner />
       ) : (
-        <MessageListWrapper>
+        <>
           <HeaderMessageList className="d-flex justify-content-between">
             <p className="font-weight-bold p-3">{`#${channelName}`}</p>
           </HeaderMessageList>
@@ -52,13 +52,9 @@ const MessageList = ({ match, location }) => {
                   );
                 })}
 
-                {!hasNextMessages && <div>plus de messages</div>}
-
-                {loading && hasNextMessages && (
-                  <div className="text-center">
-                    <div className="spinner-border" role="status">
-                      <span className="sr-only">Loading...</span>
-                    </div>
+                {loadingMoreMessages && (
+                  <div className="text-center my-3">
+                    <div className="spinner-border" role="status" />
                   </div>
                 )}
               </>
@@ -75,9 +71,9 @@ const MessageList = ({ match, location }) => {
           <FooterMessageList>
             <CreateMessage channelId={channelId} />
           </FooterMessageList>
-        </MessageListWrapper>
+        </>
       )}
-    </>
+    </MessageListWrapper>
   );
 };
 
