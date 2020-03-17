@@ -16,6 +16,9 @@ export const Form = styled.form`
   border-radius: 10px;
   padding: 10px;
   color: white;
+  @media (max-width: 576px) {
+    width: 100%;
+  }
 `;
 
 export const Input = styled.input`

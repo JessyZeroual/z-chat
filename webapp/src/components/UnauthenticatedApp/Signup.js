@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { signup } from '../../controllers/authentication';
+import { signup, signin } from '../../controllers/authentication';
+import CurrentUserContext from '../../context/CurrentUserContext';
 
 import { Form, Input, Button } from './UnauthenticatedApp.styled';
 
 const Signup = () => {
+  const { getCurrentUser } = useContext(CurrentUserContext);
+
   let username;
   let email;
   let password;
@@ -14,9 +17,11 @@ const Signup = () => {
     e.preventDefault();
     await signup(username.value, email.value, password.value).then(response => {
       if (response.ok) {
-        console.log('res ok');
-      } else {
-        console.log('res error');
+        signin(email.value, password.value).then(_response => {
+          if (_response.ok) {
+            getCurrentUser();
+          }
+        });
       }
     });
 
