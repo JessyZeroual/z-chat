@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
 
-import { signin } from '../../controllers/authentication';
+import { signin, signupWithGoogle } from '../../controllers/authentication';
 
 import CurrentUserContext from '../../context/CurrentUserContext';
 
@@ -20,6 +21,18 @@ const Signin = () => {
       }
     });
     await ((email.value = ''), (password.value = ''));
+  };
+
+  const responseGoogle = async res => {
+    const { profileObj } = res;
+    if (profileObj)
+      signupWithGoogle(
+        profileObj.googleId,
+        profileObj.email,
+        profileObj.givenName
+        // profileObj.familyName,
+        // profileObj.imageUrl
+      );
   };
 
   return (
@@ -41,10 +54,16 @@ const Signin = () => {
         />
         <Button type="submit">sign in</Button>
       </Form>
-      <p>
-        not a member? &nbsp;
+      <div>
+        <GoogleLogin
+          clientId="321308208015-8a24oiv0d2jkc0lgmhhl7grbbpanc73d.apps.googleusercontent.com"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          className="btn btn-outline-danger"
+        />
+        or
         <Link to="/signup">Sign up now</Link>
-      </p>
+      </div>
     </>
   );
 };
