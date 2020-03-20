@@ -32,8 +32,41 @@ const signup = async (req, res) => {
   return res.sendStatus(201);
 };
 
+const signupWithGoogle = async (req, res) => {
+  const { googleId, email, username } = req.body;
+
+  const result = await dataAccess.existsGoogleId(googleId);
+  if (result) {
+    const sessionId = await dataAccess.createSession(result.id);
+    res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true });
+    return res.sendStatus(200);
+  }
+
+  const user = await dataAccess.getUserByEmail(email);
+  if (user) {
+    if (!user.googleId) {
+      await dataAccess.addGoogleIdToUser(googleId, user.id);
+      const sessionId = await dataAccess.createSession(user.id);
+      res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true });
+      return res.sendStatus(200);
+    }
+  }
+
+  const { id } = await dataAccess.signupWithGoogle(
+    username,
+    email,
+    '',
+    googleId
+  );
+
+  const sessionId = await dataAccess.createSession(id);
+  res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true });
+  return res.sendStatus(201);
+};
+
 module.exports = {
   signin,
   logout,
   signup,
+  signupWithGoogle,
 };

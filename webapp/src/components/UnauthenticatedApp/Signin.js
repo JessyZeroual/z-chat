@@ -26,13 +26,17 @@ const Signin = () => {
   const responseGoogle = async res => {
     const { profileObj } = res;
     if (profileObj)
-      signupWithGoogle(
+      await signupWithGoogle(
         profileObj.googleId,
         profileObj.email,
         profileObj.givenName
         // profileObj.familyName,
         // profileObj.imageUrl
-      );
+      ).then(response => {
+        if (response.ok) {
+          getCurrentUser();
+        }
+      });
   };
 
   return (
