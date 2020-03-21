@@ -4,6 +4,8 @@ import GoogleLogin from 'react-google-login';
 
 import { signin, signupWithGoogle } from '../../controllers/authentication';
 
+import CLIENT_ID_GOOGLE from '../../constants/clientIdGoogle';
+
 import CurrentUserContext from '../../context/CurrentUserContext';
 
 import { Form, Input, Button } from './UnauthenticatedApp.styled';
@@ -24,15 +26,9 @@ const Signin = () => {
   };
 
   const responseGoogle = async res => {
-    const { profileObj } = res;
-    if (profileObj)
-      await signupWithGoogle(
-        profileObj.googleId,
-        profileObj.email,
-        profileObj.givenName
-        // profileObj.familyName,
-        // profileObj.imageUrl
-      ).then(response => {
+    const { tokenId } = res;
+    if (tokenId)
+      await signupWithGoogle(tokenId).then(response => {
         if (response.ok) {
           getCurrentUser();
         }
@@ -60,7 +56,7 @@ const Signin = () => {
       </Form>
       <div>
         <GoogleLogin
-          clientId="321308208015-8a24oiv0d2jkc0lgmhhl7grbbpanc73d.apps.googleusercontent.com"
+          clientId={CLIENT_ID_GOOGLE}
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
           className="btn btn-outline-danger"

@@ -32,7 +32,7 @@ export const signup = async (username, email, password) => {
   return response;
 };
 
-export const signupWithGoogle = async (googleId, email, username) => {
+export const signupWithGoogle = async tokenId => {
   const response = await fetch('/api/signupWithGoogle', {
     method: 'POST',
     headers: {
@@ -40,11 +40,7 @@ export const signupWithGoogle = async (googleId, email, username) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      googleId,
-      email,
-      username,
-      // profileObj.familyName,
-      // profileObj.imageUrl
+      tokenId,
     }),
   });
 
