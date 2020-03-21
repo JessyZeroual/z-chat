@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
@@ -8,7 +9,15 @@ import CLIENT_ID_GOOGLE from '../../constants/clientIdGoogle';
 
 import CurrentUserContext from '../../context/CurrentUserContext';
 
-import { Form, Input, Button } from './UnauthenticatedApp.styled';
+import brandGoogle from './img/brandGoogle.png';
+import brandSignUp from './img/signUp.png';
+
+import {
+  Form,
+  Input,
+  Button,
+  WrapperSignup,
+} from './UnauthenticatedApp.styled';
 
 const Signin = () => {
   const { getCurrentUser } = useContext(CurrentUserContext);
@@ -52,18 +61,49 @@ const Signin = () => {
           type="password"
           placeholder="password"
         />
-        <Button type="submit">sign in</Button>
+
+        <Button type="submit">SIGN IN</Button>
+
+        <p className="text-center my-3">Don't have account ?</p>
+
+        <WrapperSignup>
+          <GoogleLogin
+            render={renderProps => (
+              <Button
+                width="190px"
+                bgColor="white"
+                color="grey"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <img
+                  style={{ width: 20 }}
+                  className="mr-2"
+                  src={brandGoogle}
+                  alt="brand google"
+                />
+                Sign in with Google
+              </Button>
+            )}
+            clientId={CLIENT_ID_GOOGLE}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            className="btn btn-outline-danger"
+          />
+          <p className="text-center mb-0">Or</p>
+          <Link to="/signup">
+            <Button width="190px" bgColor="white" color="grey">
+              <img
+                style={{ width: 20 }}
+                className="mr-2"
+                src={brandSignUp}
+                alt="brand sign up"
+              />
+              Sign up now
+            </Button>
+          </Link>
+        </WrapperSignup>
       </Form>
-      <div>
-        <GoogleLogin
-          clientId={CLIENT_ID_GOOGLE}
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          className="btn btn-outline-danger"
-        />
-        or
-        <Link to="/signup">Sign up now</Link>
-      </div>
     </>
   );
 };

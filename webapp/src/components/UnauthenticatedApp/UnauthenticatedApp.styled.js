@@ -34,30 +34,27 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 100%;
+  width: ${props => (props.width ? props.width : '100%')};
   height: 40px;
-  background-color: #4caf50;
-  color: #fff;
+  background-color: ${props => (props.bgColor ? props.bgColor : '#4caf50')};
+  color: ${props => (props.color ? props.color : '#fff')};
   font-size: 14px;
-  text-transform: uppercase;
   padding: 6px 8px;
   border-radius: 5px;
   border-width: 1px;
   border-style: solid;
   border-color: transparent;
   margin: 5px 0px;
+  @media (max-width: 576px) {
+    width: 100%;
+  }
 `;
 
-export const ButtonIcon = styled.button`
-  width: ${props => (props.btnSize ? props.btnSize : '35px')};
-  height: ${props => (props.btnSize ? props.btnSize : '35px')};
-  margin: ${props => (props.btnMarginX ? props.btnMarginX : '0px 5px')};
-  border-radius: ${props => (props.btnSquare ? '0%' : '50%')};
-  border: ${props => (props.btnBorder ? props.btnBorder : 'none')};
-  color: ${props => (props.btnColor ? props.btnColor : '#fff')};
-  background-color: ${props => props.btnBgColor && props.btnBgColor};
+export const WrapperSignup = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  @media (max-width: 576px) {
+    display: block;
+  }
 `;
