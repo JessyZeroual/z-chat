@@ -6,14 +6,13 @@
   "scripts": {
     "start": "cd server && node .",
     "start:watch": "cd server && nodemon .",
-    "migrate": "cd server && npm install && npx db-migrate up --config db-migrate-config.js --env pg",
-    "build-webapp": "cd webapp && npm install && npm run build",
-    "build": "npm run migrate & npm run build-webapp"
+    "migrate": "cd server && yarn install && npx db-migrate up --config db-migrate-config.js --env pg",
+    "build-webapp": "cd webapp && yarn install && yarn run build",
+    "build": "yarn run migrate & yarn run build-webapp"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.7.0",

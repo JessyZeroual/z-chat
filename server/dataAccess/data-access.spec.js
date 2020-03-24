@@ -21,7 +21,7 @@ const resetDatabase = async () => {
 const migrateDatabase = async () => {
   console.log('migrateDatabase');
 
-  const { stdout, stderr } = await exec('npm run migrate');
+  const { stdout, stderr } = await exec('yarn run migrate');
   console.log('migrateDatabase--stdout:', stdout);
   console.log('migrateDatabase--stderr:', stderr);
 };
