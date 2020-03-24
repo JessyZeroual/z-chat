@@ -10,6 +10,7 @@ export const MessageListWrapper = styled.div`
 export const MessageListDivider = styled.div`
   position: relative;
   text-align: center;
+  margin: 20px 0px;
 
   &:before {
     border-top: 1px solid #dfdfdf;
@@ -48,4 +49,10 @@ export const MessageListEmpty = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 25px;
+`;
+
+export const ImageWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  padding: 0px 10px;
 `;
