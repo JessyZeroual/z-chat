@@ -35,6 +35,8 @@ export const MainMessageList = styled.div`
 
 export const FooterMessageList = styled.div`
   margin-top: auto;
+  position: 'fixed';
+  bottom: offset;
 `;
 
 export const BadgeDate = styled.span`

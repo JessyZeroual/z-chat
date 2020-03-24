@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { useParams } from 'react-router-dom';
+import FixedBottom from 'react-fixed-bottom';
+
 import Spinner from '../../../utils/Spinner';
 import useMessages from '../../../utils/useMessages';
 
@@ -62,10 +63,11 @@ const MessageList = () => {
               </MessageListEmpty>
             )}
           </MainMessageList>
-
-          <FooterMessageList>
-            <CreateMessage channelId={channelId} />
-          </FooterMessageList>
+          <FixedBottom offset={20}>
+            <FooterMessageList>
+              <CreateMessage channelId={channelId} />
+            </FooterMessageList>
+          </FixedBottom>
         </>
       )}
     </MessageListWrapper>
