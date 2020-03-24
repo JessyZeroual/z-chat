@@ -9,8 +9,8 @@ import CLIENT_ID_GOOGLE from '../../constants/clientIdGoogle';
 
 import CurrentUserContext from '../../context/CurrentUserContext';
 
-import brandGoogle from './img/brandGoogle.png';
-import brandSignUp from './img/signUp.png';
+import brandGoogle from '../../img/brandGoogle.png';
+import brandSignUp from '../../img/signUp.png';
 
 import {
   Form,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { postChannel } from '../../../controllers/channel';
 
-import { ButtonSideBar } from '../NavigationBar/NavigationBar.styled';
+import { ButtonSideBar } from '../NavigationBar/SideBar/SideBar.styled';
 
 const CreateChannel = ({ setShouldRefetchChannel }) => {
   const [formOpen, setFormOpen] = useState(false);

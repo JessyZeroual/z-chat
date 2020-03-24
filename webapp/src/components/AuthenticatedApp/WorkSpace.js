@@ -3,21 +3,22 @@ import {
   BrowserRouter as RouterAuthenticatedApp,
   Route,
   Switch,
+  Redirect,
 } from 'react-router-dom';
-import AppLayout from '../../style/AppLayout';
-import SideBarNav from './NavigationBar/NavigationBar';
-import Home from './Home';
+
+import Layout from './Layouts/Layout';
 import MessageList from './Message/MessageList';
 
 const WorkSpace = () => (
   <RouterAuthenticatedApp>
-    <AppLayout>
-      <SideBarNav />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/channels/:channelId/messages" component={MessageList} />
-      </Switch>
-    </AppLayout>
+    <Switch>
+      <Redirect exact from="/" to="/channels/1/messages" />
+      <Route path="/channels/:channelId/messages">
+        <Layout>
+          <MessageList />
+        </Layout>
+      </Route>
+    </Switch>
   </RouterAuthenticatedApp>
 );
 

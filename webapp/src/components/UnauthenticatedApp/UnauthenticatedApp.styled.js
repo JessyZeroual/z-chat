@@ -1,9 +1,9 @@
 import styled from 'styled-components';
+import { primaryBackgroundColor } from '../../constants/style-constants';
 
-// eslint-disable-next-line import/prefer-default-export
 export const Container = styled.div`
   height: 100vh;
-  background-color: #3f0f40;
+  background-color: ${primaryBackgroundColor};
   color: white;
   display: flex;
   justify-content: center;

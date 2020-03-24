@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import Signup from './Signup';
 import Signin from './Signin';
-import SlackLogo from './img/slackLogo.png';
+import SlackLogo from '../../img/slackLogo.png';
 
 import { Container } from './UnauthenticatedApp.styled';
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useParams } from 'react-router-dom';
 import Spinner from '../../../utils/Spinner';
 import useMessages from '../../../utils/useMessages';
 
@@ -10,16 +11,14 @@ import MessageItem from './MessageItem';
 import {
   MessageListWrapper,
   MessageListDivider,
-  HeaderMessageList,
   MainMessageList,
   FooterMessageList,
   BadgeDate,
   MessageListEmpty,
 } from './Message.styled';
 
-const MessageList = ({ match, location }) => {
-  const { channelId } = match.params;
-  const { channelName } = location.state;
+const MessageList = () => {
+  const { channelId } = useParams();
   const [loading, loadingMoreMessages, messages] = useMessages(channelId);
 
   return (
@@ -28,10 +27,6 @@ const MessageList = ({ match, location }) => {
         <Spinner />
       ) : (
         <>
-          <HeaderMessageList className="d-flex justify-content-between">
-            <p className="font-weight-bold p-3">{`#${channelName}`}</p>
-          </HeaderMessageList>
-
           <MainMessageList id="mainMessageList">
             {Object.keys(messages).length ? (
               <>
@@ -78,8 +73,6 @@ const MessageList = ({ match, location }) => {
 };
 
 MessageList.propTypes = {
-  channelId: PropTypes.string,
-  channelName: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.node,
@@ -97,8 +90,6 @@ MessageList.propTypes = {
 MessageList.defaultProps = {
   match: null,
   location: null,
-  channelId: null,
-  channelName: null,
 };
 
 export default MessageList;

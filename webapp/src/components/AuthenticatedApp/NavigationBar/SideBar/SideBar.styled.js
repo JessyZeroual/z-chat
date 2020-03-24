@@ -1,14 +1,24 @@
 import styled from 'styled-components';
+import {
+  SideBarWidth,
+  primaryBackgroundColor,
+} from '../../../../constants/style-constants';
 
-export const SideBar = styled.div`
-  width: 250px;
+export const SideBarStyled = styled.div`
+  position: ${props => props.isSmallScreen && 'fixed'};
+  width: ${props => (props.isSmallScreen ? '80%' : SideBarWidth)};
   height: 100%;
-  background-color: #3f0f40;
+  background-color: ${primaryBackgroundColor};
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  transform: ${props =>
+    props.isOpenSideBar ? 'translateX(0)' : 'translateX(-100%)'};
+  transition: transform 0.2s ease-out;
 `;
 
 export const HeaderSideBar = styled.div`
   padding: 10px 20px;
-  width: 100%;
   color: #ccc0cc;
   cursor: pointer;
   transition: color 0.3s, background-color 0.3s;
@@ -19,16 +29,14 @@ export const HeaderSideBar = styled.div`
 `;
 
 export const MainSideBar = styled.div`
-  /* overflow-y: scroll; */
+  overflow-y: auto;
   padding: 10px 0px;
 `;
 
 export const FooterSideBar = styled.div`
-  position: absolute;
-  bottom: 0;
+  margin-top: auto;
   font-size: 1.2em;
   height: 70px;
-  width: 100%;
   color: white;
 `;
 

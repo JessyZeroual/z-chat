@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import userProfile from '../img/userProfile.svg';
+import userProfile from '../../../img/userProfile.svg';
 
 const MessageItem = ({ message }) => {
   const createdAt = new Date(message.created_at);
