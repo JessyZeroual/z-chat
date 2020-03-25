@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import FixedBottom from 'react-fixed-bottom';
+import { FixedBottom } from 'react-fixed-bottom';
 
 import Spinner from '../../../utils/Spinner';
 import useMessages from '../../../utils/useMessages';

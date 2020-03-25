@@ -1,9 +1,17 @@
 import { useState, useEffect } from 'react';
+
 import { getMessages } from '../controllers/message';
 import groupMessagesByDate from './groupMessagesByDate';
 
 const useMessages = channelId => {
   const LIMIT = 10;
+
+  const HOSTNAME = window.location.hostname;
+  const PORT = window.location.port;
+  const HOST =
+    !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
+      ? `ws://${HOSTNAME}:8000/`
+      : `ws://${HOSTNAME}:${PORT}/`;
 
   const [messages, setMessages] = useState([]);
   const [hasNextMessages, setHasNextMessages] = useState(true);
@@ -64,7 +72,7 @@ const useMessages = channelId => {
   }, [channelId]);
 
   useEffect(() => {
-    const socket = new WebSocket('ws://127.0.0.1:8000/');
+    const socket = new WebSocket(HOST);
 
     socket.onmessage = msg => {
       const event = JSON.parse(msg.data);
