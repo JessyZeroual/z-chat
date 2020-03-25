@@ -34,6 +34,10 @@ const Layout = ({ children }) => {
 
   const currentChannel = channels.find(({ id }) => id === Number(channelId));
 
+  const childrenWithProps = React.Children.map(children, child =>
+    React.cloneElement(child, { isSmallScreen })
+  );
+
   return channels.length ? (
     <LayoutStyled>
       <SideBar
@@ -51,7 +55,7 @@ const Layout = ({ children }) => {
           isOpenSideBar={isOpenSideBar}
           isSmallScreen={isSmallScreen}
         />
-        <ContainerChildren>{children}</ContainerChildren>
+        <ContainerChildren>{childrenWithProps}</ContainerChildren>
       </Container>
     </LayoutStyled>
   ) : (

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { FixedBottom } from 'react-fixed-bottom';
 
@@ -17,10 +18,9 @@ import {
   MessageListEmpty,
 } from './Message.styled';
 
-const MessageList = () => {
+const MessageList = ({ isSmallScreen }) => {
   const { channelId } = useParams();
   const [loading, loadingMoreMessages, messages] = useMessages(channelId);
-
   return (
     <MessageListWrapper>
       {loading ? (
@@ -62,15 +62,26 @@ const MessageList = () => {
               </MessageListEmpty>
             )}
           </MainMessageList>
-          <FixedBottom offset={20}>
+          <FixedBottom offset={0}>
             <FooterMessageList>
-              <CreateMessage channelId={channelId} />
+              <CreateMessage
+                isSmallScreen={isSmallScreen}
+                channelId={channelId}
+              />
             </FooterMessageList>
           </FixedBottom>
         </>
       )}
     </MessageListWrapper>
   );
+};
+
+MessageList.propTypes = {
+  isSmallScreen: PropTypes.bool,
+};
+
+MessageList.defaultProps = {
+  isSmallScreen: null,
 };
 
 export default MessageList;

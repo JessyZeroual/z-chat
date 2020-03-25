@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import CurrentUserContext from '../../../context/CurrentUserContext';
 import { postMessage } from '../../../controllers/message';
 
-const CreateMessage = ({ channelId }) => {
+import { FormCreateMessage } from './Message.styled';
+
+const CreateMessage = ({ channelId, isSmallScreen }) => {
   const { currentUser } = useContext(CurrentUserContext);
   let input;
 
@@ -13,7 +15,11 @@ const CreateMessage = ({ channelId }) => {
   };
 
   return (
-    <form className="input-group mb-3 p-3" onSubmit={e => handleSubmit(e)}>
+    <FormCreateMessage
+      isSmallScreen={isSmallScreen}
+      className="input-group"
+      onSubmit={e => handleSubmit(e)}
+    >
       <input
         ref={node => {
           input = node;
@@ -27,12 +33,13 @@ const CreateMessage = ({ channelId }) => {
           Send
         </button>
       </div>
-    </form>
+    </FormCreateMessage>
   );
 };
 
 CreateMessage.propTypes = {
   channelId: PropTypes.string.isRequired,
+  isSmallScreen: PropTypes.bool.isRequired,
 };
 
 export default CreateMessage;

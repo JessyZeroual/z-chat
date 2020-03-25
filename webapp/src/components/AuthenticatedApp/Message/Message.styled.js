@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { SideBarWidth } from '../../../constants/style-constants';
 
 export const MessageListWrapper = styled.div`
   height: 100%;
@@ -27,16 +28,18 @@ export const MessageListDivider = styled.div`
 `;
 
 export const MainMessageList = styled.div`
-  height: 100%;
-  overflow-y: scroll;
+  height: calc(100% - 80px);
+  overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
 `;
 
 export const FooterMessageList = styled.div`
-  margin-top: auto;
   position: 'fixed';
+  width: 100%;
+  height: 80px;
   bottom: offset;
+  border-top: 1px solid #e2e2e2;
 `;
 
 export const BadgeDate = styled.span`
@@ -57,4 +60,11 @@ export const ImageWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   padding: 0px 10px;
+`;
+
+export const FormCreateMessage = styled.form`
+  display: flex;
+  width: ${({ isSmallScreen }) =>
+    isSmallScreen ? '100%' : `calc(100% - ${SideBarWidth})`};
+  padding: 16px;
 `;
