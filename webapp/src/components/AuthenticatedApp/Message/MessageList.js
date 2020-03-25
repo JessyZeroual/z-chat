@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import FixedBottom from 'react-fixed-bottom';
 
@@ -72,26 +71,6 @@ const MessageList = () => {
       )}
     </MessageListWrapper>
   );
-};
-
-MessageList.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.node,
-      channelId: PropTypes.string.isRequired,
-    }),
-  }),
-
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      channelName: PropTypes.string.isRequired,
-    }),
-  }),
-};
-
-MessageList.defaultProps = {
-  match: null,
-  location: null,
 };
 
 export default MessageList;
