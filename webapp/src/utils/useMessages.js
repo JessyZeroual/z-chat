@@ -86,7 +86,7 @@ const useMessages = channelId => {
     };
   });
 
-  return [loading, loadingMoreMessages, groupMessagesByDate(messages)];
+  return [loading, loadingMoreMessages, groupMessagesByDate(messages), offset];
 };
 
 export default useMessages;

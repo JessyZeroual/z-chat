@@ -31,7 +31,7 @@ export const MainMessageList = styled.div`
   height: calc(100% - 80px);
   overflow-y: auto;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 `;
 
 export const FooterMessageList = styled.div`
@@ -40,6 +40,7 @@ export const FooterMessageList = styled.div`
   height: 80px;
   bottom: offset;
   border-top: 1px solid #e2e2e2;
+  background-color: '#fff';
 `;
 
 export const BadgeDate = styled.span`
@@ -49,7 +50,7 @@ export const BadgeDate = styled.span`
 `;
 
 export const MessageListEmpty = styled.div`
-  height: 100%;
+  height: calc(100% - 80px);
   display: flex;
   justify-content: center;
   align-items: center;

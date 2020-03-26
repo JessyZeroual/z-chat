@@ -5,13 +5,14 @@ import { postMessage } from '../../../controllers/message';
 
 import { FormCreateMessage } from './Message.styled';
 
-const CreateMessage = ({ channelId, isSmallScreen }) => {
+const CreateMessage = ({ channelId, isSmallScreen, scrollToBottom }) => {
   const { currentUser } = useContext(CurrentUserContext);
   let input;
 
   const handleSubmit = async e => {
     e.preventDefault();
     postMessage(input, currentUser, channelId).then((input.value = ''));
+    scrollToBottom();
   };
 
   return (
@@ -40,6 +41,7 @@ const CreateMessage = ({ channelId, isSmallScreen }) => {
 CreateMessage.propTypes = {
   channelId: PropTypes.string.isRequired,
   isSmallScreen: PropTypes.bool.isRequired,
+  scrollToBottom: PropTypes.func.isRequired,
 };
 
 export default CreateMessage;
