@@ -9,7 +9,7 @@ export const SideBarStyled = styled.div`
   width: ${props => (props.isSmallScreen ? '80%' : SideBarWidth)};
   height: 100%;
   background-color: ${primaryBackgroundColor};
-  z-index: 3;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   transform: ${props =>

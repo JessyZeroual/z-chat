@@ -1,9 +1,11 @@
 import styled from 'styled-components';
-import { SideBarWidth } from '../../../constants/style-constants';
+import {
+  TopBarHeight,
+  FooterMessageListHeight,
+} from '../../../constants/style-constants';
 
 export const MessageListWrapper = styled.div`
   height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -28,19 +30,26 @@ export const MessageListDivider = styled.div`
 `;
 
 export const MainMessageList = styled.div`
-  height: calc(100% - 80px);
+  margin-top: ${TopBarHeight};
+  margin-bottom: ${FooterMessageListHeight};
+  height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 `;
 
 export const FooterMessageList = styled.div`
-  position: 'fixed';
-  width: 100%;
-  height: 80px;
-  bottom: offset;
+  position: fixed;
+  bottom: 0;
+  width: ${({ messageListWrapperWidth }) =>
+    messageListWrapperWidth && `${messageListWrapperWidth}px`};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: ${FooterMessageListHeight};
+  background-color: #fff;
+  z-index: 4;
   border-top: 1px solid #e2e2e2;
-  background-color: '#fff';
 `;
 
 export const BadgeDate = styled.span`
@@ -50,7 +59,7 @@ export const BadgeDate = styled.span`
 `;
 
 export const MessageListEmpty = styled.div`
-  height: calc(100% - 80px);
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,7 +74,6 @@ export const ImageWrapper = styled.div`
 
 export const FormCreateMessage = styled.form`
   display: flex;
-  width: ${({ isSmallScreen }) =>
-    isSmallScreen ? '100%' : `calc(100% - ${SideBarWidth})`};
+  width: 100%;
   padding: 16px;
 `;

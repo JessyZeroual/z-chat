@@ -4,8 +4,7 @@ import { getMessages } from '../controllers/message';
 import groupMessagesByDate from './groupMessagesByDate';
 
 const useMessages = channelId => {
-  const LIMIT = 10;
-
+  const LIMIT = 20;
   const HOSTNAME = window.location.hostname;
   const PORT = window.location.port;
   const HOST =
@@ -18,6 +17,17 @@ const useMessages = channelId => {
   const [loading, setLoading] = useState(true);
   const [loadingMoreMessages, setLoadingMoreMessages] = useState(false);
   const [offset, setOffset] = useState(0);
+
+  const scrollToBottom = () => {
+    const mainMessageList = document.getElementById('mainMessageList');
+    if (mainMessageList)
+      mainMessageList.scrollTop = mainMessageList.scrollHeight;
+  };
+
+  const handleScrollTop = value => {
+    const mainMessageList = document.getElementById('mainMessageList');
+    if (mainMessageList) mainMessageList.scrollTop = value;
+  };
 
   const fetchMessages = async resetOffset => {
     const currentOffset = resetOffset ? 0 : offset + LIMIT;
@@ -45,6 +55,11 @@ const useMessages = channelId => {
     setLoading(false);
     setLoadingMoreMessages(false);
     setOffset(currentOffset);
+    if (offset === 0) {
+      scrollToBottom();
+    } else {
+      handleScrollTop(20);
+    }
   };
 
   const handleScroll = e => {
@@ -82,11 +97,12 @@ const useMessages = channelId => {
         Number(channelId) === event.payload.channel_id
       ) {
         setMessages([event.payload, ...messages]);
+        scrollToBottom();
       }
     };
   });
 
-  return [loading, loadingMoreMessages, groupMessagesByDate(messages), offset];
+  return [loading, loadingMoreMessages, groupMessagesByDate(messages)];
 };
 
 export default useMessages;

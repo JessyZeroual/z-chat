@@ -10,7 +10,7 @@ import TopBar from '../NavigationBar/TopBar/TopBar';
 import ToggleSideBarByScreenSize from '../../../utils/ToggleSideBarByScreenSize';
 import { widescreenMinimumWidth } from '../../../constants/style-constants';
 import Spinner from '../../../utils/Spinner';
-import { LayoutStyled, Container, ContainerChildren } from './Layout.styled';
+import { LayoutStyled, Container } from './Layout.styled';
 
 const Layout = ({ children }) => {
   const { channelId } = useParams();
@@ -55,7 +55,7 @@ const Layout = ({ children }) => {
           isOpenSideBar={isOpenSideBar}
           isSmallScreen={isSmallScreen}
         />
-        <ContainerChildren>{childrenWithProps}</ContainerChildren>
+        {childrenWithProps}
       </Container>
     </LayoutStyled>
   ) : (

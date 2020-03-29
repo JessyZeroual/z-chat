@@ -1,8 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { FixedBottom } from 'react-fixed-bottom';
-
 import Spinner from '../../../utils/Spinner';
 import useMessages from '../../../utils/useMessages';
 
@@ -19,36 +17,24 @@ import {
 } from './Message.styled';
 
 const MessageList = ({ isSmallScreen }) => {
+  const mainMessageList = useRef(null);
   const { channelId } = useParams();
-  const [loading, loadingMoreMessages, messages, offset] = useMessages(
-    channelId
-  );
+  const [loading, loadingMoreMessages, messages] = useMessages(channelId);
 
-  const messagesEndRef = useRef(null);
-
-  const scrollToBottom = () => {
-    const mainMessageList = document.getElementById('mainMessageList');
-    if (mainMessageList)
-      mainMessageList.scrollTop = messagesEndRef.current.scrollHeight;
-  };
-
-  useEffect(() => {
-    if (offset === 0) {
-      scrollToBottom();
-    } else {
-      const mainMessageList = document.getElementById('mainMessageList');
-      if (mainMessageList) mainMessageList.scrollTop = 500;
-    }
-    // eslint-disable-next-line
-  }, [messages]);
+  const messageListWrapper = useRef(null);
 
   return (
-    <MessageListWrapper>
+    <MessageListWrapper ref={messageListWrapper}>
       {loading ? (
         <Spinner />
       ) : (
         <>
-          <MainMessageList ref={messagesEndRef} id="mainMessageList">
+          <MainMessageList id="mainMessageList" ref={mainMessageList}>
+            {loadingMoreMessages && (
+              <div className="text-center my-5">
+                <div className="spinner-border" role="status" />
+              </div>
+            )}
             {Object.keys(messages).length ? (
               <>
                 {Object.keys(messages)
@@ -69,12 +55,6 @@ const MessageList = ({ isSmallScreen }) => {
                     );
                   })
                   .reverse()}
-
-                {loadingMoreMessages && (
-                  <div className="text-center my-3">
-                    <div className="spinner-border" role="status" />
-                  </div>
-                )}
               </>
             ) : (
               <MessageListEmpty>
@@ -84,16 +64,16 @@ const MessageList = ({ isSmallScreen }) => {
                 </span>
               </MessageListEmpty>
             )}
-          </MainMessageList>
-          <FixedBottom offset={0}>
-            <FooterMessageList>
+            <FooterMessageList
+              messageListWrapperWidth={messageListWrapper.current.clientWidth}
+              isSmallScreen={isSmallScreen}
+            >
               <CreateMessage
-                scrollToBottom={scrollToBottom}
                 isSmallScreen={isSmallScreen}
                 channelId={channelId}
               />
             </FooterMessageList>
-          </FixedBottom>
+          </MainMessageList>
         </>
       )}
     </MessageListWrapper>

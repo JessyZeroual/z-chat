@@ -2,3 +2,8 @@
 .popover {
   max-width: 500px;
 }
+
+html,
+body {
+  overflow: hidden;
+}

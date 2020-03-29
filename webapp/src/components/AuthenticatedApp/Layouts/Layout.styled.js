@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { TopBarHeight } from '../../../constants/style-constants';
 
 export const LayoutStyled = styled.div`
   display: flex;
@@ -13,6 +12,3 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
-export const ContainerChildren = styled.div`
-  height: calc(100% - ${TopBarHeight});
-`;

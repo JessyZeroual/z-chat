@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { TopBarHeight } from '../../../../constants/style-constants';
 
 export const TopBarStyled = styled.div`
-  background-color: white;
+  position: fixed;
+  background-color: #fff;
+  z-index: 4;
   width: 100%;
   height: ${TopBarHeight};
   border-bottom: 1px solid #e2e2e2;
