@@ -6,8 +6,10 @@
   "scripts": {
     "start": "node .",
     "start:watch": "nodemon .",
-    "migrate": "npx db-migrate up --config db-migrate-config.js --env pg",
-    "test": "DATABASE_URL=postgres://slack_clone_test_user:123456@localhost:5432/slack_clone_test jest"
+    "test:data-access": "DATABASE_URL=postgres://slack_clone_test_user:123456@localhost:5432/slack_clone_test jest data-access.spec.js --forceExit",
+    "test:app-e2e": "DATABASE_URL=postgres://slack_clone_test_user:123456@localhost:5432/slack_clone_test jest app.e2e.spec.js --forceExit",
+    "test:server": "npm run test:data-access && npm run test:app-e2e",
+    "migrate": "npx db-migrate up --config db-migrate-config.js --env pg"
   },
   "author": "",
   "license": "ISC",

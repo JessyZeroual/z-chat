@@ -27,7 +27,21 @@ const getMessagesByChannelId = async (req, res) => {
   return res.status(200).json({ messages, nextMessages });
 };
 
+const deleteMessage = async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.body;
+
+  const message = await dataAccess.getMessage(id);
+
+  if (!message) return res.sendStatus(404);
+  if (message.user_id !== userId) return res.sendStatus(403);
+
+  await dataAccess.deleteMessage(id);
+  return res.sendStatus(200);
+};
+
 module.exports = {
   createMessage,
   getMessagesByChannelId,
+  deleteMessage,
 };

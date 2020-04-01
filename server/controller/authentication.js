@@ -10,7 +10,7 @@ const getCleanPassword = password => {
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
-  const userId = await dataAccess.getUserById(email, password);
+  const userId = await dataAccess.getVerifiedUserId(email, password);
   const sessionId = await dataAccess.createSession(userId);
   res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true });
   return res.sendStatus(201);

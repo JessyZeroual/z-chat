@@ -9,5 +9,6 @@ router.get(
   controller.getMessagesByChannelId
 );
 router.post('/messages', controller.createMessage);
+router.delete('/messages/:id', controller.deleteMessage);
 
 module.exports = router;
