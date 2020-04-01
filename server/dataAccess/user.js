@@ -10,7 +10,7 @@ const getAllUsers = async () => {
   return users.rows;
 };
 
-const getUserById = async (email, password) => {
+const getVerifiedUserId = async (email, password) => {
   const result = await pool.query(
     'SELECT id FROM users WHERE email = $1 AND password = crypt($2, password)',
     [email, password]
@@ -37,6 +37,6 @@ const getUserFromSessionId = async sessionId => {
 
 module.exports = {
   getAllUsers,
-  getUserById,
+  getVerifiedUserId,
   getUserFromSessionId,
 };

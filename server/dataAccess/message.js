@@ -16,7 +16,7 @@ const createMessage = async (message, userId, channelId) => {
 const getMessage = async messageId => {
   const result = await pool.query(
     `
-    SELECT message.id, message.text, message.created_at, message.channel_id, users.username 
+    SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id
     FROM message
     JOIN users
     ON message.user_id = users.id
@@ -29,7 +29,7 @@ const getMessage = async messageId => {
 
 const getMessagesByChannelId = async (channelId, limit, offset) => {
   const messages = await pool.query(
-    `SELECT message.id, message.text, message.created_at, message.channel_id, users.username 
+    `SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id
               FROM message
               JOIN users
               ON message.user_id = users.id
@@ -43,8 +43,13 @@ const getMessagesByChannelId = async (channelId, limit, offset) => {
   return messages.rows;
 };
 
+const deleteMessage = async id => {
+  await pool.query(`DELETE FROM message WHERE id = $1`, [id]);
+};
+
 module.exports = {
   createMessage,
   getMessagesByChannelId,
   getMessage,
+  deleteMessage,
 };
