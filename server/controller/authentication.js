@@ -12,7 +12,11 @@ const signin = async (req, res) => {
   const { email, password } = req.body;
   const userId = await dataAccess.getVerifiedUserId(email, password);
   const sessionId = await dataAccess.createSession(userId);
-  res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true });
+  res.cookie('sessionId', sessionId, {
+    maxAge: 999900000,
+    httpOnly: true,
+    sameSite: true,
+  });
   return res.sendStatus(201);
 };
 
