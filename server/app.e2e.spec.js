@@ -43,12 +43,12 @@ describe('App', () => {
     await dataAccess.signup('user1', 'user1@gmail.com', 'myPassword');
     await dataAccess.signup('user2', 'user2@gmail.com', 'myPassword');
     user1 = await dataAccess.getUserByEmail('user1@gmail.com');
-    user2 = await dataAccess.getUserByEmail('user2@gmail.com');
-
     user1SessionId = await dataAccess.createSession(user1.id);
-    user1Message = await dataAccess.createMessage('myMessage', user1.id, 1);
 
+    user2 = await dataAccess.getUserByEmail('user2@gmail.com');
     user2SessionId = await dataAccess.createSession(user2.id);
+
+    user1Message = await dataAccess.createMessage('myMessage', user1.id, 1);
   });
 
   describe('DELETE /api/messages', () => {
@@ -56,9 +56,7 @@ describe('App', () => {
       it('responds with 200 and deletes the message', async done => {
         const response = await agent
           .delete(`/api/messages/${user1Message.id}`)
-          .set('Cookie', `sessionId=${user1SessionId}`)
-          .send({ userId: user1.id });
-
+          .set('Cookie', `sessionId=${user1SessionId}`);
         expect(response.status).toEqual(200);
         expect(await dataAccess.getMessage(user1Message.id)).toEqual(undefined);
         done();
@@ -69,37 +67,19 @@ describe('App', () => {
       it('responds with 403 and does not delete the message', async done => {
         const response = await agent
           .delete(`/api/messages/${user1Message.id}`)
-          .set('Cookie', `sessionId=${user2SessionId}`)
-          .send({ userId: user2.id });
-
+          .set('Cookie', `sessionId=${user2SessionId}`);
         expect(response.status).toEqual(403);
-
-        const message = await dataAccess.getMessage(user1Message.id);
-        expect(message.id).toEqual(user1Message.id);
+        expect(await dataAccess.getMessage(user1Message.id)).toBeTruthy();
         done();
       });
     });
 
     describe('when the message does not exist', () => {
       it('responds with 404', async done => {
-        const fictionalMessage = {
-          channel_id: 1,
-          created_at: '2020-04-01T17:13:23.336Z',
-          id: 999999999,
-          text: 'Fictional message',
-          user_id: user2.id,
-          username: user2.username,
-        };
-
         const response = await agent
-          .delete(`/api/messages/${fictionalMessage.id}`)
-          .set('Cookie', `sessionId=${user2SessionId}`)
-          .send({ userId: user2.id });
-
+          .delete(`/api/messages/0`)
+          .set('Cookie', `sessionId=${user2SessionId}`);
         expect(response.status).toEqual(404);
-        expect(await dataAccess.getMessage(fictionalMessage.id)).toEqual(
-          undefined
-        );
         done();
       });
     });

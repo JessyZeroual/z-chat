@@ -29,12 +29,12 @@ const getMessagesByChannelId = async (req, res) => {
 
 const deleteMessage = async (req, res) => {
   const { id } = req.params;
-  const { userId } = req.body;
+  const { user } = req;
 
   const message = await dataAccess.getMessage(id);
 
   if (!message) return res.sendStatus(404);
-  if (message.user_id !== userId) return res.sendStatus(403);
+  if (message.user_id !== user.id) return res.sendStatus(403);
 
   await dataAccess.deleteMessage(id);
   return res.sendStatus(200);
