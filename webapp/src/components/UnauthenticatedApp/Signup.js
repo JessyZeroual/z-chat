@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { signup, signin } from '../../controllers/authentication';
 import CurrentUserContext from '../../context/CurrentUserContext';
@@ -8,6 +8,7 @@ import { Form, Input, Button } from './UnauthenticatedApp.styled';
 
 const Signup = () => {
   const { getCurrentUser } = useContext(CurrentUserContext);
+  const history = useHistory();
 
   let username;
   let email;
@@ -19,6 +20,7 @@ const Signup = () => {
       if (response.ok) {
         signin(email.value, password.value).then(_response => {
           if (_response.ok) {
+            history.push('/');
             getCurrentUser();
           }
         });
