@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {
   TopBarHeight,
   FooterMessageListHeight,
-} from '../../../constants/style-constants';
+} from '../../../../constants/style-constants';
 
 export const MessageListWrapper = styled.div`
   height: 100%;
@@ -64,16 +64,4 @@ export const MessageListEmpty = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 25px;
-`;
-
-export const ImageWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  padding: 0px 10px;
-`;
-
-export const FormCreateMessage = styled.form`
-  display: flex;
-  width: 100%;
-  padding: 16px;
 `;

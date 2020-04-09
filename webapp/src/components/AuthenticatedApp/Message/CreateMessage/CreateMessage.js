@@ -1,17 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import CurrentUserContext from '../../../context/CurrentUserContext';
-import { postMessage } from '../../../controllers/message';
+import { postMessage } from '../../../../controllers/message';
 
-import { FormCreateMessage } from './Message.styled';
+import { FormCreateMessage } from './CreateMessage.styled';
 
 const CreateMessage = ({ channelId, isSmallScreen }) => {
-  const { currentUser } = useContext(CurrentUserContext);
   let input;
 
   const handleSubmit = async e => {
     e.preventDefault();
-    postMessage(input, currentUser, channelId).then((input.value = ''));
+    postMessage(input, channelId).then((input.value = ''));
   };
 
   return (

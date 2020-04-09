@@ -1,8 +1,9 @@
-'use strict';
-
-var dbm;
-var type;
-var seed;
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable func-names */
+/* eslint-disable no-unused-vars */
+let dbm;
+let type;
+let seed;
 
 /**
  * We receive the dbmigrate dependency from dbmigrate initially.

@@ -5,10 +5,10 @@ const pool = new pg.Pool({
   connectionString: databaseUrl,
 });
 
-const createMessage = async (message, userId, channelId) => {
+const createMessage = async (text, userId, channelId, extraInfo) => {
   const result = await pool.query(
-    'INSERT INTO message (text, user_id, channel_id) VALUES($1, $2, $3)  RETURNING *',
-    [message, userId, channelId]
+    'INSERT INTO message (text, user_id, channel_id, extra_info) VALUES($1, $2, $3, $4)  RETURNING *',
+    [text, userId, channelId, extraInfo]
   );
   return result.rows[0];
 };
@@ -16,7 +16,7 @@ const createMessage = async (message, userId, channelId) => {
 const getMessage = async messageId => {
   const result = await pool.query(
     `
-    SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id
+    SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info
     FROM message
     JOIN users
     ON message.user_id = users.id
@@ -29,7 +29,7 @@ const getMessage = async messageId => {
 
 const getMessagesByChannelId = async (channelId, limit, offset) => {
   const messages = await pool.query(
-    `SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id
+    `SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info
               FROM message
               JOIN users
               ON message.user_id = users.id

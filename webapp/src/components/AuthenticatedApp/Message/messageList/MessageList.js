@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import Spinner from '../../../utils/Spinner';
-import useMessages from '../../../utils/useMessages';
+import Spinner from '../../../../utils/Spinner';
+import useMessages from '../../../../utils/useMessages';
 
-import CreateMessage from './CreateMessage';
-import MessageItem from './MessageItem';
+import CreateMessage from '../CreateMessage/CreateMessage';
+import MessageItem from '../MessageItem/MessageItem';
 
 import {
   MessageListWrapper,
@@ -14,7 +14,7 @@ import {
   FooterMessageList,
   BadgeDate,
   MessageListEmpty,
-} from './Message.styled';
+} from './MessageList.styled';
 
 const MessageList = ({ isSmallScreen }) => {
   const mainMessageList = useRef(null);
@@ -45,11 +45,17 @@ const MessageList = ({ isSmallScreen }) => {
                           <BadgeDate>{key}</BadgeDate>
                         </MessageListDivider>
                         {messages[key]
-                          .map(message => {
-                            return (
-                              <MessageItem key={message.id} message={message} />
-                            );
-                          })
+                          .map(message => (
+                            <MessageItem
+                              key={message.id}
+                              message={message}
+                              extraInfo={
+                                message.extra_info
+                                  ? JSON.parse(message.extra_info)
+                                  : {}
+                              }
+                            />
+                          ))
                           .reverse()}
                       </div>
                     );

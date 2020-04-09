@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 import Layout from './Layouts/Layout';
-import MessageList from './Message/MessageList';
+import MessageList from './Message/messageList/MessageList';
 
 const WorkSpace = () => (
   <RouterAuthenticatedApp>

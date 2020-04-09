@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable func-names */
 /* eslint-disable no-unused-vars */
-
 let dbm;
 let type;
 let seed;
@@ -16,18 +15,12 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-exports.up = async function(db) {
-  await db.runSql(`CREATE TABLE session (
-    id SERIAL PRIMARY KEY,
-    user_id INT,
-    session_id uuid DEFAULT uuid_generate_v4()
-  )`);
-  return db.runSql(`ALTER TABLE session 
-  ADD FOREIGN KEY (user_id) REFERENCES users (id)`);
+exports.up = function(db) {
+  return db.runSql(`ALTER TABLE message ADD COLUMN extra_info TEXT;`);
 };
 
 exports.down = function(db) {
-  return null;
+  return db.runSql(`ALTER TABLE message DROP COLUMN extra_info;`);
 };
 
 exports._meta = {

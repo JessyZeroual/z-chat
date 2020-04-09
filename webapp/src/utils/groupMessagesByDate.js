@@ -1,4 +1,4 @@
-import printDate from './printDate';
+import { printDate } from './formatDate';
 
 const groupMessagesByDate = messages => {
   const messagesGrouped = messages.reduce((accumulator, currentValue) => {

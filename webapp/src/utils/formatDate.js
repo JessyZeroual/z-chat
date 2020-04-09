@@ -29,7 +29,7 @@ const getEarlierDate = numberDayBefore => {
   return date.toLocaleDateString();
 };
 
-const printDate = date => {
+export const printDate = date => {
   const dateNow = new Date();
   const dateToFormat = new Date(date);
 
@@ -64,4 +64,12 @@ const printDate = date => {
   }
 };
 
-export default printDate;
+export const getTimeFromDate = date => {
+  const createdAt = new Date(date);
+
+  return `${createdAt.getHours()} h ${
+    createdAt.getMinutes() < 10
+      ? `0${createdAt.getMinutes()}`
+      : createdAt.getMinutes()
+  }`;
+};

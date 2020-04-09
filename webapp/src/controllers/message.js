@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/prefer-default-export
-export const postMessage = (input, currentUser, channelId) => {
+export const postMessage = (input, channelId) => {
   return fetch('/api/messages', {
     method: 'POST',
     headers: {
@@ -7,8 +6,7 @@ export const postMessage = (input, currentUser, channelId) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      message: input.value,
-      userId: currentUser.id,
+      text: input.value,
       channelId,
     }),
   });
