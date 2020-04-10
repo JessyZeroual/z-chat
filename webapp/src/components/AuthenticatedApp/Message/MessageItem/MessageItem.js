@@ -9,11 +9,13 @@ import {
   ContentMessageItem,
   HeaderMessageItem,
   TextMessageItem,
+  OptionMessageItem,
+  ButtonOptionMessageItem,
 } from './MessageItem.styled';
 
 import { getTimeFromDate } from '../../../../utils/formatDate';
 
-const MessageItem = ({ message, extraInfo }) => (
+const MessageItem = ({ message, extraInfo, isOwner }) => (
   <MessageItemWrapper>
     <AvatarMessageItem>
       <img src={userProfile} alt="user Profile" width="50" />
@@ -22,15 +24,21 @@ const MessageItem = ({ message, extraInfo }) => (
     <ContentMessageItem>
       <HeaderMessageItem>
         <b className="mr-2">{message.username}</b>
-
         <span className="text-muted">
           {getTimeFromDate(message.created_at)}
         </span>
+        {isOwner && (
+          <OptionMessageItem>
+            <ButtonOptionMessageItem>
+              <i className="fas fa-trash-alt" />
+            </ButtonOptionMessageItem>
+          </OptionMessageItem>
+        )}
       </HeaderMessageItem>
 
       <TextMessageItem>{message.text}</TextMessageItem>
 
-      <ExtraInfo extraInfo={extraInfo} />
+      {extraInfo.title && <ExtraInfo extraInfo={extraInfo} />}
     </ContentMessageItem>
   </MessageItemWrapper>
 );
@@ -47,6 +55,8 @@ MessageItem.propTypes = {
     url: PropTypes.string,
     description: PropTypes.string,
   }),
+
+  isOwner: PropTypes.bool.isRequired,
 };
 
 MessageItem.defaultProps = {

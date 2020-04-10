@@ -1,6 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import CurrentUserContext from '../../../../context/CurrentUserContext';
+
 import Spinner from '../../../../utils/Spinner';
 import useMessages from '../../../../utils/useMessages';
 
@@ -17,6 +19,7 @@ import {
 } from './MessageList.styled';
 
 const MessageList = ({ isSmallScreen }) => {
+  const { currentUser } = useContext(CurrentUserContext);
   const mainMessageList = useRef(null);
   const { channelId } = useParams();
   const [loading, loadingMoreMessages, messages] = useMessages(channelId);
@@ -54,6 +57,7 @@ const MessageList = ({ isSmallScreen }) => {
                                   ? JSON.parse(message.extra_info)
                                   : {}
                               }
+                              isOwner={currentUser.id === message.user_id}
                             />
                           ))
                           .reverse()}
