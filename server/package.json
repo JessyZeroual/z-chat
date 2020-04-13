@@ -26,11 +26,11 @@
     "http": "0.0.0",
     "jest": "^24.9.0",
     "jest-when": "^2.7.0",
-    "node-fetch": "^2.6.0",
     "pg": "^7.14.0",
     "ws": "^7.2.3"
   },
   "devDependencies": {
+    "node-fetch": "^2.6.0",
     "nodemon": "^1.19.4",
     "supertest": "^4.0.2"
   }

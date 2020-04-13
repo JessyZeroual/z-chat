@@ -15,8 +15,8 @@ import {
 
 import { getTimeFromDate } from '../../../../utils/formatDate';
 
-const MessageItem = ({ message, extraInfo, isOwner }) => (
-  <MessageItemWrapper>
+const MessageItem = ({ message, extraInfo, isOwner, deleteMessage }) => (
+  <MessageItemWrapper data-selector={`message-${message.id}`}>
     <AvatarMessageItem>
       <img src={userProfile} alt="user Profile" width="50" />
     </AvatarMessageItem>
@@ -29,7 +29,10 @@ const MessageItem = ({ message, extraInfo, isOwner }) => (
         </span>
         {isOwner && (
           <OptionMessageItem>
-            <ButtonOptionMessageItem>
+            <ButtonOptionMessageItem
+              onClick={() => deleteMessage(message.id)}
+              data-selector="message-delete-button"
+            >
               <i className="fas fa-trash-alt" />
             </ButtonOptionMessageItem>
           </OptionMessageItem>
@@ -45,6 +48,7 @@ const MessageItem = ({ message, extraInfo, isOwner }) => (
 
 MessageItem.propTypes = {
   message: PropTypes.shape({
+    id: PropTypes.number,
     created_at: PropTypes.string,
     text: PropTypes.string,
     username: PropTypes.string,
@@ -57,6 +61,7 @@ MessageItem.propTypes = {
   }),
 
   isOwner: PropTypes.bool.isRequired,
+  deleteMessage: PropTypes.func.isRequired,
 };
 
 MessageItem.defaultProps = {

@@ -18,6 +18,16 @@ const useMessages = channelId => {
   const [loadingMoreMessages, setLoadingMoreMessages] = useState(false);
   const [offset, setOffset] = useState(0);
 
+  const deleteMessage = async id => {
+    const response = await fetch(`/api/messages/${id}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'DELETE',
+    });
+    if (response.ok) {
+      setMessages(messages.filter(message => message.id !== id));
+    }
+  };
+
   const scrollToBottom = () => {
     const mainMessageList = document.getElementById('mainMessageList');
     if (mainMessageList)
@@ -102,7 +112,12 @@ const useMessages = channelId => {
     };
   });
 
-  return [loading, loadingMoreMessages, groupMessagesByDate(messages)];
+  return [
+    loading,
+    loadingMoreMessages,
+    groupMessagesByDate(messages),
+    deleteMessage,
+  ];
 };
 
 export default useMessages;
