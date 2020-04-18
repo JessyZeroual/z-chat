@@ -22,9 +22,13 @@ const MessageList = ({ isSmallScreen }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const mainMessageList = useRef(null);
   const { channelId } = useParams();
-  const [loading, loadingMoreMessages, messages, deleteMessage] = useMessages(
-    channelId
-  );
+  const [
+    loading,
+    loadingMoreMessages,
+    messages,
+    deleteMessage,
+    hasSawMessage,
+  ] = useMessages(channelId);
 
   const messageListWrapper = useRef(null);
 
@@ -61,6 +65,7 @@ const MessageList = ({ isSmallScreen }) => {
                               }
                               isOwner={currentUser.id === message.user_id}
                               deleteMessage={deleteMessage}
+                              hasSawMessage={hasSawMessage}
                             />
                           ))
                           .reverse()}

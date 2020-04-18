@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ExtraInfo from '../ExtraInfo/ExtraInfo';
 import userProfile from '../../../../img/userProfile.svg';
@@ -15,36 +15,48 @@ import {
 
 import { getTimeFromDate } from '../../../../utils/formatDate';
 
-const MessageItem = ({ message, extraInfo, isOwner, deleteMessage }) => (
-  <MessageItemWrapper data-selector={`message-${message.id}`}>
-    <AvatarMessageItem>
-      <img src={userProfile} alt="user Profile" width="50" />
-    </AvatarMessageItem>
+const MessageItem = ({
+  message,
+  extraInfo,
+  isOwner,
+  deleteMessage,
+  hasSawMessage,
+}) => {
+  useEffect(() => {
+    hasSawMessage(message.id);
+  }, [message]);
 
-    <ContentMessageItem>
-      <HeaderMessageItem>
-        <b className="mr-2">{message.username}</b>
-        <span className="text-muted">
-          {getTimeFromDate(message.created_at)}
-        </span>
-        {isOwner && (
-          <OptionMessageItem>
-            <ButtonOptionMessageItem
-              onClick={() => deleteMessage(message.id)}
-              data-selector="message-delete-button"
-            >
-              <i className="fas fa-trash-alt" />
-            </ButtonOptionMessageItem>
-          </OptionMessageItem>
-        )}
-      </HeaderMessageItem>
+  return (
+    <MessageItemWrapper data-selector={`message-${message.id}`}>
+      <AvatarMessageItem>
+        <img src={userProfile} alt="user Profile" width="50" />
+      </AvatarMessageItem>
 
-      <TextMessageItem>{message.text}</TextMessageItem>
+      <ContentMessageItem>
+        <HeaderMessageItem>
+          <b className="mr-2">{message.username}</b>
+          <span className="text-muted">
+            {getTimeFromDate(message.created_at)}
+          </span>
+          {isOwner && (
+            <OptionMessageItem>
+              <ButtonOptionMessageItem
+                onClick={() => deleteMessage(message.id)}
+                data-selector="message-delete-button"
+              >
+                <i className="fas fa-trash-alt" />
+              </ButtonOptionMessageItem>
+            </OptionMessageItem>
+          )}
+        </HeaderMessageItem>
 
-      {extraInfo.title && <ExtraInfo extraInfo={extraInfo} />}
-    </ContentMessageItem>
-  </MessageItemWrapper>
-);
+        <TextMessageItem>{message.text}</TextMessageItem>
+
+        {extraInfo.title && <ExtraInfo extraInfo={extraInfo} />}
+      </ContentMessageItem>
+    </MessageItemWrapper>
+  );
+};
 
 MessageItem.propTypes = {
   message: PropTypes.shape({
@@ -62,6 +74,7 @@ MessageItem.propTypes = {
 
   isOwner: PropTypes.bool.isRequired,
   deleteMessage: PropTypes.func.isRequired,
+  hasSawMessage: PropTypes.func.isRequired,
 };
 
 MessageItem.defaultProps = {

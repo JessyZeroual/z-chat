@@ -16,6 +16,7 @@ const createMessage = async (req, res) => {
     channelId,
     extraInfo
   );
+
   const result = await dataAccess.getMessage(id);
 
   eventEmitter.emit(EVENTS.MESSAGE_CREATED, result);
@@ -39,6 +40,19 @@ const getMessagesByChannelId = async (req, res) => {
   return res.status(200).json({ messages, nextMessages });
 };
 
+const hasSawMessage = async (req, res) => {
+  const { id } = req.params;
+  const { user } = req;
+
+  const message = await dataAccess.getMessage(id);
+
+  if (!message.seen_by.includes(user.id)) {
+    await dataAccess.hasSawMessage(user.id, message.id);
+  }
+
+  return res.sendStatus(200);
+};
+
 const deleteMessage = async (req, res) => {
   const { id } = req.params;
   const { user } = req;
@@ -55,5 +69,6 @@ const deleteMessage = async (req, res) => {
 module.exports = {
   createMessage,
   getMessagesByChannelId,
+  hasSawMessage,
   deleteMessage,
 };

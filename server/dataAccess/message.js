@@ -6,9 +6,10 @@ const pool = new pg.Pool({
 });
 
 const createMessage = async (text, userId, channelId, extraInfo) => {
+  const seenBy = `{${userId}}`;
   const result = await pool.query(
-    'INSERT INTO message (text, user_id, channel_id, extra_info) VALUES($1, $2, $3, $4)  RETURNING *',
-    [text, userId, channelId, extraInfo]
+    'INSERT INTO message (text, user_id, channel_id, extra_info, seen_by) VALUES($1, $2, $3, $4, $5)  RETURNING *',
+    [text, userId, channelId, extraInfo, seenBy]
   );
   return result.rows[0];
 };
@@ -16,7 +17,7 @@ const createMessage = async (text, userId, channelId, extraInfo) => {
 const getMessage = async messageId => {
   const result = await pool.query(
     `
-    SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info
+    SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info, seen_by
     FROM message
     JOIN users
     ON message.user_id = users.id
@@ -29,7 +30,7 @@ const getMessage = async messageId => {
 
 const getMessagesByChannelId = async (channelId, limit, offset) => {
   const messages = await pool.query(
-    `SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info
+    `SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info, seen_by
               FROM message
               JOIN users
               ON message.user_id = users.id
@@ -43,6 +44,16 @@ const getMessagesByChannelId = async (channelId, limit, offset) => {
   return messages.rows;
 };
 
+const hasSawMessage = async (userId, messageId) => {
+  const result = await pool.query(
+    `UPDATE message 
+     SET seen_by = array_append(seen_by, $1)
+     WHERE id = $2`,
+    [userId, messageId]
+  );
+  return result.rows[0];
+};
+
 const deleteMessage = async id => {
   await pool.query(`DELETE FROM message WHERE id = $1`, [id]);
 };
@@ -51,5 +62,6 @@ module.exports = {
   createMessage,
   getMessagesByChannelId,
   getMessage,
+  hasSawMessage,
   deleteMessage,
 };

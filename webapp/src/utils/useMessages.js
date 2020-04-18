@@ -28,6 +28,13 @@ const useMessages = channelId => {
     }
   };
 
+  const hasSawMessage = async id => {
+    await fetch(`/api/hasSawMessage/${id}`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+    });
+  };
+
   const scrollToBottom = () => {
     const mainMessageList = document.getElementById('mainMessageList');
     if (mainMessageList)
@@ -117,6 +124,7 @@ const useMessages = channelId => {
     loadingMoreMessages,
     groupMessagesByDate(messages),
     deleteMessage,
+    hasSawMessage,
   ];
 };
 
