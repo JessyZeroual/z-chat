@@ -8,6 +8,10 @@ router.get(
   '/channels/:channelId/:limit/:offset/messages',
   controller.getMessagesByChannelId
 );
+router.get(
+  '/messagesNotSeen/:channelId',
+  controller.getMessagesNotSeenByChannelId
+);
 router.post('/messages', controller.createMessage);
 router.post('/hasSawMessage/:id', controller.hasSawMessage);
 router.delete('/messages/:id', controller.deleteMessage);

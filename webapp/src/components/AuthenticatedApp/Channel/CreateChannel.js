@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { postChannel } from '../../../controllers/channel';
 
-import { ButtonSideBar } from '../NavigationBar/SideBar/SideBar.styled';
+import { ButtonSideBarStyled } from '../NavigationBar/SideBar/SideBar.styled';
 
 const CreateChannel = ({ setShouldRefetchChannel }) => {
   const [formOpen, setFormOpen] = useState(false);
@@ -20,14 +20,14 @@ const CreateChannel = ({ setShouldRefetchChannel }) => {
   return (
     <div>
       {!formOpen ? (
-        <ButtonSideBar
+        <ButtonSideBarStyled
           className="d-flex align-items-center py-2"
           onKeyDown={() => setFormOpen(!formOpen)}
           onClick={() => setFormOpen(!formOpen)}
         >
           Chaînes
           <i className="fas fa-plus-circle ml-auto p-2" />
-        </ButtonSideBar>
+        </ButtonSideBarStyled>
       ) : (
         <form className="d-flex" onSubmit={e => handleSubmit(e)}>
           <input

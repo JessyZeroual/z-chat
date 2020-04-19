@@ -40,8 +40,10 @@ export const FooterSideBar = styled.div`
   color: white;
 `;
 
-export const ButtonSideBar = styled.li`
-  padding: 0px 20px;
+export const ButtonSideBarStyled = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 5px 20px;
   list-style-type: none;
   color: ${props => (props.active ? 'white' : '#ccc0cc')};
   cursor: pointer;

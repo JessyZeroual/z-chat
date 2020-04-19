@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
+import ButtonSideBar from './ButtonSideBar';
 import ListOptions from './ListOptions';
 import CreateChannel from '../../Channel/CreateChannel';
 
 import {
   SideBarStyled,
-  ButtonSideBar,
   HeaderSideBar,
   MainSideBar,
   FooterSideBar,
@@ -39,12 +39,9 @@ const SideBar = ({
         {channels.map(channel => (
           <ButtonSideBar
             key={channel.id}
-            onClick={() => handleClick(channel)}
-            active
-            className="py-2 d-block"
-          >
-            {`#${channel.name}`}
-          </ButtonSideBar>
+            channel={channel}
+            handleClick={handleClick}
+          />
         ))}
       </MainSideBar>
       <FooterSideBar>Footer</FooterSideBar>

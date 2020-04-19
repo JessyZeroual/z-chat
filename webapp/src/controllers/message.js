@@ -19,3 +19,11 @@ export const getMessages = (channelId, limit, offset) => {
       return data;
     });
 };
+
+export const getMessagesNotSeenByChannel = channelId => {
+  return fetch(`/api/messagesNotSeen/${channelId}`)
+    .then(res => res.json())
+    .then(data => {
+      return data;
+    });
+};

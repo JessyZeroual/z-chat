@@ -24,6 +24,7 @@ const MessageItem = ({
 }) => {
   useEffect(() => {
     hasSawMessage(message.id);
+    // eslint-disable-next-line
   }, [message]);
 
   return (

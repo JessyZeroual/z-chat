@@ -40,6 +40,18 @@ const getMessagesByChannelId = async (req, res) => {
   return res.status(200).json({ messages, nextMessages });
 };
 
+const getMessagesNotSeenByChannelId = async (req, res) => {
+  const { channelId } = req.params;
+  const { user } = req;
+
+  const messages = await dataAccess.getMessagesNotSeenByChannelId(
+    channelId,
+    user.id
+  );
+
+  return res.status(200).json({ messages });
+};
+
 const hasSawMessage = async (req, res) => {
   const { id } = req.params;
   const { user } = req;
@@ -69,6 +81,7 @@ const deleteMessage = async (req, res) => {
 module.exports = {
   createMessage,
   getMessagesByChannelId,
+  getMessagesNotSeenByChannelId,
   hasSawMessage,
   deleteMessage,
 };

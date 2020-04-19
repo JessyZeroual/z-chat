@@ -44,6 +44,18 @@ const getMessagesByChannelId = async (channelId, limit, offset) => {
   return messages.rows;
 };
 
+const getMessagesNotSeenByChannelId = async (channelId, userId) => {
+  const messages = await pool.query(
+    `SELECT user_id
+      FROM message
+      WHERE channel_id=($1)
+      AND NOT ($2 = ANY (seen_by))`,
+    [channelId, userId]
+  );
+
+  return messages.rows;
+};
+
 const hasSawMessage = async (userId, messageId) => {
   const result = await pool.query(
     `UPDATE message 
@@ -61,6 +73,7 @@ const deleteMessage = async id => {
 module.exports = {
   createMessage,
   getMessagesByChannelId,
+  getMessagesNotSeenByChannelId,
   getMessage,
   hasSawMessage,
   deleteMessage,
