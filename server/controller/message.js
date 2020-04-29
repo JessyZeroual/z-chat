@@ -44,23 +44,23 @@ const getMessagesNotSeenByChannelId = async (req, res) => {
   const { channelId } = req.params;
   const { user } = req;
 
-  const messages = await dataAccess.getMessagesNotSeenByChannelId(
+  const messagesNotSeenByChannel = await dataAccess.getMessagesNotSeenByChannelId(
     channelId,
     user.id
   );
 
-  return res.status(200).json({ messages });
+  return res.status(200).json({ messagesNotSeenByChannel });
 };
 
-const hasSawMessage = async (req, res) => {
-  const { id } = req.params;
+const hasSeenMessage = async (req, res) => {
   const { user } = req;
+  const { messages } = req.body;
 
-  const message = await dataAccess.getMessage(id);
-
-  if (!message.seen_by.includes(user.id)) {
-    await dataAccess.hasSawMessage(user.id, message.id);
-  }
+  await Promise.all(
+    messages.map(async message => {
+      await dataAccess.hasSeenMessage(user.id, message.id);
+    })
+  );
 
   return res.sendStatus(200);
 };
@@ -82,6 +82,6 @@ module.exports = {
   createMessage,
   getMessagesByChannelId,
   getMessagesNotSeenByChannelId,
-  hasSawMessage,
+  hasSeenMessage,
   deleteMessage,
 };

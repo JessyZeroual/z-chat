@@ -12,6 +12,19 @@ export const postMessage = (input, channelId) => {
   });
 };
 
+export const hasSeenMessage = messages => {
+  return fetch(`/api/messages`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      messages,
+    }),
+  });
+};
+
 export const getMessages = (channelId, limit, offset) => {
   return fetch(`/api/channels/${channelId}/${limit}/${offset}/messages`)
     .then(res => res.json())

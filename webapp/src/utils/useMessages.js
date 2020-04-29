@@ -1,9 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
-import { getMessages } from '../controllers/message';
+import CurrentUserContext from '../context/CurrentUserContext';
+import { getMessages, hasSeenMessage } from '../controllers/message';
+
 import groupMessagesByDate from './groupMessagesByDate';
 
 const useMessages = channelId => {
+  const { currentUser } = useContext(CurrentUserContext);
+
   const LIMIT = 20;
   const HOSTNAME = window.location.hostname;
   const PORT = window.location.port;
@@ -14,6 +18,7 @@ const useMessages = channelId => {
 
   const [messages, setMessages] = useState([]);
   const [hasNextMessages, setHasNextMessages] = useState(true);
+  const [messageWs, setMessageWs] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadingMoreMessages, setLoadingMoreMessages] = useState(false);
   const [offset, setOffset] = useState(0);
@@ -26,13 +31,6 @@ const useMessages = channelId => {
     if (response.ok) {
       setMessages(messages.filter(message => message.id !== id));
     }
-  };
-
-  const hasSawMessage = async id => {
-    await fetch(`/api/hasSawMessage/${id}`, {
-      headers: { 'Content-Type': 'application/json' },
-      method: 'POST',
-    });
   };
 
   const scrollToBottom = () => {
@@ -104,27 +102,35 @@ const useMessages = channelId => {
   }, [channelId]);
 
   useEffect(() => {
-    const socket = new WebSocket(HOST);
+    const messagesList = messages.filter(
+      message => !message.seen_by.includes(currentUser.id)
+    );
+    hasSeenMessage(messagesList);
+    // eslint-disable-next-line
+  }, [messages]);
 
+  useEffect(() => {
+    const socket = new WebSocket(HOST);
     socket.onmessage = msg => {
       const event = JSON.parse(msg.data);
-
-      if (
-        event.type === 'MESSAGE_CREATED' &&
-        Number(channelId) === event.payload.channel_id
-      ) {
-        setMessages([event.payload, ...messages]);
-        scrollToBottom();
-      }
+      if (event.type === 'MESSAGE_CREATED') setMessageWs(event.payload);
     };
-  });
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (Number(channelId) === messageWs.channel_id) {
+      setMessages([messageWs, ...messages]);
+      scrollToBottom();
+    }
+    // eslint-disable-next-line
+  }, [messageWs]);
 
   return [
     loading,
     loadingMoreMessages,
     groupMessagesByDate(messages),
     deleteMessage,
-    hasSawMessage,
   ];
 };
 

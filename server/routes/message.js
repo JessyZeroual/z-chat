@@ -13,7 +13,7 @@ router.get(
   controller.getMessagesNotSeenByChannelId
 );
 router.post('/messages', controller.createMessage);
-router.post('/hasSawMessage/:id', controller.hasSawMessage);
+router.patch('/messages', controller.hasSeenMessage);
 router.delete('/messages/:id', controller.deleteMessage);
 
 module.exports = router;
