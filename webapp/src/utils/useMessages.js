@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import CurrentUserContext from '../context/CurrentUserContext';
 import { getMessages, hasSeenMessage } from '../controllers/message';
 
-import groupMessagesByDate from './groupMessagesByDate';
+import groupMessagesByDay from './groupMessagesByDay';
 
 const useMessages = channelId => {
   const { currentUser } = useContext(CurrentUserContext);
@@ -129,7 +129,7 @@ const useMessages = channelId => {
   return [
     loading,
     loadingMoreMessages,
-    groupMessagesByDate(messages),
+    groupMessagesByDay(messages),
     deleteMessage,
   ];
 };

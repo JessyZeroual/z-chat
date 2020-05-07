@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import CurrentUserContext from '../../../../context/CurrentUserContext';
 
+import { printDate } from '../../../../utils/formatDate';
 import Spinner from '../../../../utils/Spinner';
 import useMessages from '../../../../utils/useMessages';
 
@@ -40,33 +41,31 @@ const MessageList = ({ isSmallScreen }) => {
                 <div className="spinner-border" role="status" />
               </div>
             )}
-            {Object.keys(messages).length ? (
+            {messages.length ? (
               <>
-                {Object.keys(messages)
-                  .map(key => {
-                    return (
-                      <div key={key}>
-                        <MessageListDivider>
-                          <BadgeDate>{key}</BadgeDate>
-                        </MessageListDivider>
-                        {messages[key]
-                          .map(message => (
-                            <MessageItem
-                              key={message.id}
-                              message={message}
-                              extraInfo={
-                                message.extra_info
-                                  ? JSON.parse(message.extra_info)
-                                  : {}
-                              }
-                              isOwner={currentUser.id === message.user_id}
-                              deleteMessage={deleteMessage}
-                            />
-                          ))
-                          .reverse()}
-                      </div>
-                    );
-                  })
+                {messages
+                  .map(item => (
+                    <div key={item.day}>
+                      <MessageListDivider>
+                        <BadgeDate>{printDate(item.day)}</BadgeDate>
+                      </MessageListDivider>
+                      {item.messages
+                        .map(message => (
+                          <MessageItem
+                            key={message.id}
+                            message={message}
+                            extraInfo={
+                              message.extra_info
+                                ? JSON.parse(message.extra_info)
+                                : {}
+                            }
+                            isOwner={currentUser.id === message.user_id}
+                            deleteMessage={deleteMessage}
+                          />
+                        ))
+                        .reverse()}
+                    </div>
+                  ))
                   .reverse()}
               </>
             ) : (
