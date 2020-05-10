@@ -45,7 +45,7 @@ const ButtonSideBar = ({ channel, handleClick }) => {
       onClick={() => handleClick(channel)}
       active={messagesNotSeen > 0}
     >
-      {`#${channel.name}`}
+      {`# ${channel.name}`}
       {messagesNotSeen > 0 && (
         <BadgeNotification messagesNotSeen={messagesNotSeen} />
       )}
