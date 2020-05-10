@@ -54,7 +54,10 @@ export const FooterMessageList = styled.div`
 
 export const BadgeDate = styled.span`
   background-color: #fff;
+  font-size: 12px;
+  font-weight: bold;
   border-radius: 20px;
+  border: 1px solid #e2e2e2;
   padding: 10px;
 `;
 

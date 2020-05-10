@@ -1,58 +1,57 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { postChannel } from '../../../controllers/channel';
 
-import { ButtonSideBarStyled } from '../NavigationBar/SideBar/SideBar.styled';
-
-const CreateChannel = ({ setShouldRefetchChannel }) => {
-  const [formOpen, setFormOpen] = useState(false);
+const CreateChannel = ({
+  setIsOpenModal,
+  isOpenModal,
+  setShouldRefetchChannel,
+}) => {
   let input;
 
   const handleSubmit = e => {
     e.preventDefault();
 
     postChannel(input.value)
-      .then(setFormOpen(false))
+      .then(setIsOpenModal(false))
       .then(setShouldRefetchChannel(true));
   };
 
   return (
-    <div>
-      {!formOpen ? (
-        <ButtonSideBarStyled
-          className="d-flex align-items-center py-2"
-          onKeyDown={() => setFormOpen(!formOpen)}
-          onClick={() => setFormOpen(!formOpen)}
-        >
-          Chaînes
-          <i className="fas fa-plus-circle ml-auto p-2" />
-        </ButtonSideBarStyled>
-      ) : (
-        <form className="d-flex" onSubmit={e => handleSubmit(e)}>
+    <Modal isOpen={isOpenModal} toggle={() => setIsOpenModal(!isOpenModal)}>
+      <ModalHeader toggle={() => setIsOpenModal(!isOpenModal)}>
+        Create channel
+      </ModalHeader>
+      <form onSubmit={e => handleSubmit(e)}>
+        <ModalBody>
+          <p className="text-muted">
+            Channels allow your team to communicate. Their use is optimal when
+            they are organized around a theme (#marketing, for example).
+          </p>
+
           <input
             ref={node => {
               input = node;
             }}
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
             className="form-control"
+            placeholder="name"
           />
-          <button
-            type="button"
-            className="btn btn-danger"
-            onKeyDown={() => setFormOpen(!formOpen)}
-            onClick={() => setFormOpen(!formOpen)}
-          >
-            X
-          </button>
-        </form>
-      )}
-    </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button type="submit" onClick={() => setIsOpenModal(!isOpenModal)}>
+            Submit
+          </Button>
+        </ModalFooter>
+      </form>
+    </Modal>
   );
 };
 
 CreateChannel.propTypes = {
+  setIsOpenModal: PropTypes.func.isRequired,
+  isOpenModal: PropTypes.bool.isRequired,
   setShouldRefetchChannel: PropTypes.func.isRequired,
 };
 

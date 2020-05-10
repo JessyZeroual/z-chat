@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { Collapse } from 'reactstrap';
 
 import ButtonSideBar from './ButtonSideBar';
-import ListOptions from './ListOptions';
+import ListOptions from '../../ListOptions/ListOptions';
 import CreateChannel from '../../Channel/CreateChannel';
 
 import {
   SideBarStyled,
+  ButtonCreateChannel,
+  ButtonDropdownChannel,
   HeaderSideBar,
   MainSideBar,
+  WrapperChannels,
   FooterSideBar,
 } from './SideBar.styled';
 
@@ -21,6 +25,8 @@ const SideBar = ({
   isSmallScreen,
 }) => {
   const history = useHistory();
+  const [isOpenChannelList, setIsOpenChannelList] = useState(true);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const handleClick = channel => {
     history.push(`/channels/${channel.id}/messages`);
@@ -31,18 +37,43 @@ const SideBar = ({
     <SideBarStyled isOpenSideBar={isOpenSideBar} isSmallScreen={isSmallScreen}>
       <HeaderSideBar>
         <ListOptions />
-        {/* <input /> */}
       </HeaderSideBar>
 
       <MainSideBar>
-        <CreateChannel setShouldRefetchChannel={setShouldRefetchChannel} />
-        {channels.map(channel => (
-          <ButtonSideBar
-            key={channel.id}
-            channel={channel}
-            handleClick={handleClick}
-          />
-        ))}
+        <WrapperChannels>
+          <ButtonDropdownChannel
+            onClick={() => setIsOpenChannelList(!isOpenChannelList)}
+          >
+            {isOpenChannelList ? (
+              <i className="fas fa-caret-down" />
+            ) : (
+              <i className="fas fa-caret-right" />
+            )}
+            &nbsp;Channels
+          </ButtonDropdownChannel>
+
+          <ButtonCreateChannel
+            className="ml-auto"
+            onClick={() => setIsOpenModal(!isOpenModal)}
+          >
+            <i className="fas fa-plus" />
+          </ButtonCreateChannel>
+        </WrapperChannels>
+        <CreateChannel
+          setIsOpenModal={setIsOpenModal}
+          isOpenModal={isOpenModal}
+          setShouldRefetchChannel={setShouldRefetchChannel}
+        />
+
+        <Collapse isOpen={isOpenChannelList}>
+          {channels.map(channel => (
+            <ButtonSideBar
+              key={channel.id}
+              channel={channel}
+              handleClick={handleClick}
+            />
+          ))}
+        </Collapse>
       </MainSideBar>
       <FooterSideBar>Footer</FooterSideBar>
     </SideBarStyled>

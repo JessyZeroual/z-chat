@@ -47,7 +47,6 @@ const Layout = ({ children }) => {
         isOpenSideBar={isOpenSideBar}
         isSmallScreen={isSmallScreen}
       />
-
       <Container>
         <TopBar
           currentChannelName={currentChannel.name}
