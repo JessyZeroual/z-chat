@@ -5,6 +5,7 @@ import { getMessagesNotSeenByChannel } from '../../../../controllers/message';
 
 import CurrentUserContext from '../../../../context/CurrentUserContext';
 import BadgeNotification from '../../../../utils/BadgeNotification';
+import getHost from '../../../../utils/getHost';
 
 import { ButtonSideBarStyled } from './SideBar.styled';
 
@@ -12,12 +13,7 @@ const ButtonSideBar = ({ channel, handleClick }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const [messagesNotSeen, setMessagesNotSeen] = useState(0);
 
-  const HOSTNAME = window.location.hostname;
-  const PORT = window.location.port;
-  const HOST =
-    !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
-      ? `ws://${HOSTNAME}:8000/`
-      : `wss://${HOSTNAME}:${PORT}/`;
+  const HOST = getHost();
 
   useEffect(() => {
     const socket = new WebSocket(HOST);

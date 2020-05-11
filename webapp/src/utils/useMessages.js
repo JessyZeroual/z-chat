@@ -4,17 +4,13 @@ import CurrentUserContext from '../context/CurrentUserContext';
 import { getMessages, hasSeenMessage } from '../controllers/message';
 
 import groupMessagesByDay from './groupMessagesByDay';
+import getHost from './getHost';
 
 const useMessages = channelId => {
   const { currentUser } = useContext(CurrentUserContext);
 
   const LIMIT = 20;
-  const HOSTNAME = window.location.hostname;
-  const PORT = window.location.port;
-  const HOST =
-    !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
-      ? `ws://${HOSTNAME}:8000/`
-      : `wss://${HOSTNAME}:${PORT}/`;
+  const HOST = getHost();
 
   const [messages, setMessages] = useState([]);
   const [hasNextMessages, setHasNextMessages] = useState(true);

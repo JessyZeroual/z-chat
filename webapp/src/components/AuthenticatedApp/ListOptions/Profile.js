@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -14,10 +14,25 @@ import {
 
 import { updateAvatarProfile } from '../../../controllers/user';
 import { ButtonUpload } from './ListOptions.styled';
+import getHost from '../../../utils/getHost';
 
 const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
   let username;
   let uploadInput;
+
+  const [avatar, setAvatar] = useState('');
+  const HOST = getHost();
+
+  useEffect(() => {
+    const socket = new WebSocket(HOST);
+
+    socket.onmessage = msg => {
+      const event = JSON.parse(msg.data);
+      if (event.type === 'AVATAR_URL_UPDATED')
+        setAvatar(event.payload.avatar_url);
+    };
+    // eslint-disable-next-line
+  }, []);
 
   const uploadAvatar = async e => {
     e.preventDefault();
@@ -41,7 +56,7 @@ const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
           <div style={{ maxWidth: 200 }} className="mx-auto">
             <img
               width="200"
-              src={currentUser.avatar_url}
+              src={avatar === '' ? currentUser.avatar_url : avatar}
               alt="profil utilisateur"
               className="my-2"
             />

@@ -1,5 +1,6 @@
 const path = require('path');
 const dataAccess = require('../dataAccess');
+const { EVENTS, eventEmitter } = require('../events');
 
 const getAllUsers = async (req, res) => {
   const users = await dataAccess.getAllUsers();
@@ -24,7 +25,7 @@ const uploadAvatarUser = async (req, res) => {
     `${user.email}-${imageFile.md5}.jpg`
   );
 
-  if (imageFile.mimetype.substr(0, 5) === 'image' && imageFile.size < 1000000) {
+  if (imageFile.mimetype.substr(0, 5)) {
     imageFile.mv(imagePath, err => {
       if (err) {
         return res.status(500).send(err);
@@ -40,9 +41,12 @@ const uploadAvatarUser = async (req, res) => {
   } else {
     return res
       .status(500)
-      .send('Provide a jpeg, jpg or png image and size maximum 1mb');
+      .send('Provide a jpeg, jpg or png image and size maximum 5mb');
   }
-  return `/avatar/${user.email}-${imageFile.md5}.jpg`;
+  return eventEmitter.emit(EVENTS.AVATAR_URL_UPDATED, {
+    avatar_url: `/avatar/${user.email}-${imageFile.md5}.jpg`,
+    userId: user.id,
+  });
 };
 
 module.exports = {

@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import { Dropdown, DropdownMenu } from 'reactstrap';
 import { logout } from '../../../controllers/authentication';
 import CurrentUserContext from '../../../context/CurrentUserContext';
+import getHost from '../../../utils/getHost';
 
 import Profile from './Profile';
 
@@ -13,6 +14,20 @@ const ListOptions = () => {
 
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [avatar, setAvatar] = useState('');
+
+  const HOST = getHost();
+
+  useEffect(() => {
+    const socket = new WebSocket(HOST);
+
+    socket.onmessage = msg => {
+      const event = JSON.parse(msg.data);
+      if (event.type === 'AVATAR_URL_UPDATED')
+        setAvatar(event.payload.avatar_url);
+    };
+    // eslint-disable-next-line
+  }, []);
 
   const handleLogout = async () => {
     await logout().then(response => {
@@ -46,7 +61,7 @@ const ListOptions = () => {
         <DropdownMenu style={{ minWidth: 300, background: '#F8F8F8' }}>
           <HeaderListOption>
             <img
-              src={currentUser.avatar_url}
+              src={avatar === '' ? currentUser.avatar_url : avatar}
               alt="profil utilisateur"
               width="40"
               className="mr-2"
