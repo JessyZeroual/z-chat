@@ -19,8 +19,7 @@ const uploadAvatarUser = async (req, res) => {
   const imageFile = await req.files.file;
   const imagePath = path.join(
     __dirname,
-    '../../webapp',
-    'public',
+    '../uploads',
     'avatar',
     `${user.email}-${imageFile.md5}.jpg`
   );
@@ -43,6 +42,7 @@ const uploadAvatarUser = async (req, res) => {
       .status(500)
       .send('Provide a jpeg, jpg or png image and size maximum 1mb');
   }
+  return `/avatar/${user.email}-${imageFile.md5}.jpg`;
 };
 
 module.exports = {
