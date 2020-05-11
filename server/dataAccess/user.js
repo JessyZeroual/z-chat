@@ -21,13 +21,14 @@ const getVerifiedUserId = async (email, password) => {
 const getUserFromSessionId = async sessionId => {
   const result = await pool.query(
     `
-    SELECT users.id AS id, username, email FROM users
+    SELECT users.id AS id, username, email, avatar_url FROM users
       JOIN session
       ON session.user_id = users.id
     WHERE session.session_id = $1
     `,
     [sessionId]
   );
+
   const user = result.rows[0];
   if (!user) {
     throw new Error('User is not authenticated.');
@@ -35,8 +36,18 @@ const getUserFromSessionId = async sessionId => {
   return user;
 };
 
+const updateAvatarUser = async (avatarUrl, userId) => {
+  await pool.query(
+    `UPDATE users
+    SET avatar_url = $1
+    WHERE id = $2`,
+    [avatarUrl, userId]
+  );
+};
+
 module.exports = {
   getAllUsers,
   getVerifiedUserId,
   getUserFromSessionId,
+  updateAvatarUser,
 };
