@@ -17,7 +17,7 @@ const createMessage = async (text, userId, channelId, extraInfo) => {
 const getMessage = async messageId => {
   const result = await pool.query(
     `
-    SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info, seen_by
+    SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info, seen_by, avatar_url
     FROM message
     JOIN users
     ON message.user_id = users.id
@@ -30,7 +30,7 @@ const getMessage = async messageId => {
 
 const getMessagesByChannelId = async (channelId, limit, offset) => {
   const messages = await pool.query(
-    `SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info, seen_by
+    `SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info, seen_by, avatar_url
               FROM message
               JOIN users
               ON message.user_id = users.id

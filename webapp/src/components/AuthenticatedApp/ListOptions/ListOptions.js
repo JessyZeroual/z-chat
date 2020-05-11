@@ -5,7 +5,6 @@ import { logout } from '../../../controllers/authentication';
 import CurrentUserContext from '../../../context/CurrentUserContext';
 
 import Profile from './Profile';
-import userProfile from '../../../img/userProfile.svg';
 
 import { HeaderListOption, ButtonListOption } from './ListOptions.styled';
 
@@ -47,7 +46,7 @@ const ListOptions = () => {
         <DropdownMenu style={{ minWidth: 300, background: '#F8F8F8' }}>
           <HeaderListOption>
             <img
-              src={userProfile}
+              src={currentUser.avatar_url}
               alt="profil utilisateur"
               width="40"
               className="mr-2"

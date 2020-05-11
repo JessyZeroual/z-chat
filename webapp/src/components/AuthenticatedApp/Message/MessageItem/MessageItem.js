@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ExtraInfo from '../ExtraInfo/ExtraInfo';
-import userProfile from '../../../../img/userProfile.svg';
 
 import {
   AvatarMessageItem,
@@ -19,7 +18,7 @@ const MessageItem = ({ message, extraInfo, isOwner, deleteMessage }) => {
   return (
     <MessageItemWrapper data-selector={`message-${message.id}`}>
       <AvatarMessageItem>
-        <img src={userProfile} alt="user Profile" width="50" />
+        <img src={message.avatar_url} alt="user Profile" width="50" />
       </AvatarMessageItem>
 
       <ContentMessageItem>
@@ -54,6 +53,7 @@ MessageItem.propTypes = {
     created_at: PropTypes.string,
     text: PropTypes.string,
     username: PropTypes.string,
+    avatar_url: PropTypes.string,
   }).isRequired,
 
   extraInfo: PropTypes.shape({
