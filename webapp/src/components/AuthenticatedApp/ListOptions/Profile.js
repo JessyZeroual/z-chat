@@ -12,10 +12,20 @@ import {
   Input,
 } from 'reactstrap';
 
-import userProfile from '../../../img/userProfile.svg';
+import { updateAvatarProfile } from '../../../controllers/user';
 import { ButtonUpload } from './ListOptions.styled';
 
 const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
+  let username;
+  let uploadInput;
+
+  const uploadAvatar = async e => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('file', uploadInput.files[0]);
+    await updateAvatarProfile(formData);
+  };
+
   return (
     <Modal
       size="sm"
@@ -26,16 +36,25 @@ const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
         Edit profile
       </ModalHeader>
 
-      <ModalBody>
-        <Form>
+      <Form>
+        <ModalBody>
           <div style={{ maxWidth: 200 }} className="mx-auto">
             <img
-              style={{ maxWidth: 200 }}
-              src={userProfile}
+              width="200"
+              src={currentUser.avatar_url}
               alt="profil utilisateur"
-              className="m-2"
+              className="my-2"
             />
-            <input type="file" id="file" />
+            <input
+              ref={ref => {
+                uploadInput = ref;
+              }}
+              onChange={e => uploadAvatar(e)}
+              accept="image/*"
+              type="file"
+              name="profile"
+              id="file"
+            />
             <ButtonUpload htmlFor="file">
               <i className="fas fa-upload mr-2" />
               <span style={{ fontSize: 13 }}>upload an image</span>
@@ -44,23 +63,26 @@ const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
           <FormGroup>
             <Label for="username">Username</Label>
             <Input
+              ref={ref => {
+                username = ref;
+              }}
               type="text"
               name="username"
               id="username"
               placeholder={currentUser.username}
             />
           </FormGroup>
-        </Form>
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          color="success"
-          type="submit"
-          onClick={() => setIsOpenModal(!isOpenModal)}
-        >
-          Submit
-        </Button>
-      </ModalFooter>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color="success"
+            type="submit"
+            onClick={() => setIsOpenModal(!isOpenModal)}
+          >
+            Submit
+          </Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   );
 };
@@ -72,6 +94,7 @@ Profile.propTypes = {
     id: PropTypes.number,
     username: PropTypes.string,
     email: PropTypes.string,
+    avatar_url: PropTypes.string,
   }).isRequired,
 };
 

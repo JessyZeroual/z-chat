@@ -3,6 +3,7 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const cookieParser = require('cookie-parser');
+const fileupload = require('express-fileupload');
 const path = require('path');
 
 const { EVENTS, eventEmitter } = require('./events');
@@ -12,6 +13,7 @@ const { setUser } = require('./middleware');
 const app = express();
 
 app.use(cookieParser());
+app.use(fileupload());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
