@@ -23,7 +23,7 @@ const MessageList = ({ isSmallScreen }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const mainMessageList = useRef(null);
   const { channelId } = useParams();
-  const [loading, loadingMoreMessages, messages, deleteMessage] = useMessages(
+  const [loading, loadingMoreMessages, daysWithMessages, deleteMessage] = useMessages(
     channelId
   );
 
@@ -41,15 +41,15 @@ const MessageList = ({ isSmallScreen }) => {
                 <div className="spinner-border" role="status" />
               </div>
             )}
-            {messages.length ? (
+            {daysWithMessages.length ? (
               <>
-                {messages
-                  .map(item => (
-                    <div key={item.day}>
+                {daysWithMessages
+                  .map(dayWithMessages => (
+                    <div key={dayWithMessages.day}>
                       <MessageListDivider>
-                        <BadgeDate>{printDate(item.day)}</BadgeDate>
+                        <BadgeDate>{printDate(dayWithMessages.day)}</BadgeDate>
                       </MessageListDivider>
-                      {item.messages
+                      {dayWithMessages.messages
                         .map(message => (
                           <MessageItem
                             key={message.id}
