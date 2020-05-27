@@ -17,6 +17,7 @@
     "@types/jest": "^24.0.25",
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
+    "compression": "^1.7.4",
     "cookie-parser": "^1.4.4",
     "db-migrate": "^0.11.6",
     "db-migrate-pg": "^1.0.0",

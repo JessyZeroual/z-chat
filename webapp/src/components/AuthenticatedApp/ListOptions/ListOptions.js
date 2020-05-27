@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 
-import { Dropdown, DropdownMenu } from 'reactstrap';
+import Dropdown from 'reactstrap/lib/Dropdown';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import { logout } from '../../../controllers/authentication';
 import CurrentUserContext from '../../../context/CurrentUserContext';
 import getHost from '../../../utils/getHost';

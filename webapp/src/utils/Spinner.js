@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashLoader } from 'react-spinners';
+import HashLoader from 'react-spinners/HashLoader';
 
 import { primaryBackgroundColor } from '../constants/style-constants';
 

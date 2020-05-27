@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
@@ -11,6 +12,7 @@ const routes = require('./routes/index');
 const { setUser } = require('./middleware');
 
 const app = express();
+app.use(compression());
 
 app.use(cookieParser());
 app.use(
@@ -37,12 +39,12 @@ const server = http.createServer(app);
 
 const wsserver = new WebSocket.Server({ server });
 
-wsserver.on('connection', ws => {
-  eventEmitter.on(EVENTS.MESSAGE_CREATED, result => {
+wsserver.on('connection', (ws) => {
+  eventEmitter.on(EVENTS.MESSAGE_CREATED, (result) => {
     ws.send(JSON.stringify({ type: EVENTS.MESSAGE_CREATED, payload: result }));
   });
 
-  eventEmitter.on(EVENTS.AVATAR_URL_UPDATED, result => {
+  eventEmitter.on(EVENTS.AVATAR_URL_UPDATED, (result) => {
     ws.send(
       JSON.stringify({ type: EVENTS.AVATAR_URL_UPDATED, payload: result })
     );

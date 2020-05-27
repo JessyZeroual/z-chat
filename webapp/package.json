@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/jest": "^24.0.25",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.5.0",
     "npm": "^6.11.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -15,7 +15,7 @@
     "react-scripts": "^3.4.1",
     "react-spinners": "^0.6.1",
     "react-split-pane": "^0.1.87",
-    "reactstrap": "^8.2.0",
+    "reactstrap": "^8.4.1",
     "styled-components": "^4.4.0"
   },
   "scripts": {
@@ -43,6 +43,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "fetch-mock": "^9.3.1",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "source-map-explorer": "^2.4.2"
   }
 }
