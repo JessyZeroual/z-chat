@@ -14,6 +14,7 @@ import {
 
 import { getTimeFromDate } from '../../../../utils/formatDate';
 import getHost from '../../../../utils/getHost';
+import SVGIcon from '../../../../icon/SVGIcon';
 
 const MessageItem = ({ message, extraInfo, isOwner, deleteMessage }) => {
   const [avatar, setAvatar] = useState('');
@@ -55,7 +56,7 @@ const MessageItem = ({ message, extraInfo, isOwner, deleteMessage }) => {
                 onClick={() => deleteMessage(message.id)}
                 data-selector="message-delete-button"
               >
-                <i className="fas fa-trash-alt" />
+                <SVGIcon name="trash" width={16} fill="#808080" />
               </ButtonOptionMessageItem>
             </OptionMessageItem>
           )}

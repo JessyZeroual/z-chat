@@ -6,6 +6,7 @@ import Collapse from 'reactstrap/lib/Collapse';
 import ButtonSideBar from './ButtonSideBar';
 import ListOptions from '../../ListOptions/ListOptions';
 import CreateChannel from '../../Channel/CreateChannel';
+import SVGIcon from '../../../../icon/SVGIcon';
 
 import {
   SideBarStyled,
@@ -28,7 +29,7 @@ const SideBar = ({
   const [isOpenChannelList, setIsOpenChannelList] = useState(true);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const handleClick = channel => {
+  const handleClick = (channel) => {
     history.push(`/channels/${channel.id}/messages`);
     if (isSmallScreen) setIsOpenSideBar(false);
   };
@@ -45,9 +46,9 @@ const SideBar = ({
             onClick={() => setIsOpenChannelList(!isOpenChannelList)}
           >
             {isOpenChannelList ? (
-              <i className="fas fa-caret-down" />
+              <SVGIcon name="caret-down" width={12} fill={'#fff'} />
             ) : (
-              <i className="fas fa-caret-right" />
+              <SVGIcon name="caret-right" width={12} fill={'#fff'} />
             )}
             &nbsp;Channels
           </ButtonDropdownChannel>
@@ -56,7 +57,7 @@ const SideBar = ({
             className="ml-auto"
             onClick={() => setIsOpenModal(!isOpenModal)}
           >
-            <i className="fas fa-plus" />
+            <SVGIcon name="plus" width={18} fill={'#eee'} />
           </ButtonCreateChannel>
         </WrapperChannels>
         <CreateChannel
@@ -66,7 +67,7 @@ const SideBar = ({
         />
 
         <Collapse isOpen={isOpenChannelList}>
-          {channels.map(channel => (
+          {channels.map((channel) => (
             <ButtonSideBar
               key={channel.id}
               channel={channel}

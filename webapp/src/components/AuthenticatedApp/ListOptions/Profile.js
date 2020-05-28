@@ -14,6 +14,7 @@ import {
 
 import { updateAvatarProfile } from '../../../controllers/user';
 import { ButtonUpload } from './ListOptions.styled';
+import SVGIcon from '../../../icon/SVGIcon';
 import getHost from '../../../utils/getHost';
 
 const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
@@ -71,7 +72,7 @@ const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
               id="file"
             />
             <ButtonUpload htmlFor="file">
-              <i className="fas fa-upload mr-2" />
+              <SVGIcon name="trash" width={20} fill="#eee" />
               <span style={{ fontSize: 13 }}>upload an image</span>
             </ButtonUpload>
           </div>

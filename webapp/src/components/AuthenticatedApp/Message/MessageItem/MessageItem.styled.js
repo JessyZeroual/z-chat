@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import SVGIconStyled from '../../../../icon/SVGIcon.styled';
 
 export const OptionMessageItem = styled.div`
   display: none;
@@ -20,6 +21,9 @@ export const ButtonOptionMessageItem = styled.button`
   &:hover {
     background-color: #f8f8f8;
     color: #1d1c1d;
+  }
+  &:hover ${SVGIconStyled} {
+    fill: #000;
   }
 `;
 
