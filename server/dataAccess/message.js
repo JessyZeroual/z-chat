@@ -44,13 +44,13 @@ const getMessagesByChannelId = async (channelId, limit, offset) => {
   return messages.rows;
 };
 
-const getMessagesNotSeenByChannelId = async (channelId, userId) => {
+const getMessagesNotSeen = async userId => {
   const messages = await pool.query(
-    `SELECT COUNT(*)
+    `SELECT channel_id, COUNT(channel_id)
       FROM message
-      WHERE channel_id=($1)
-      AND NOT ($2 = ANY (seen_by))`,
-    [channelId, userId]
+      WHERE NOT ($1 = ANY (seen_by))
+      GROUP BY channel_id`,
+    [userId]
   );
 
   return messages.rows;
@@ -73,7 +73,7 @@ const deleteMessage = async id => {
 module.exports = {
   createMessage,
   getMessagesByChannelId,
-  getMessagesNotSeenByChannelId,
+  getMessagesNotSeen,
   getMessage,
   hasSeenMessage,
   deleteMessage,

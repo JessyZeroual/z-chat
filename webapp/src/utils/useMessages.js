@@ -1,12 +1,16 @@
 import { useState, useEffect, useContext } from 'react';
 
 import CurrentUserContext from '../context/CurrentUserContext';
-import { getMessages, hasSeenMessage } from '../controllers/message';
+import {
+  getMessages,
+  hasSeenMessage,
+  getMessagesNotSeen,
+} from '../controllers/message';
 
 import groupMessagesByDay from './groupMessagesByDay';
 import getHost from './getHost';
 
-const useMessages = channelId => {
+const useMessages = (channelId, setNotificationByChannel) => {
   const { currentUser } = useContext(CurrentUserContext);
 
   const LIMIT = 20;
@@ -101,7 +105,12 @@ const useMessages = channelId => {
     const messagesList = messages.filter(
       message => !message.seen_by.includes(currentUser.id)
     );
-    hasSeenMessage(messagesList);
+    if (messagesList.length)
+      hasSeenMessage(messagesList).then(
+        getMessagesNotSeen().then(data => {
+          setNotificationByChannel(data.notificationByChannel);
+        })
+      );
     // eslint-disable-next-line
   }, [messages]);
 

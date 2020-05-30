@@ -27,6 +27,7 @@ const CreateMessage = ({ channelId, isSmallScreen }) => {
         className="form-control"
         placeholder="Write a message"
         aria-label="Write a message"
+        autoComplete="off"
       />
       <div className="input-group-append">
         <button type="submit" className="btn btn-success">

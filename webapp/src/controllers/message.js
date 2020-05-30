@@ -40,3 +40,11 @@ export const getMessagesNotSeenByChannel = channelId => {
       return data;
     });
 };
+
+export const getMessagesNotSeen = () => {
+  return fetch(`/api/messagesNotSeen`)
+    .then(res => res.json())
+    .then(data => {
+      return data;
+    });
+};

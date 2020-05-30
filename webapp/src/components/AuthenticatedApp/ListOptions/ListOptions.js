@@ -73,7 +73,6 @@ const ListOptions = () => {
           </HeaderListOption>
 
           <ButtonListOption
-            className="bg-warning"
             onClick={() => setIsOpenModal(!isOpenModal)}
             onKeyDown={e => e.key === 'Enter' && setIsOpenModal(!isOpenModal)}
           >

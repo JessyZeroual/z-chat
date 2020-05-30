@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import { BadgeNotificationStyled } from '../style/common.styled';
 
-const BadgeNotification = ({ messagesNotSeen }) => (
+const BadgeNotification = ({ notificationByChannel }) => (
   <BadgeNotificationStyled>
-    {messagesNotSeen < 99 ? messagesNotSeen : '99+'}
+    {notificationByChannel < 99 ? notificationByChannel : '99+'}
   </BadgeNotificationStyled>
 );
 
 BadgeNotification.propTypes = {
-  messagesNotSeen: PropTypes.number.isRequired,
+  notificationByChannel: PropTypes.number.isRequired,
 };
 
 export default BadgeNotification;

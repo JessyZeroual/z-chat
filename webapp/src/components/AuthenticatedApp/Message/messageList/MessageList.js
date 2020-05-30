@@ -19,7 +19,11 @@ import {
   MessageListEmpty,
 } from './MessageList.styled';
 
-const MessageList = ({ isSmallScreen, setIsOpenSideBar }) => {
+const MessageList = ({
+  isSmallScreen,
+  setIsOpenSideBar,
+  setNotificationByChannel,
+}) => {
   const { currentUser } = useContext(CurrentUserContext);
   const mainMessageList = useRef(null);
   const { channelId } = useParams();
@@ -28,12 +32,13 @@ const MessageList = ({ isSmallScreen, setIsOpenSideBar }) => {
     loadingMoreMessages,
     daysWithMessages,
     deleteMessage,
-  ] = useMessages(channelId);
+  ] = useMessages(channelId, setNotificationByChannel);
 
   const messageListWrapper = useRef(null);
 
   useEffect(() => {
     if (isSmallScreen) setIsOpenSideBar(false);
+    // eslint-disable-next-line
   }, [channelId]);
 
   return (
@@ -102,11 +107,13 @@ const MessageList = ({ isSmallScreen, setIsOpenSideBar }) => {
 MessageList.propTypes = {
   isSmallScreen: PropTypes.bool,
   setIsOpenSideBar: PropTypes.func,
+  setNotificationByChannel: PropTypes.func,
 };
 
 MessageList.defaultProps = {
   isSmallScreen: null,
   setIsOpenSideBar: () => {},
+  setNotificationByChannel: () => {},
 };
 
 export default MessageList;

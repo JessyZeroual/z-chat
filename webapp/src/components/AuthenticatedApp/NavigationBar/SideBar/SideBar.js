@@ -22,6 +22,7 @@ const SideBar = ({
   setShouldRefetchChannel,
   isOpenSideBar,
   isSmallScreen,
+  notificationByChannel,
 }) => {
   const [isOpenChannelList, setIsOpenChannelList] = useState(true);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -63,7 +64,15 @@ const SideBar = ({
           <ul className="m-0 p-0">
             <li>
               {channels.map(channel => (
-                <ButtonSideBar key={channel.id} channel={channel} />
+                <ButtonSideBar
+                  key={channel.id}
+                  channel={channel}
+                  notificationByChannel={
+                    notificationByChannel.find(m => m.channel_id === channel.id)
+                      ? notificationByChannel
+                      : []
+                  }
+                />
               ))}
             </li>
           </ul>
@@ -80,6 +89,12 @@ SideBar.propTypes = {
       id: PropTypes.number,
       created_at: PropTypes.string,
       name: PropTypes.string,
+    })
+  ).isRequired,
+  notificationByChannel: PropTypes.arrayOf(
+    PropTypes.shape({
+      channel_id: PropTypes.number,
+      count: PropTypes.string,
     })
   ).isRequired,
   setShouldRefetchChannel: PropTypes.func.isRequired,

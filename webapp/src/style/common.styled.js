@@ -10,4 +10,5 @@ export const BadgeNotificationStyled = styled.span`
   height: 20px;
   border-radius: 10px;
   background: #c62f2e;
+  color: #fff;
 `;
