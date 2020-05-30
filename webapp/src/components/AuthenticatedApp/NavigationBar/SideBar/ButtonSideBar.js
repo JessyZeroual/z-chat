@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { getMessagesNotSeenByChannel } from '../../../../controllers/message';
@@ -9,7 +10,7 @@ import getHost from '../../../../utils/getHost';
 
 import { ButtonSideBarStyled } from './SideBar.styled';
 
-const ButtonSideBar = ({ channel, handleClick }) => {
+const ButtonSideBar = ({ channel }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const [messagesNotSeen, setMessagesNotSeen] = useState(0);
 
@@ -37,15 +38,17 @@ const ButtonSideBar = ({ channel, handleClick }) => {
   });
 
   return (
-    <ButtonSideBarStyled
-      onClick={() => handleClick(channel)}
-      active={messagesNotSeen > 0}
+    <Link
+      style={{ textDecoration: 'none' }}
+      to={`/channels/${channel.id}/messages`}
     >
-      {`# ${channel.name}`}
-      {messagesNotSeen > 0 && (
-        <BadgeNotification messagesNotSeen={messagesNotSeen} />
-      )}
-    </ButtonSideBarStyled>
+      <ButtonSideBarStyled active={messagesNotSeen > 0}>
+        {`# ${channel.name}`}
+        {messagesNotSeen > 0 && (
+          <BadgeNotification messagesNotSeen={messagesNotSeen} />
+        )}
+      </ButtonSideBarStyled>
+    </Link>
   );
 };
 
@@ -54,7 +57,6 @@ ButtonSideBar.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
   }).isRequired,
-  handleClick: PropTypes.func.isRequired,
 };
 
 export default ButtonSideBar;

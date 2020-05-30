@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import CurrentUserContext from '../../../../context/CurrentUserContext';
@@ -19,15 +19,22 @@ import {
   MessageListEmpty,
 } from './MessageList.styled';
 
-const MessageList = ({ isSmallScreen }) => {
+const MessageList = ({ isSmallScreen, setIsOpenSideBar }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const mainMessageList = useRef(null);
   const { channelId } = useParams();
-  const [loading, loadingMoreMessages, daysWithMessages, deleteMessage] = useMessages(
-    channelId
-  );
+  const [
+    loading,
+    loadingMoreMessages,
+    daysWithMessages,
+    deleteMessage,
+  ] = useMessages(channelId);
 
   const messageListWrapper = useRef(null);
+
+  useEffect(() => {
+    if (isSmallScreen) setIsOpenSideBar(false);
+  }, [channelId]);
 
   return (
     <MessageListWrapper ref={messageListWrapper}>
@@ -94,10 +101,12 @@ const MessageList = ({ isSmallScreen }) => {
 
 MessageList.propTypes = {
   isSmallScreen: PropTypes.bool,
+  setIsOpenSideBar: PropTypes.func,
 };
 
 MessageList.defaultProps = {
   isSmallScreen: null,
+  setIsOpenSideBar: () => {},
 };
 
 export default MessageList;

@@ -17,6 +17,7 @@ const TopBar = ({
         {isSmallScreen && (
           <BurgerWrapper>
             <StyledBurger
+              aria-label="Right Align"
               open={isOpenSideBar}
               onClick={() => setIsOpenSideBar(!isOpenSideBar)}
             >

@@ -19,12 +19,14 @@ const CreateMessage = ({ channelId, isSmallScreen }) => {
       onSubmit={e => handleSubmit(e)}
     >
       <input
+        id="exampleInputEmail1"
         ref={node => {
           input = node;
         }}
         type="text"
         className="form-control"
         placeholder="Write a message"
+        aria-label="Write a message"
       />
       <div className="input-group-append">
         <button type="submit" className="btn btn-success">

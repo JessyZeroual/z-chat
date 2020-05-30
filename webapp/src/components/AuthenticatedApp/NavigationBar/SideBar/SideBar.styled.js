@@ -44,7 +44,7 @@ export const FooterSideBar = styled.div`
   color: white;
 `;
 
-export const ButtonSideBarStyled = styled.li`
+export const ButtonSideBarStyled = styled.span`
   display: flex;
   align-items: center;
   padding: 5px 25px;

@@ -10,7 +10,7 @@ import getHost from '../../../utils/getHost';
 import Profile from './Profile';
 
 import { HeaderListOption, ButtonListOption } from './ListOptions.styled';
-import SVGIcon from "../../../icon/SVGIcon"
+import SVGIcon from '../../../icon/SVGIcon';
 
 const ListOptions = () => {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
@@ -24,7 +24,7 @@ const ListOptions = () => {
   useEffect(() => {
     const socket = new WebSocket(HOST);
 
-    socket.onmessage = (msg) => {
+    socket.onmessage = msg => {
       const event = JSON.parse(msg.data);
       if (event.type === 'AVATAR_URL_UPDATED')
         setAvatar(event.payload.avatar_url);
@@ -33,14 +33,14 @@ const ListOptions = () => {
   }, []);
 
   const handleLogout = async () => {
-    await logout().then((response) => {
+    await logout().then(response => {
       if (response.ok) {
         setCurrentUser(null);
       }
     });
   };
 
-  const toggle = () => setIsOpenDropDown((prevState) => !prevState);
+  const toggle = () => setIsOpenDropDown(prevState => !prevState);
 
   return (
     <>
@@ -49,14 +49,14 @@ const ListOptions = () => {
           role="button"
           tabIndex={0}
           onClick={() => setIsOpenDropDown(!isOpenDropDown)}
-          onKeyDown={(e) => {
+          onKeyDown={e => {
             if (e.key === 'Enter') setIsOpenDropDown(!isOpenDropDown);
           }}
         >
           <div>
             <span className="text-white h6 ">ProjectName</span>
             &nbsp;
-            <SVGIcon name="chevron-down" width={15} fill={'#eee'} />
+            <SVGIcon name="chevron-down" width={15} fill="#eee" />
           </div>
           <span>{currentUser.username}</span>
         </div>
@@ -73,15 +73,16 @@ const ListOptions = () => {
           </HeaderListOption>
 
           <ButtonListOption
+            className="bg-warning"
             onClick={() => setIsOpenModal(!isOpenModal)}
-            onKeyDown={(e) => e.key === 'Enter' && setIsOpenModal(!isOpenModal)}
+            onKeyDown={e => e.key === 'Enter' && setIsOpenModal(!isOpenModal)}
           >
             Profil et compte
           </ButtonListOption>
 
           <ButtonListOption
             onClick={() => handleLogout()}
-            onKeyDown={(e) => e.key === 'Enter' && handleLogout()}
+            onKeyDown={e => e.key === 'Enter' && handleLogout()}
           >
             Déconnexion
           </ButtonListOption>
