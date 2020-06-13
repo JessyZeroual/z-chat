@@ -7,7 +7,7 @@ import { ButtonSideBarStyled } from './SideBar.styled';
 
 const ButtonSideBar = ({ channel, notificationByChannel }) => {
   const notification = notificationByChannel.find(
-    notif => notif.channel_id === Number(channel.id)
+    notif => notif.channel_id === channel.id
   );
 
   return (
@@ -15,12 +15,12 @@ const ButtonSideBar = ({ channel, notificationByChannel }) => {
       style={{ textDecoration: 'none' }}
       to={`/channels/${channel.id}/messages`}
     >
-      <ButtonSideBarStyled active={notificationByChannel > 0}>
+      <ButtonSideBarStyled
+        hasNotification={notification && Number(notification.count) > 0}
+      >
         {`# ${channel.name}`}
         {notification && (
-          <BadgeNotification
-            notificationByChannel={Number(notification.count)}
-          />
+          <BadgeNotification notification={Number(notification.count)} />
         )}
       </ButtonSideBarStyled>
     </Link>

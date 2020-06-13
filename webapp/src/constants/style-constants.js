@@ -3,12 +3,16 @@ const TopBarHeight = '60px';
 const SideBarWidth = '250px';
 const FooterMessageListHeight = '60px';
 
-const primaryBackgroundColor = '#3f0e40';
+const primaryColor = '#79d9c7';
+const primaryBackgroundColor = '#102137';
+const primaryBackgroundColorHover = '#2a333d';
 
 export {
   widescreenMinimumWidth,
   TopBarHeight,
   SideBarWidth,
+  primaryColor,
   primaryBackgroundColor,
+  primaryBackgroundColorHover,
   FooterMessageListHeight,
 };

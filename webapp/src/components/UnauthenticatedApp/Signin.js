@@ -9,13 +9,14 @@ import CLIENT_ID_GOOGLE from '../../constants/clientIdGoogle';
 
 import CurrentUserContext from '../../context/CurrentUserContext';
 
-import brandGoogle from '../../img/brandGoogle.png';
-import brandSignUp from '../../img/signUp.png';
+import brandGoogle from '../../img/brandGoogle.svg';
+import brandSignUp from '../../img/signup.svg';
 
 import {
   Form,
   Input,
   Button,
+  ButtonSubmit,
   WrapperSignup,
 } from './UnauthenticatedApp.styled';
 
@@ -62,7 +63,7 @@ const Signin = () => {
           placeholder="password"
         />
 
-        <Button type="submit">SIGN IN</Button>
+        <ButtonSubmit type="submit">sign in</ButtonSubmit>
 
         <p className="text-center my-3">Don't have account ?</p>
 
@@ -70,9 +71,6 @@ const Signin = () => {
           <GoogleLogin
             render={renderProps => (
               <Button
-                width="190px"
-                bgColor="white"
-                color="grey"
                 onClick={renderProps.onClick}
                 disabled={renderProps.disabled}
               >
@@ -92,7 +90,7 @@ const Signin = () => {
           />
           <p className="text-center mb-0">Or</p>
           <Link to="/signup">
-            <Button width="190px" bgColor="white" color="grey">
+            <Button>
               <img
                 style={{ width: 20 }}
                 className="mr-2"

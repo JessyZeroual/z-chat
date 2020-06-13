@@ -4,7 +4,8 @@ import { Link, useHistory } from 'react-router-dom';
 import { signup, signin } from '../../controllers/authentication';
 import CurrentUserContext from '../../context/CurrentUserContext';
 
-import { Form, Input, Button } from './UnauthenticatedApp.styled';
+import { Form, Input, ButtonSubmit } from './UnauthenticatedApp.styled';
+import { primaryColor } from '../../constants/style-constants';
 
 const Signup = () => {
   const { getCurrentUser } = useContext(CurrentUserContext);
@@ -55,11 +56,13 @@ const Signup = () => {
           type="password"
           placeholder="password"
         />
-        <Button type="submit">sign up</Button>
+        <ButtonSubmit type="submit">sign up</ButtonSubmit>
       </Form>
       <p>
         you are a member? &nbsp;
-        <Link to="/">Connect</Link>
+        <Link style={{ color: primaryColor }} to="/">
+          Connect
+        </Link>
       </p>
     </>
   );

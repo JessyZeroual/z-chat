@@ -6,14 +6,19 @@ import {
 } from 'react-router-dom';
 import Signup from './Signup';
 import Signin from './Signin';
-import SlackLogo from '../../img/slackLogo.png';
+import ZchatLogo from '../../img/zchatLogo.svg';
 
 import { Container } from './UnauthenticatedApp.styled';
 
 const UnAuthenticatedApp = () => {
   return (
     <Container>
-      <img src={SlackLogo} alt="Slack logo" className="mr-2" />
+      <img
+        style={{ maxWidth: 350 }}
+        src={ZchatLogo}
+        alt="Zchat logo"
+        className="mr-2"
+      />
       <RouterUnauthenticatedApp>
         <Route exact path="/" component={() => <Signin />} />
         <Route exact path="/signup" component={Signup} />

@@ -37,11 +37,7 @@ const MessageItem = ({ message, extraInfo, isOwner, deleteMessage }) => {
   return (
     <MessageItemWrapper data-selector={`message-${message.id}`}>
       <AvatarMessageItem>
-        <img
-          src={avatar === '' ? message.avatar_url : avatar}
-          alt="user Profile"
-          width="50"
-        />
+        <img src={avatar || message.avatar_url} alt="user Profile" width="50" />
       </AvatarMessageItem>
 
       <ContentMessageItem>

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {
   SideBarWidth,
   primaryBackgroundColor,
+  primaryBackgroundColorHover,
 } from '../../../../constants/style-constants';
 
 export const SideBarStyled = styled.div`
@@ -21,20 +22,20 @@ export const SideBarStyled = styled.div`
 export const HeaderSideBar = styled.div`
   height: 60px;
   padding: 10px 20px;
-  color: #ccc0cc;
-  border-bottom: 2px solid #4b264b;
+  color: #bdc5ce;
+  border-bottom: 2px solid #0a182a;
   cursor: pointer;
   transition: color 0.3s, background-color 0.3s;
   &:hover {
     color: white;
-    background-color: #350c37;
+    background-color: ${primaryBackgroundColorHover};
   }
 `;
 
 export const MainSideBar = styled.div`
   overflow-y: auto;
   padding: 10px 0px;
-  border-bottom: 2px solid #4b264b;
+  border-bottom: 2px solid #0a182a;
 `;
 
 export const FooterSideBar = styled.div`
@@ -49,18 +50,20 @@ export const ButtonSideBarStyled = styled.span`
   align-items: center;
   padding: 5px 25px;
   list-style-type: none;
-  color: ${props => (props.active ? 'white' : '#ccc0cc')};
+  font-weight: ${props => props.hasNotification && 'bold'};
+  color: ${props => (props.hasNotification ? 'white' : '#bdc5ce')};
   cursor: pointer;
   transition: background-color 0.3s;
   &:hover {
-    background-color: #350c37;
+    color: white;
+    background-color: ${primaryBackgroundColorHover};
   }
 `;
 
 export const WrapperChannels = styled.div`
   display: flex;
   align-items: center;
-  color: #ccc0cc;
+  color: #bdc5ce;
   padding: 5px 20px;
 `;
 
@@ -73,14 +76,14 @@ export const ButtonCreateChannel = styled.button`
   margin-left: auto;
   width: 25px;
   height: 25px;
-  color: #ccc0cc;
+  color: #bdc5ce;
   border: none;
   padding: 0;
   font: inherit;
   cursor: pointer;
   outline: inherit;
   &:hover {
-    background-color: #4b264b;
+    background-color: #0a182a;
   }
 `;
 
@@ -92,7 +95,7 @@ export const ButtonDropdownChannel = styled.button`
   margin-left: auto;
   width: 100%;
   height: 25px;
-  color: #ccc0cc;
+  color: #bdc5ce;
   border: none;
   padding: 0;
   font: inherit;
