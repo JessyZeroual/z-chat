@@ -39,12 +39,12 @@ const server = http.createServer(app);
 
 const wsserver = new WebSocket.Server({ server });
 
-wsserver.on('connection', (ws) => {
-  eventEmitter.on(EVENTS.MESSAGE_CREATED, (result) => {
+wsserver.on('connection', ws => {
+  eventEmitter.on(EVENTS.MESSAGE_CREATED, result => {
     ws.send(JSON.stringify({ type: EVENTS.MESSAGE_CREATED, payload: result }));
   });
 
-  eventEmitter.on(EVENTS.AVATAR_URL_UPDATED, (result) => {
+  eventEmitter.on(EVENTS.AVATAR_URL_UPDATED, result => {
     ws.send(
       JSON.stringify({ type: EVENTS.AVATAR_URL_UPDATED, payload: result })
     );

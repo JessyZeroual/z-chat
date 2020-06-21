@@ -12,7 +12,7 @@ import {
   Input,
 } from 'reactstrap';
 
-import { updateAvatarProfile } from '../../../controllers/user';
+import { updateAvatarProfile } from '../../../controllers/upload';
 import { ButtonUpload } from './ListOptions.styled';
 import SVGIcon from '../../../icon/SVGIcon';
 import getHost from '../../../utils/getHost';
