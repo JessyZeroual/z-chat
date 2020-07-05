@@ -14,7 +14,7 @@ import {
   HeaderSideBar,
   MainSideBar,
   WrapperChannels,
-  FooterSideBar,
+  // FooterSideBar,
 } from './SideBar.styled';
 
 const SideBar = ({
@@ -78,7 +78,7 @@ const SideBar = ({
           </ul>
         </Collapse>
       </MainSideBar>
-      <FooterSideBar>Footer</FooterSideBar>
+      {/* <FooterSideBar>Footer</FooterSideBar> */}
     </SideBarStyled>
   );
 };
