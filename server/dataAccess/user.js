@@ -39,9 +39,18 @@ const getUserFromSessionId = async sessionId => {
 const updateAvatarUser = async (avatarUrl, userId) => {
   await pool.query(
     `UPDATE users
-    SET avatar_url = $1
-    WHERE id = $2`,
+     SET avatar_url = $1
+     WHERE id = $2`,
     [avatarUrl, userId]
+  );
+};
+
+const updateUser = async (username, userId) => {
+  await pool.query(
+    `UPDATE users
+     SET username = $1
+     WHERE id = $2`,
+    [username, userId]
   );
 };
 
@@ -50,4 +59,5 @@ module.exports = {
   getVerifiedUserId,
   getUserFromSessionId,
   updateAvatarUser,
+  updateUser,
 };
