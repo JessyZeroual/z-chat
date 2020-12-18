@@ -13,7 +13,19 @@ const getCurrentUser = async (req, res) => {
   return res.sendStatus(401);
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const { user } = req;
+    const { username } = req.body;
+    await dataAccess.updateUser(username, user.id);
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(400).send({ errorMessage: error.message });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getCurrentUser,
+  updateUser,
 };

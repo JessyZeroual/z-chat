@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -11,18 +11,19 @@ import {
   Label,
   Input,
 } from 'reactstrap';
+import CurrentUserContext from '../../../context/CurrentUserContext';
 
-import { updateAvatarProfile } from '../../../controllers/upload';
+import { updateAvatarProfile, updateUser } from '../../../controllers/user';
 import { ButtonUpload } from './ListOptions.styled';
 import SVGIcon from '../../../icon/SVGIcon';
 import getHost from '../../../utils/getHost';
 
 const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
-  let username;
-  let uploadInput;
-
+  const { getCurrentUser } = useContext(CurrentUserContext);
   const [avatar, setAvatar] = useState('');
+  const [username, setUsername] = useState('');
   const HOST = getHost();
+  let uploadInput;
 
   useEffect(() => {
     const socket = new WebSocket(HOST);
@@ -42,6 +43,14 @@ const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
     await updateAvatarProfile(formData);
   };
 
+  const editUsername = async e => {
+    e.preventDefault();
+    const response = await updateUser(username);
+    if (response.ok) {
+      getCurrentUser();
+    }
+  };
+
   return (
     <Modal
       size="sm"
@@ -52,7 +61,7 @@ const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
         Edit profile
       </ModalHeader>
 
-      <Form>
+      <Form onSubmit={editUsername}>
         <ModalBody>
           <div style={{ maxWidth: 200 }} className="mx-auto">
             <img
@@ -79,9 +88,7 @@ const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
           <FormGroup>
             <Label for="username">Username</Label>
             <Input
-              ref={ref => {
-                username = ref;
-              }}
+              onChange={e => setUsername(e.target.value)}
               type="text"
               name="username"
               id="username"
