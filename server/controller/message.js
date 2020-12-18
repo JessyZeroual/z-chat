@@ -6,6 +6,12 @@ const createMessage = async (req, res) => {
   const { text, channelId } = req.body;
   const { user } = req;
 
+  if (text.trim().length < 1) {
+    return res
+      .status(400)
+      .send({ errorMessage: 'the message must contain 1 character minimum' });
+  }
+
   const extraInfo = JSON.stringify(
     await services.getExtraInfoFromMessage(text)
   );
