@@ -17,6 +17,12 @@ const updateUser = async (req, res) => {
   try {
     const { user } = req;
     const { username } = req.body;
+    if (username.trim().length < 1) {
+      return res.status(400).send({
+        errorMessage: 'the username must contain 1 character minimum',
+      });
+    }
+
     await dataAccess.updateUser(username, user.id);
     return res.sendStatus(200);
   } catch (error) {
