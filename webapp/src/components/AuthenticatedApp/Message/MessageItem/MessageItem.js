@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ExtraInfo from '../ExtraInfo/ExtraInfo';
 
@@ -13,58 +13,38 @@ import {
 } from './MessageItem.styled';
 
 import { getTimeFromDate } from '../../../../utils/formatDate';
-import getHost from '../../../../utils/getHost';
 import SVGIcon from '../../../../icon/SVGIcon';
 
-const MessageItem = ({ message, extraInfo, isOwner, deleteMessage }) => {
-  const [avatar, setAvatar] = useState('');
-  const HOST = getHost();
+const MessageItem = ({ message, extraInfo, isOwner, deleteMessage }) => (
+  <MessageItemWrapper data-selector={`message-${message.id}`}>
+    <AvatarMessageItem>
+      <img src={message.avatar_url} alt="user Profile" width="50" />
+    </AvatarMessageItem>
 
-  useEffect(() => {
-    const socket = new WebSocket(HOST);
+    <ContentMessageItem>
+      <HeaderMessageItem>
+        <b className="mr-2">{message.username}</b>
+        <span className="text-muted">
+          {getTimeFromDate(message.created_at)}
+        </span>
+        {isOwner && (
+          <OptionMessageItem>
+            <ButtonOptionMessageItem
+              onClick={() => deleteMessage(message.id)}
+              data-selector="message-delete-button"
+            >
+              <SVGIcon name="trash" width={16} fill="#808080" />
+            </ButtonOptionMessageItem>
+          </OptionMessageItem>
+        )}
+      </HeaderMessageItem>
 
-    socket.onmessage = msg => {
-      const event = JSON.parse(msg.data);
-      if (
-        event.type === 'AVATAR_URL_UPDATED' &&
-        event.payload.userId === message.user_id
-      )
-        setAvatar(event.payload.avatar_url);
-    };
-    // eslint-disable-next-line
-  }, []);
+      <TextMessageItem>{message.text}</TextMessageItem>
 
-  return (
-    <MessageItemWrapper data-selector={`message-${message.id}`}>
-      <AvatarMessageItem>
-        <img src={avatar || message.avatar_url} alt="user Profile" width="50" />
-      </AvatarMessageItem>
-
-      <ContentMessageItem>
-        <HeaderMessageItem>
-          <b className="mr-2">{message.username}</b>
-          <span className="text-muted">
-            {getTimeFromDate(message.created_at)}
-          </span>
-          {isOwner && (
-            <OptionMessageItem>
-              <ButtonOptionMessageItem
-                onClick={() => deleteMessage(message.id)}
-                data-selector="message-delete-button"
-              >
-                <SVGIcon name="trash" width={16} fill="#808080" />
-              </ButtonOptionMessageItem>
-            </OptionMessageItem>
-          )}
-        </HeaderMessageItem>
-
-        <TextMessageItem>{message.text}</TextMessageItem>
-
-        {extraInfo.title && <ExtraInfo extraInfo={extraInfo} />}
-      </ContentMessageItem>
-    </MessageItemWrapper>
-  );
-};
+      {extraInfo.title && <ExtraInfo extraInfo={extraInfo} />}
+    </ContentMessageItem>
+  </MessageItemWrapper>
+);
 
 MessageItem.propTypes = {
   message: PropTypes.shape({
