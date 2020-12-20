@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -16,31 +16,20 @@ import CurrentUserContext from '../../../context/CurrentUserContext';
 import { updateAvatarProfile, updateUser } from '../../../controllers/user';
 import { ButtonUpload } from './ListOptions.styled';
 import SVGIcon from '../../../icon/SVGIcon';
-import getHost from '../../../utils/getHost';
 
 const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
   const { getCurrentUser } = useContext(CurrentUserContext);
-  const [avatar, setAvatar] = useState('');
   const [username, setUsername] = useState('');
-  const HOST = getHost();
   let uploadInput;
-
-  useEffect(() => {
-    const socket = new WebSocket(HOST);
-
-    socket.onmessage = msg => {
-      const event = JSON.parse(msg.data);
-      if (event.type === 'AVATAR_URL_UPDATED')
-        setAvatar(event.payload.avatar_url);
-    };
-    // eslint-disable-next-line
-  }, []);
 
   const uploadAvatar = async e => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('file', uploadInput.files[0]);
-    await updateAvatarProfile(formData);
+    const response = await updateAvatarProfile(formData);
+    if (response.ok) {
+      getCurrentUser();
+    }
   };
 
   const editUsername = async e => {
@@ -66,7 +55,7 @@ const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
           <div style={{ maxWidth: 200 }} className="mx-auto">
             <img
               width="200"
-              src={avatar === '' ? currentUser.avatar_url : avatar}
+              src={currentUser.avatar_url}
               alt="profil utilisateur"
               className="my-2"
             />

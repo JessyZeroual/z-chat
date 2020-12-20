@@ -40,11 +40,6 @@ const uploadAvatarUser = async (req, res) => {
 
     await dataAccess.updateAvatarUser(resultUpload.secure_url, user.id);
 
-    await eventEmitter.emit(EVENTS.AVATAR_URL_UPDATED, {
-      avatar_url: resultUpload.secure_url,
-      userId: user.id,
-    });
-
     return res.status(200).send(resultUpload);
   } catch (error) {
     return res.status(400).send(error);
