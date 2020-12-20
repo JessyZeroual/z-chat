@@ -19,6 +19,7 @@ import SVGIcon from '../../../icon/SVGIcon';
 
 const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
   const { getCurrentUser } = useContext(CurrentUserContext);
+  const [focusInputUpload, setFocusInputUpload] = useState(false);
   const [username, setUsername] = useState('');
   let uploadInput;
 
@@ -64,14 +65,18 @@ const Profile = ({ setIsOpenModal, isOpenModal, currentUser }) => {
                 uploadInput = ref;
               }}
               onChange={e => uploadAvatar(e)}
+              onFocus={() => setFocusInputUpload(true)}
+              onBlur={() => setFocusInputUpload(false)}
               accept="image/*"
               type="file"
               name="profile"
               id="file"
             />
-            <ButtonUpload htmlFor="file">
-              <SVGIcon name="trash" width={20} fill="#eee" />
-              <span style={{ fontSize: 13 }}>upload an image</span>
+            <ButtonUpload htmlFor="file" focusInputUpload={focusInputUpload}>
+              <SVGIcon name="upload" width={20} fill="black" />
+              <span style={{ marginLeft: 5, fontSize: 13 }}>
+                Upload an image
+              </span>
             </ButtonUpload>
           </div>
           <FormGroup>

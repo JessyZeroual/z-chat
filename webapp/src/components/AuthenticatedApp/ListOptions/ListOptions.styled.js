@@ -24,6 +24,7 @@ export const ButtonListOption = styled.button`
 `;
 
 export const ButtonUpload = styled.label`
+  outline: ${props => props.focusInputUpload && 'solid #4E8ADA 2px'};
   display: flex;
   align-items: center;
   height: 25px;
