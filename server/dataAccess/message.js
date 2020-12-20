@@ -28,6 +28,11 @@ const getMessage = async messageId => {
   return result.rows[0];
 };
 
+const getMessages = async () => {
+  const result = await pool.query(`SELECT * FROM message`);
+  return result.rows;
+};
+
 const getMessagesByChannelId = async (channelId, limit, offset) => {
   const messages = await pool.query(
     `SELECT message.id, message.text, message.created_at, message.channel_id, users.username, users.id as user_id, extra_info, seen_by, avatar_url
@@ -72,6 +77,7 @@ const deleteMessage = async id => {
 
 module.exports = {
   createMessage,
+  getMessages,
   getMessagesByChannelId,
   getMessagesNotSeen,
   getMessage,

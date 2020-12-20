@@ -31,6 +31,15 @@ const signup = async (req, res) => {
     const { username, email } = req.body;
     const password = getCleanPassword(req.body.password);
     await dataAccess.signup(username, email, password);
+
+    const user = await dataAccess.getUserByEmail(email);
+    const messages = await dataAccess.getMessages();
+
+    await Promise.all(
+      messages.map(async message => {
+        await dataAccess.hasSeenMessage(user.id, message.id);
+      })
+    );
   } catch (error) {
     return res.status(400).send({ errorMessage: error.message });
   }
