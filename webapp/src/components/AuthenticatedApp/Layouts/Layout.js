@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import useWindowSize from '../../../utils/useWindowSize';
 import { getChannels } from '../../../controllers/channel';
-import { getMessagesNotSeen } from '../../../controllers/message';
+import { getNotificationsByChannels } from '../../../controllers/message';
 import CurrentUserContext from '../../../context/CurrentUserContext';
 
 import SideBar from '../NavigationBar/SideBar/SideBar';
@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
   const [isOpenSideBar, setIsOpenSideBar] = useState(false);
 
   useEffect(() => {
-    getMessagesNotSeen().then(data => {
+    getNotificationsByChannels().then(data => {
       setNotificationByChannel(data.notificationByChannel);
     });
   }, []);
@@ -52,7 +52,7 @@ const Layout = ({ children }) => {
         event.type === 'MESSAGE_CREATED' &&
         !event.payload.seen_by.includes(currentUser.id)
       ) {
-        getMessagesNotSeen().then(data => {
+        getNotificationsByChannels().then(data => {
           setNotificationByChannel(data.notificationByChannel);
         });
       }
@@ -68,6 +68,7 @@ const Layout = ({ children }) => {
     React.cloneElement(child, {
       isSmallScreen,
       setIsOpenSideBar,
+      notificationByChannel,
       setNotificationByChannel,
     })
   );

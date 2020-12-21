@@ -8,7 +8,7 @@ router.get(
   '/channels/:channelId/:limit/:offset/messages',
   controller.getMessagesByChannelId
 );
-router.get('/messagesNotSeen', controller.getMessagesNotSeen);
+router.get('/notifications', controller.getNotificationsByChannels);
 router.post('/messages', controller.createMessage);
 router.patch('/messages', controller.hasSeenMessage);
 router.delete('/messages/:id', controller.deleteMessage);

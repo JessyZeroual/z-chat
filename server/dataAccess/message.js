@@ -49,13 +49,25 @@ const getMessagesByChannelId = async (channelId, limit, offset) => {
   return messages.rows;
 };
 
-const getMessagesNotSeen = async userId => {
+const getNotificationsByChannels = async userId => {
   const messages = await pool.query(
     `SELECT channel_id, COUNT(channel_id)
       FROM message
       WHERE NOT ($1 = ANY (seen_by))
       GROUP BY channel_id`,
     [userId]
+  );
+
+  return messages.rows;
+};
+
+const getMessagesNotSeen = async (userId, channelId) => {
+  const messages = await pool.query(
+    `SELECT id, channel_id
+      FROM message
+      WHERE NOT ($1 = ANY (seen_by))
+      AND channel_id=($2)`,
+    [userId, channelId]
   );
 
   return messages.rows;
@@ -80,6 +92,7 @@ module.exports = {
   getMessages,
   getMessagesByChannelId,
   getMessagesNotSeen,
+  getNotificationsByChannels,
   getMessage,
   hasSeenMessage,
   deleteMessage,
