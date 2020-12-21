@@ -22,6 +22,7 @@ import {
 const MessageList = ({
   isSmallScreen,
   setIsOpenSideBar,
+  notificationByChannel,
   setNotificationByChannel,
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
@@ -32,7 +33,7 @@ const MessageList = ({
     loadingMoreMessages,
     daysWithMessages,
     deleteMessage,
-  ] = useMessages(channelId, setNotificationByChannel);
+  ] = useMessages(channelId, notificationByChannel, setNotificationByChannel);
 
   const messageListWrapper = useRef(null);
 
@@ -108,12 +109,14 @@ MessageList.propTypes = {
   isSmallScreen: PropTypes.bool,
   setIsOpenSideBar: PropTypes.func,
   setNotificationByChannel: PropTypes.func,
+  notificationByChannel: PropTypes.instanceOf(Array),
 };
 
 MessageList.defaultProps = {
   isSmallScreen: null,
   setIsOpenSideBar: () => {},
   setNotificationByChannel: () => {},
+  notificationByChannel: [],
 };
 
 export default MessageList;

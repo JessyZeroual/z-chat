@@ -1,4 +1,4 @@
-export const postMessage = (input, channelId) => {
+export const postMessage = (text, channelId) => {
   return fetch('/api/messages', {
     method: 'POST',
     headers: {
@@ -6,13 +6,13 @@ export const postMessage = (input, channelId) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      text: input.value,
+      text,
       channelId,
     }),
   });
 };
 
-export const hasSeenMessage = messages => {
+export const hasSeenMessage = channelId => {
   return fetch(`/api/messages`, {
     method: 'PATCH',
     headers: {
@@ -20,7 +20,7 @@ export const hasSeenMessage = messages => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      messages,
+      channelId,
     }),
   });
 };
@@ -33,16 +33,8 @@ export const getMessages = (channelId, limit, offset) => {
     });
 };
 
-export const getMessagesNotSeenByChannel = channelId => {
-  return fetch(`/api/messagesNotSeen/${channelId}`)
-    .then(res => res.json())
-    .then(data => {
-      return data;
-    });
-};
-
-export const getMessagesNotSeen = () => {
-  return fetch(`/api/messagesNotSeen`)
+export const getNotificationsByChannels = () => {
+  return fetch(`/api/notifications`)
     .then(res => res.json())
     .then(data => {
       return data;

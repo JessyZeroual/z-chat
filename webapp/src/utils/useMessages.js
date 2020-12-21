@@ -1,18 +1,14 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 
-import CurrentUserContext from '../context/CurrentUserContext';
-import {
-  getMessages,
-  hasSeenMessage,
-  getMessagesNotSeen,
-} from '../controllers/message';
-
+import { getMessages, hasSeenMessage } from '../controllers/message';
 import groupMessagesByDay from './groupMessagesByDay';
 import getHost from './getHost';
 
-const useMessages = (channelId, setNotificationByChannel) => {
-  const { currentUser } = useContext(CurrentUserContext);
-
+const useMessages = (
+  channelId,
+  notificationByChannel,
+  setNotificationByChannel
+) => {
   const LIMIT = 20;
   const HOST = getHost();
 
@@ -98,21 +94,15 @@ const useMessages = (channelId, setNotificationByChannel) => {
 
   useEffect(() => {
     fetchMessages({ resetOffset: true });
+    hasSeenMessage(channelId);
+    setNotificationByChannel(
+      notificationByChannel.filter(
+        notif => notif.channel_id !== Number(channelId)
+      )
+    );
+
     // eslint-disable-next-line
   }, [channelId]);
-
-  useEffect(() => {
-    const messagesList = messages.filter(
-      message => !message.seen_by.includes(currentUser.id)
-    );
-    if (messagesList.length)
-      hasSeenMessage(messagesList).then(
-        getMessagesNotSeen().then(data => {
-          setNotificationByChannel(data.notificationByChannel);
-        })
-      );
-    // eslint-disable-next-line
-  }, [messages]);
 
   useEffect(() => {
     const socket = new WebSocket(HOST);
