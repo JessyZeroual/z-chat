@@ -1,4 +1,4 @@
-export const postMessage = (text, channelId) => {
+export const postMessage = (input, channelId) => {
   return fetch('/api/messages', {
     method: 'POST',
     headers: {
@@ -6,7 +6,7 @@ export const postMessage = (text, channelId) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      text,
+      text: input.value,
       channelId,
     }),
   });
