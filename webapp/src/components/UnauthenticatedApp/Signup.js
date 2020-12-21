@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import { signup, signin } from '../../controllers/authentication';
@@ -9,6 +9,7 @@ import { primaryColor } from '../../constants/style-constants';
 
 const Signup = () => {
   const { getCurrentUser } = useContext(CurrentUserContext);
+  const [errorText, setErrorText] = useState('');
   const history = useHistory();
 
   let username;
@@ -25,16 +26,24 @@ const Signup = () => {
             getCurrentUser();
           }
         });
+        username.value = '';
+        email.value = '';
+        password.value = '';
+      } else {
+        response.json().then(data => setErrorText(data.errorMessage));
       }
     });
-
-    await ((username.value = ''), (email.value = ''), (password.value = ''));
   };
 
   return (
     <>
-      {/* TODO: validation */}
       <Form onSubmit={e => handleSubmit(e)}>
+        <span
+          style={{ display: 'flex', justifyContent: 'center', color: 'red' }}
+        >
+          &nbsp;
+          {errorText}
+        </span>
         <Input
           ref={node => {
             username = node;

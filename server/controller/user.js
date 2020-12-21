@@ -19,7 +19,7 @@ const updateUser = async (req, res) => {
     const { username } = req.body;
     if (username.trim().length < 1) {
       return res.status(400).send({
-        errorMessage: 'the username must contain 1 character minimum',
+        errorMessage: 'the username must contain 3 characters minimum',
       });
     }
 

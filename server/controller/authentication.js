@@ -1,23 +1,25 @@
 const { OAuth2Client } = require('google-auth-library');
 const dataAccess = require('../dataAccess');
-
-const getCleanPassword = password => {
-  if (password.length >= 8) {
-    return password;
-  }
-  throw new Error('Password must contain at least 8 characters.');
-};
+const {
+  getCleanPassword,
+  getCleanUsername,
+  getCleanEmail,
+} = require('../utils/messageValidationError');
 
 const signin = async (req, res) => {
-  const { email, password } = req.body;
-  const userId = await dataAccess.getVerifiedUserId(email, password);
-  const sessionId = await dataAccess.createSession(userId);
-  res.cookie('sessionId', sessionId, {
-    maxAge: 999900000,
-    httpOnly: true,
-    sameSite: true,
-  });
-  return res.sendStatus(201);
+  try {
+    const { email, password } = req.body;
+    const userId = await dataAccess.getVerifiedUserId(email, password);
+    const sessionId = await dataAccess.createSession(userId);
+    res.cookie('sessionId', sessionId, {
+      maxAge: 999900000,
+      httpOnly: true,
+      sameSite: true,
+    });
+    return res.sendStatus(201);
+  } catch (error) {
+    return res.status(400).send({ errorMessage: error.message });
+  }
 };
 
 const logout = async (req, res) => {
@@ -28,8 +30,10 @@ const logout = async (req, res) => {
 
 const signup = async (req, res) => {
   try {
-    const { username, email } = req.body;
+    const username = getCleanUsername(req.body.username);
+    const email = getCleanEmail(req.body.email);
     const password = getCleanPassword(req.body.password);
+
     await dataAccess.signup(username, email, password);
 
     const user = await dataAccess.getUserByEmail(email);

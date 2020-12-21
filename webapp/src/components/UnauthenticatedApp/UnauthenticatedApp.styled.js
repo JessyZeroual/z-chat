@@ -17,7 +17,7 @@ export const Container = styled.div`
 export const Form = styled.form`
   width: 450px;
   border-radius: 10px;
-  padding: 20px;
+  padding: 0px 20px;
   color: white;
   @media (max-width: 576px) {
     width: 100%;

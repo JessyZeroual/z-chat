@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 
@@ -22,6 +22,7 @@ import {
 
 const Signin = () => {
   const { getCurrentUser } = useContext(CurrentUserContext);
+  const [errorText, setErrorText] = useState('');
   let email;
   let password;
 
@@ -30,9 +31,12 @@ const Signin = () => {
     await signin(email.value, password.value).then(response => {
       if (response.ok) {
         getCurrentUser();
+        email.value = '';
+        password.value = '';
+      } else {
+        setErrorText('invalid email address or password');
       }
     });
-    await ((email.value = ''), (password.value = ''));
   };
 
   const responseGoogle = async res => {
@@ -48,6 +52,12 @@ const Signin = () => {
   return (
     <>
       <Form onSubmit={e => handleSubmit(e)}>
+        <span
+          style={{ display: 'flex', justifyContent: 'center', color: 'red' }}
+        >
+          &nbsp;
+          {errorText}
+        </span>
         <Input
           ref={node => {
             email = node;
@@ -62,11 +72,8 @@ const Signin = () => {
           type="password"
           placeholder="password"
         />
-
         <ButtonSubmit type="submit">sign in</ButtonSubmit>
-
         <p className="text-center my-3">Don't have account ?</p>
-
         <WrapperSignup>
           <GoogleLogin
             render={renderProps => (
